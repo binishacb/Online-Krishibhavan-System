@@ -2,77 +2,76 @@
 <?php
 include('dbconnection.php');
 session_start();
-
-// Display the user's email on the dashboard
-//$username = $_SESSION['email'];
-
+if (!isset($_SESSION['useremail'])) {
+    header('Location: index.php'); // Redirect to index.php
+    exit(); // Stop further execution of the current script
+}
 ?>
 <html>
+
 <head>
     <title>Farmer Dashboard</title>
-    <style>
-        /* Basic styling for the dashboard layout */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-        }
-        
-        #sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: green;
-            padding-top: 40px;
-            color: white;
-        }
-        
-        #sidebar a {
-            padding: 15px 25px;
-            text-align: left;
-            text-decoration: none;
-            font-size: 18px;
-            color: white;
-            display: block;
-        }
-        
-        #sidebar a:hover {
-            background-color: #555;
-        }
-        
-        #content {
-            margin-left: 260px;
-            padding: 20px;
-        }
-        
-        /* Style the motivational message */
-        #motivation {
-            font-size: 24px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-        }
-    </style>
+    <!-- Add your CSS and Bootstrap link here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
-    <!-- Sidebar -->
-    <div id="sidebar">
-    <a href="logout.php" class="btn btn-danger" role="button">Logout</a>
-        <a href="#">Profile</a>
-        <a href="#">Add Details</a>
-        <a href="#">Govt Schemes</a>
-        <a href="#">Crops</a>
-    </div>
 
-    <!-- Content -->
-    <div id="content">
-        <!-- Motivational Message -->
-        <h1>Welcome </h1> <div id="motivation">
-            <p>Dear Farmer, your hard work and dedication are the foundation of our agriculture. Keep nurturing the land, and it will reward you with abundance.</p>
+<body>
+    <?php
+    include('navbar/navbar_farmer.php');
+    ?>
+    <br>
+    <div class="container">
+        <div class="card">
+            <h5 class="card-header">Welcome, <?php
+                if (isset($_SESSION['useremail'])) {
+                    echo '' . $_SESSION['useremail'];
+                }
+                ?></h5>
+            <div class="card-body">
+                <h5 class="card-title">Explore Agriculture</h5>
+                <p class="card-text">Dear Farmer, your hard work and dedication are the foundation of our agriculture.
+                    Keep nurturing the land, and it will reward you with abundance.</p>
+                <a href="#" class="btn btn-primary">Explore</a>
+            </div>
+        </div>
+
+        <!-- Additional Bootstrap elements and agricultural content -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="images/b1.jpg" class="card-img-top" alt="Crops">
+                    <div class="card-body">
+                        <h5 class="card-title">Crop Information</h5>
+                        <p class="card-text">Learn about different crops, their cultivation, and best practices.</p>
+                        <a href="#" class="btn btn-success">Explore Crops</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="images/b2.jpg" class="card-img-top" alt="Government Schemes">
+                    <div class="card-body">
+                        <h5 class="card-title">Government Schemes</h5>
+                        <p class="card-text">Find out about government schemes and benefits for farmers.</p>
+                        <a href="#" class="btn btn-info">View Schemes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agricultural tips or news -->
+        <h3 class="mt-4">Agricultural Tips</h3>
+        <div class="card">
+            <img src="images/b3.jpg" class="card-img-top" alt="Agriculture Tips">
+            <div class="card-body">
+                <h5 class="card-title">Latest Agricultural Tips</h5>
+                <p class="card-text">Stay updated with the latest agricultural tips and news.</p>
+                <a href="#" class="btn btn-primary">Read More</a>
+            </div>
         </div>
     </div>
+
 </body>
+
 </html>

@@ -1,29 +1,27 @@
-
 <?php
 session_start();
 include('dbconnection.php'); // Include your database connection code
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $hashed_password = md5($password);
-
     // Check if the user is a client
     $sql_user = "SELECT * FROM login WHERE email='$email' AND password='$hashed_password'";
     $result_user = $con->query($sql_user);
-echo $sql_user;
+    //echo $sql_user;
 //echo $password;
     if (!$result_user) {
         die("SQL query failed: " . $con->error);
     }
-
     if ($result_user->num_rows > 0) {
+        echo "haiiii";
         $user_row = $result_user->fetch_assoc();
         $role_id = $user_row['role_id'];
         $verification_status = $user_row['verify_status']; // Assuming this is the name of the verification status column in your table
         if ($role_id == 2) {
             if ($verification_status == 1) {
             // Farmer login
+            $_SESSION['useremail'] = $email ;
             echo "<script>alert('Farmer login successful.')</script>";
             header('Location: dashboard_farmer.php');
             exit();
@@ -34,6 +32,8 @@ echo $sql_user;
 
         } elseif ($role_id == 1) {
             // Admin login
+            $_SESSION['useremail'] = $email ;
+        
             echo "<script>alert('Admin login successful.')</script>";
             header('Location: dashboard_admin.php');
             exit();
@@ -41,6 +41,7 @@ echo $sql_user;
        
         elseif ($role_id == 3) {
                 //echo "SQL Query: $sql_user";
+                $_SESSION['useremail'] = $email ;
                 echo "<script>alert('officer login successful.')</script>";
                header('Location:dashboard_officer.php');
                 exit();
@@ -48,10 +49,10 @@ echo $sql_user;
 
     } else {
         // If no user is found, display an error message
-        echo "Invalid email id or password.";
+        
+        echo "<script>alert('Invalid email id or password..')</script>";
     }
 }
-
 $con->close();
 ?>
 <!DOCTYPE html>
@@ -76,10 +77,11 @@ $con->close();
         /* Center the card horizontally */
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         background-color: rgba(255, 255, 255, 0.8);
-       
+
         padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Drop shadow for the form container */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        /* Drop shadow for the form container */
     }
 
     .card-body {
@@ -93,10 +95,13 @@ $con->close();
     .btn-primary {
         width: 100%;
     }
+
     body {
-        background-color: #4CAF50; /* Green background color */
-    background: linear-gradient(45deg, #4CAF50, #FFC107); /* Gradient from green to orange */
-}
+        background-color: #4CAF50;
+        /* Green background color */
+        background: linear-gradient(45deg, #4CAF50, #FFC107);
+        /* Gradient from green to orange */
+    }
     </style>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -107,6 +112,9 @@ $con->close();
     </head>
 
     <body>
+        <?php
+        include('navbar/public_navbar.php')
+        ?>
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -130,21 +138,21 @@ $con->close();
                                     <div id="password-warning" class="invalid-feedback"></div>
                                     <div id="password-error"></div>
                                 </div>
-                               
+
                                 <div class="form-group">
                                     <button type="submit" name="submit" class="btn btn-primary">Login</button>
                                 </div>
                             </form>
                             <p class="text-center">Don't have an account? <a href="registration.php">Register</a></p>
-                           <center> <a href ="forgot_password.php">Forgot Password ? </a></center>
+                            <center> <a href="forgot_password.php">Forgot Password ? </a></center>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        
-   
+
+
 
         <!-- Include Bootstrap JS (optional) -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -208,6 +216,12 @@ $con->close();
             return isEmailValid && isPasswordValid;
         }
         </script>
+        <br>
+        <br>
+        <br>
+        <?php
+        include('footer/footer.php')
+        ?>
     </body>
 
-</html>
+    </html>

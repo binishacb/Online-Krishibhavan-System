@@ -87,14 +87,7 @@ if (isset($_POST['submit'])) {
 }*/
 ?>
 <!DOCTYPE html>
-<div id="google_element">
-<script src="http://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
-                            <script >
-                                function loadGoogleTranslate(){
-                                   new google.translate.TranslateElement("google_element");
-                                }
-                            </script>
-  </div>
+
 
 <html>
 
@@ -108,15 +101,16 @@ if (isset($_POST['submit'])) {
         /* Center the card horizontally */
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         background-color: rgba(255, 255, 255, 0.8);
-       
+
         padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Drop shadow for the form container */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        /* Drop shadow for the form container */
     }
 
     .card-body {
         padding: 20px;
-   
+
     }
 
     .form-group {
@@ -127,21 +121,29 @@ if (isset($_POST['submit'])) {
         width: 100%;
     }
 
- 
 
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-body {
-    background-color: #4CAF50; /* Green background color */
-    background: linear-gradient(45deg, #4CAF50, #FFC107); /* Gradient from green to orange */
-}
-/*
+
+    blockquote,
+    q {
+        quotes: none;
+    }
+
+    blockquote:before,
+    blockquote:after,
+    q:before,
+    q:after {
+        content: '';
+        content: none;
+    }
+
+    body {
+        background-color: #4CAF50;
+        /* Green background color */
+        background: linear-gradient(45deg, #4CAF50, #FFC107);
+        /* Gradient from green to orange */
+    }
+
+    /*
 .registration-container {
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for the form container 
     padding: 20px;
@@ -156,6 +158,22 @@ body {
     </head>
 
     <body>
+        <?php
+        include('navbar/public_navbar.php')
+        ?>
+
+
+        <br>
+        <div id="google_element">
+            <script src="http://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+            <script>
+            function loadGoogleTranslate() {
+                new google.translate.TranslateElement("google_element");
+            }
+            </script>
+        </div>
+
+
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -167,8 +185,10 @@ body {
 
                                 <div class="form-group">
                                     <label for="name">Name:</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Please fill your full name "oninput="validateName(this.value)" required>
-                                   
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="Please fill your full name " oninput="validateName(this.value)"
+                                        required>
+
                                     <div id="name-warning" class="invalid-feedback"></div>
                                     <div id="name-error" class="invalid-feedback"></div>
                                 </div>
@@ -177,9 +197,9 @@ body {
 
                                 <div class="form-group">
                                     <label for="email">Email:</label>
-                                    <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email id"
-                                        oninput="validateEmail(this.value)" required>
-                                        
+                                    <input type="text" class="form-control" id="email" name="email"
+                                        placeholder="Enter your email id" oninput="validateEmail(this.value)" required>
+
                                     <div id="email-warning" class="invalid-feedback"></div>
                                     <div id="email-error"></div>
                                 </div>
@@ -187,16 +207,17 @@ body {
 
                                 <div class="form-group">
                                     <label for="phone">Phone Number:</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone number"
-                                        oninput="validatePhone(this.value)" required>
+                                    <input type="text" class="form-control" id="phone" name="phone"
+                                        placeholder="Enter phone number" oninput="validatePhone(this.value)" required>
                                     <div id="phone-warning" class="invalid-feedback"></div>
                                     <div id="phone-error"></div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="dob">Date of Birth:</label>
-                                    <input type="date" class="form-control" id="dob" name="dob" placeholder="Enter the date of birth"
-                                        oninput="validateDOB(this.value)" required>
+                                    <input type="date" class="form-control" id="dob" name="dob"
+                                        placeholder="Enter the date of birth" oninput="validateDOB(this.value)"
+                                        required>
                                     <div id="dob-warning" class="invalid-feedback"></div>
                                     <div id="dob-error"></div>
                                 </div>
@@ -206,15 +227,17 @@ body {
 
                                 <div class="form-group">
                                     <label for="password">Password:</label>
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter the password"
-                                        oninput="validatePassword(this.value)" required>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Enter the password" oninput="validatePassword(this.value)"
+                                        required>
                                     <div id="password-warning" class="invalid-feedback"></div>
                                     <div id="password-error"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="confirmPassword">Confirm Password:</label>
-                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password"
-                                        name="confirmPassword" oninput="validateConfirmPassword(this.value)" required>
+                                    <input type="password" class="form-control" id="confirmPassword"
+                                        placeholder="Confirm password" name="confirmPassword"
+                                        oninput="validateConfirmPassword(this.value)" required>
                                     <div id="confirmPassword-warning" class="invalid-feedback"></div>
                                     <div id="confirmPassword-error"></div>
                                 </div>
@@ -239,53 +262,54 @@ body {
 
 
         <script>
-     function validateName(name) {
+        function validateName(name) {
     const nameInput = document.getElementById('name');
     const nameWarning = document.getElementById('name-warning');
     const nameError = document.getElementById('name-error');
 
     if (name === '') {
         nameWarning.textContent = 'Warning: Name field is empty.';
-        nameInput.style.border = '2px solid red';
-        nameWarning.style.color = 'red';
+        nameInput.classList.add('is-invalid');
         nameError.textContent = '';
         return false; // Return false to prevent form submission
     } else if (name.length < 3) {
-        nameInput.style.border = '2px solid red';
+        nameInput.classList.add('is-invalid');
         nameWarning.textContent = '';
-        nameWarning.style.color = 'red';
         nameError.textContent = 'Error: Name should contain at least 3 letters.';
         return false; // Return false to prevent form submission
     } else if (!/^[a-zA-Z]+$/.test(name)) {
-        // The regular expression /^[a-zA-Z]+$/ checks if the name contains only letters (no numbers or special characters).
-        nameInput.style.border = '2px solid red';
+        nameInput.classList.add('is-invalid');
         nameWarning.textContent = '';
-        nameWarning.style.color = 'red';
         nameError.textContent = 'Error: Name should not contain numbers or special characters.';
         return false; // Return false to prevent form submission
     } else if (name.length > 50) {
-        // Limit the name to a maximum of 50 characters (adjust as needed).
-        nameInput.style.border = '2px solid red';
+        nameInput.classList.add('is-invalid');
         nameWarning.textContent = '';
-        nameWarning.style.color = 'red';
         nameError.textContent = 'Error: Name exceeds the maximum character limit of 50.';
         return false; // Return false to prevent form submission
-    } 
-    else if (/^(.)\1+$/i.test(name)) {
-        // Check if the name consists of repeating characters (e.g., "aaa").
-        nameInput.style.border = '2px solid red';
+    } else if (/^(.)\1+$/i.test(name)) {
+        nameInput.classList.add('is-invalid');
         nameWarning.textContent = '';
-        nameWarning.style.color = 'red';
         nameError.textContent = 'Error: Name should be meaningful and not consist of repeating characters.';
         return false; // Return false to prevent form submission
-    } else {
+    }  else if (!/^[A-Z][a-zA-Z\s.]*[a-zA-Z]$/.test(name)) {
+        //nameInput.classList.remove('is-invalid');
+        nameInput.classList.add('is-invalid');
+        nameWarning.textContent = '';
+        nameError.textContent = 'Error: Invalid name format. Please use a capitalized first letter and provide your full name without hyphens or single quotes.';
+        return false; // Return true if validation is successful
+    } 
+    
+    
+    else {
+        nameInput.classList.remove('is-invalid');
+        //nameInput.classList.add('is-valid');
         nameInput.style.border = '2px solid green';
         nameWarning.textContent = '';
         nameError.textContent = '';
         return true; // Return true if validation is successful
     }
 }
-
 
 
         function validateEmail(email) {
@@ -297,9 +321,9 @@ body {
             const emailInput = document.getElementById('email');
             const emailWarning = document.getElementById('email-warning');
             const emailError = document.getElementById('email-error');
-
+           
             if (email === '') {
-               // emailInput.insertAdjacentHTML('afterend', '<div class="alert alert-danger">Please fill in the Email field before continuing.</div>');
+                // emailInput.insertAdjacentHTML('afterend', '<div class="alert alert-danger">Please fill in the Email field before continuing.</div>');
                 emailWarning.textContent = 'Warning: Email field is empty.';
                 emailInput.style.border = '2px solid red';
                 emailWarning.style.color = 'red';
@@ -321,72 +345,74 @@ body {
             }
         }
 
-
         function validatePhone(phone) {
-            const phoneRegex = /^[0-9]{10}$/; // Assuming a 10-digit phone number format
-            const phoneInput = document.getElementById('phone');
-            const phoneWarning = document.getElementById('phone-warning');
-            const phoneError = document.getElementById('phone-error');
+    const phoneRegex = /^[0-9]{10}$/;
+    const phoneInput = document.getElementById('phone');
+    const phoneWarning = document.getElementById('phone-warning');
+    const phoneError = document.getElementById('phone-error');
 
-            if (phone === '') {
-              //  phoneInput.insertAdjacentHTML('afterend', '<div class="alert alert-danger">Please fill in the Phone no field before continuing.</div>');
-                //phoneWarning.textContent = 'Warning: Phone number field is empty.';
-                // Apply the is-invalid class
-                phoneInput.style.border = '2px solid red';
-                phoneWarning.style.color = 'red';
-                phoneError.textContent = '';
-                return false; // Return false to prevent form submission
-            }
-
-            if (phoneRegex.test(phone)) {
-
-                phoneInput.style.border = '2px solid green';
-                phoneWarning.textContent = '';
-                phoneError.textContent = '';
-                return true; // Return true if validation is successful
-            } else {
-
-                phoneInput.style.border = '2px solid red';
-                phoneWarning.textContent = '';
-                phoneError.style.color = 'red';
-                phoneError.textContent = 'Error: Invalid phone number. Please enter a 10-digit number.';
-                return false; // Return false to prevent form submission
-            }
-        }
-
-
-
-    function validatePassword(password) {
-    const passwordInput = document.getElementById('password');
-    const passwordWarning = document.getElementById('password-warning');
-    const passwordError = document.getElementById('password-error');
-
-    if (password === '') {
-       // passwordInput.insertAdjacentHTML('afterend', '<div class="alert alert-danger">Please fill in the Password field before continuing.</div>');
-        passwordWarning.textContent = 'Warning: Password field is empty.';
-        passwordInput.style.border = '2px solid red';
-        passwordWarning.style.color = 'red';
-        passwordError.textContent = '';
+    if (phone === '') {
+        phoneInput.style.border = '2px solid red';
+        phoneWarning.style.color = 'red';
+        phoneError.textContent = '';
         return false; // Return false to prevent form submission
-    } else {
-        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,100}$/;
+    }
 
-        if (passwordRegex.test(password)) {
-            passwordInput.style.border = '2px solid green';
-            passwordWarning.textContent = '';
-            passwordError.textContent = '';
-            return true; // Return true if validation is successful
+    if (phoneRegex.test(phone)) {
+        if (/(\d)\1{5}/.test(phone)) {
+            phoneInput.style.border = '2px solid red';
+            phoneWarning.textContent = '';
+            phoneError.style.color = 'red';
+            phoneError.textContent = 'Error: Phone number should not contain repeating digits.';
+            return false; // Return false to prevent form submission
         } else {
-            passwordInput.style.border = '2px solid red';
-            passwordWarning.textContent = '';
-            passwordError.style.color = 'red';
-            passwordError.textContent = 'Error: Password must be at least 6 characters long and include at least one number, one lowercase letter, one uppercase letter, and one special character.';
-            return false; // Return false if the password doesn't meet the criteria
+            phoneInput.style.border = '2px solid green';
+            phoneWarning.textContent = '';
+            phoneError.textContent = '';
+            return true; // Return true if validation is successful
         }
+    } else {
+        phoneInput.style.border = '2px solid red';
+        phoneWarning.textContent = '';
+        phoneError.style.color = 'red';
+        phoneError.textContent = 'Error: Invalid phone number. Please enter a 10-digit number.';
+        return false; // Return false to prevent form submission
     }
 }
 
-    
+
+        function validatePassword(password) {
+            const passwordInput = document.getElementById('password');
+            const passwordWarning = document.getElementById('password-warning');
+            const passwordError = document.getElementById('password-error');
+
+            if (password === '') {
+                // passwordInput.insertAdjacentHTML('afterend', '<div class="alert alert-danger">Please fill in the Password field before continuing.</div>');
+                passwordWarning.textContent = 'Warning: Password field is empty.';
+                passwordInput.style.border = '2px solid red';
+                passwordWarning.style.color = 'red';
+                passwordError.textContent = '';
+                return false; // Return false to prevent form submission
+            } else {
+                const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,100}$/;
+
+                if (passwordRegex.test(password)) {
+                    passwordInput.style.border = '2px solid green';
+                    passwordWarning.textContent = '';
+                    passwordError.textContent = '';
+                    return true; // Return true if validation is successful
+                } else {
+                    passwordInput.style.border = '2px solid red';
+                    passwordWarning.textContent = '';
+                    passwordError.style.color = 'red';
+                    passwordError.textContent =
+                        'Error: Password must be at least 6 characters long and include at least one number, one lowercase letter, one uppercase letter, and one special character.';
+                    return false; // Return false if the password doesn't meet the criteria
+                }
+            }
+        }
+
+
         function validateConfirmPassword(confirmPassword) {
             const password = document.getElementById('password').value;
             const confirmPasswordInput = document.getElementById('confirmPassword');
@@ -394,7 +420,7 @@ body {
             const confirmPasswordError = document.getElementById('confirmPassword-error');
 
             if (confirmPassword === '') {
-              //  confirmPasswordInput.insertAdjacentHTML('afterend', '<div class="alert alert-danger">Please fill in the Confirm Password field before continuing.</div>');
+                //  confirmPasswordInput.insertAdjacentHTML('afterend', '<div class="alert alert-danger">Please fill in the Confirm Password field before continuing.</div>');
                 confirmPasswordWarning.textContent = 'Warning: Confirm Password field is empty.';
                 confirmPasswordInput.style.border = '2px solid red';
                 confirmPasswordWarning.style.color = 'red';
@@ -422,69 +448,74 @@ body {
             const dobError = document.getElementById('dob-error');
 
             if (dob === '') {
-                //dobInput.insertAdjacentHTML('afterend', '<div class="alert alert-danger">Please fill in the DOB field before continuing.</div>');
+               // dobInput.insertAdjacentHTML('afterend','<div class="alert alert-danger">Please fill in the DOB field before continuing.</div>');
                 dobWarning.textContent = 'Warning: Date of Birth field is empty.';
                 dobInput.style.border = '2px solid red';
                 dobWarning.style.color = 'red';
                 dobError.textContent = '';
                 return false; // Return false to prevent form submission
-            } 
-            else {
-        const currentDate = new Date();
-        const inputDate = new Date(dob);
-        if (isNaN(inputDate.getTime())) {
-            dobInput.style.border = '2px solid red';
-            dobWarning.textContent = '';
-            dobError.style.color = 'red';
-            dobError.textContent = 'Error: Invalid Date of Birth. Please enter a valid date.';
-            return false; // Return false if the date is invalid
-        }
+            } else {
+                const currentDate = new Date();
+                const inputDate = new Date(dob);
+                if (isNaN(inputDate.getTime())) {
+                    dobInput.style.border = '2px solid red';
+                    dobWarning.textContent = '';
+                    dobError.style.color = 'red';
+                    dobError.textContent = 'Error: Invalid Date of Birth. Please enter a valid date.';
+                    return false; // Return false if the date is invalid
+                }
 
-        // Calculate the difference in years
-        const yearsDifference = currentDate.getFullYear() - inputDate.getFullYear();
+                // Calculate the difference in years
+                const yearsDifference = currentDate.getFullYear() - inputDate.getFullYear();
 
-        // Check if the DOB is at least 10 years in the past and not in the future
-        if (yearsDifference < 10 || inputDate > currentDate) {
-            dobInput.style.border = '2px solid red';
-            dobWarning.textContent = '';
-            dobError.style.color = 'red';
-            dobError.textContent = 'Error: Invalid Date of Birth. The date should be at least 10 years in the past and not in the future.';
-            return false; // Return false if the conditions are violated
-        }
-            else {
-                dobInput.style.border = '2px solid green';
-                dobWarning.textContent = '';
-                dobError.textContent = '';
-                return true; // Return true if validation is successful
+                // Check if the DOB is at least 10 years in the past and not in the future
+                if (yearsDifference < 10 || inputDate > currentDate) {
+                    dobInput.style.border = '2px solid red';
+                    dobWarning.textContent = '';
+                    dobError.style.color = 'red';
+                    dobError.textContent =
+                        'Error: Invalid Date of Birth. The date should be at least 10 years in the past and not in the future.';
+                    return false; // Return false if the conditions are violated
+                } else {
+                    dobInput.style.border = '2px solid green';
+                    dobWarning.textContent = '';
+                    dobError.textContent = '';
+                    return true; // Return true if validation is successful
+                }
             }
         }
-    }
-/*
+        /*
 
-        function clearAlert(inputElement) {
-    // Remove any alert messages associated with the input element
-    const alertDiv = inputElement.nextElementSibling;
-    if (alertDiv && alertDiv.classList.contains('alert')) {
-        alertDiv.remove();
-    }
-}
-*/
+                function clearAlert(inputElement) {
+            // Remove any alert messages associated with the input element
+            const alertDiv = inputElement.nextElementSibling;
+            if (alertDiv && alertDiv.classList.contains('alert')) {
+                alertDiv.remove();
+            }
+        }
+        */
 
         function validateForm() {
             // Check both email and password validation results
             const isNameValid = validateName(document.getElementById('name').value);
             const isEmailValid = validateEmail(document.getElementById('email').value);
-            const isPhoneValid = validatePhone(document.getElementById('phone').value);
             const isPasswordValid = validatePassword(document.getElementById('password').value);
             const isDOBValid = validateDOB(document.getElementById('dob').value);
             const isConfirmPasswordValid = validateConfirmPassword(document.getElementById('confirmPassword').value);
 
 
             // Only allow form submission if all validations are true
-            return isNameValid && isEmailValid && isPasswordValid && isPhoneValid && isDOBValid && isConfirmPasswordValid;
+            return isNameValid && isEmailValid && isPasswordValid && isPhoneValid && isDOBValid &&
+                isConfirmPasswordValid;
 
         }
         </script>
+        <br>
+        <br>
+        <br>
+        <?php
+        include('footer/footer.php')
+        ?>
     </body>
 
 </html>

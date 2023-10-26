@@ -3,6 +3,7 @@ session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +11,13 @@ session_start();
     <link rel="stylesheet" href="css/landingpage.css">
 
 </head>
+
 <body>
+
     <div class="scroll-up-btn">
         <i class="fas fa-angle-up"></i>
     </div>
+
     <nav class="navbar">
         <div class="max-width">
             <div class="logo"><a href="#" style="font:40px 'Akaya Telivigala', cursive;"><span style="color:orange">AgroCompanion</span></a></div>
@@ -23,8 +27,8 @@ session_start();
                 <li><a href="#services" class="menu-btn">Services</a></li>
                 <li><a href="#market" class="menu-btn">Market</a></li>
                 <li><a href="#contact" class="menu-btn">Contact</a></li>
-				<li><a href="registration.php" class="menu-btn">Register</a></li>
-				<li><a href="login.php" class="menu-btn">Login</a></li>
+                <li><a href="registration.php" class="menu-btn">Register</a></li>
+                <li><a href="login.php" class="menu-btn">Login</a></li>
             </ul>
             <div class="menu-btn">
                 <i class="fas fa-bars"></i>
@@ -34,15 +38,15 @@ session_start();
 
     <!-- home section start -->
     <section class="home" id="home">
-      <div class="max-width">
-          <div class="row">
-            <div class="home-content">
-                <div class="text-2" style="font-size:60px;">Your product Our market!!</div>
-                <div class="text-3">Change how you trade. </div>
-                <a href="#">Get started</a>
+        <div class="max-width">
+            <div class="row">
+                <div class="home-content">
+                    <div class="text-2" style="font-size:60px;">Your product Our market!!</div>
+                    <div class="text-3">Change how you trade. </div>
+                    <a href="#">Get started</a>
+                </div>
             </div>
-          </div>
-      </div>
+        </div>
     </section>
 
     <!--about section start -->
@@ -54,20 +58,31 @@ session_start();
                     <img src="images/tea.jpg" alt="">
                 </div>
                 <div class="column right">
-                    
-                    <p>Agrocompanion is an online web-based Agriculture Management System which seeks to help farmers by providing various kinds of agri-related
-					information and services. This website helps farmers by providing them a large online market to sell their produce. Customer can send purchase 
-					request and they can purchase product.</p><br>
-					
-                        <p style="padding-left:15px;"><strong style="font-family: 'Akaya Telivigala', cursive; color:#143601"> OUR MISSION - </strong>To provide technology and services to the farmers and sellers thus helping them to expand their businesses and provide them with 
-						a wider market. Hence improve the present farming processes and to provide knowledge about recent agricultural issues.</p><br>
-						
-						<p style="padding-left:15px;"><strong style="font-family: 'Akaya Telivigala', cursive;color:#143601"> OUR VISION - </strong>To provide a helping hand to the farmers in improving their lives through the medium of technology, thereby, improving the 
-						agricultural sector in the Kenyan economy</p><br>
-						
-						<p style="padding-left:15px;"><strong style="font-family: 'Akaya Telivigala', cursive; color:#143601"> CORE VALUES - </strong>Integrity, Efficiency, Innovativeness and Competence</p>
-                
-				</div>
+
+                    <p>Agrocompanion is an online web-based Agriculture Management System which seeks to help farmers by
+                        providing various kinds of agri-related
+                        information and services. This website helps farmers by providing them a large online market to
+                        sell their produce. Customer can send purchase
+                        request and they can purchase product.</p><br>
+
+                    <p style="padding-left:15px;"><strong
+                            style="font-family: 'Akaya Telivigala', cursive; color:#143601"> OUR MISSION - </strong>To
+                        provide technology and services to the farmers and sellers thus helping them to expand their
+                        businesses and provide them with
+                        a wider market. Hence improve the present farming processes and to provide knowledge about
+                        recent agricultural issues.</p><br>
+
+                    <p style="padding-left:15px;"><strong
+                            style="font-family: 'Akaya Telivigala', cursive;color:#143601"> OUR VISION - </strong>To
+                        provide a helping hand to the farmers in improving their lives through the medium of technology,
+                        thereby, improving the
+                        agricultural sector in the Kenyan economy</p><br>
+
+                    <p style="padding-left:15px;"><strong
+                            style="font-family: 'Akaya Telivigala', cursive; color:#143601"> CORE VALUES -
+                        </strong>Integrity, Efficiency, Innovativeness and Competence</p>
+
+                </div>
             </div>
 
         </div>
@@ -76,33 +91,36 @@ session_start();
     <!-- services section start -->
     <section class="services" id="services">
         <div class="max-width">
-			<h2 class="title">Our Services</h2>
+            <h2 class="title">Our Services</h2>
             <div class="serv-content">
                 <div class="card">
                     <div class="box">
-					<section class="4u$ 12u$(small)" id="circle"><i class="fas fa-clock"></i><br><br>
-							<p style="font-family: 'Balsamiq Sans', cursive;">Digital Market</p></section>
-                        
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box" >
                         <section class="4u$ 12u$(small)" id="circle"><i class="fas fa-clock"></i><br><br>
-						<p style="font-family: 'Balsamiq Sans', cursive;">Agri-Articles</p></section>
+                            <p style="font-family: 'Balsamiq Sans', cursive;">Digital Market</p>
+                        </section>
+
                     </div>
                 </div>
                 <div class="card">
                     <div class="box">
-                    <section class="4u$ 12u$(small)" id="circle"><i class="fas fa-clock"></i><br><br>
-                        <p style="font-family: 'Balsamiq Sans', cursive;">Register with us</p></section>
+                        <section class="4u$ 12u$(small)" id="circle"><i class="fas fa-clock"></i><br><br>
+                            <p style="font-family: 'Balsamiq Sans', cursive;">Agri-Articles</p>
+                        </section>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="box">
+                        <section class="4u$ 12u$(small)" id="circle"><i class="fas fa-clock"></i><br><br>
+                            <p style="font-family: 'Balsamiq Sans', cursive;">Register with us</p>
+                        </section>
 
                     </div>
                 </div>
-               </div>
             </div>
         </div>
+        </div>
     </section>
-	
+
 
     <!-- skills section start -->
     <section class="skills" id="skills">
@@ -111,8 +129,9 @@ session_start();
             <div class="skills-content">
                 <div class="column left">
                     <div class="text">Products.</div>
-                    <p> We offer different categories of products. On a weekly basis, the illustration displayed on the side shows the average statistics of the products
-					sold.</p>
+                    <p> We offer different categories of products. On a weekly basis, the illustration displayed on the
+                        side shows the average statistics of the products
+                        sold.</p>
                     <a href="productMenu.php">Read more</a>
                 </div>
                 <div class="column right">
@@ -220,7 +239,7 @@ session_start();
             <div class="contact-content">
                 <div class="column left">
                     <div class="text">Reach Us</div>
-					<div class="icons">
+                    <div class="icons">
                         <div class="row">
                             <i class="fas fa-phone"></i>
                             <div class="info">
@@ -228,14 +247,14 @@ session_start();
                                 <div class="sub-title">+254 707 602 068</div>
                             </div>
                         </div>
-                       
-						
+
+
                         <div class="row">
                             <i class="fas fa-envelope"></i>
                             <div class="info">
                                 <div class="head">Email</div>
                                 <div class="sub-title">info@agrocompanion.co.ke</div>
-								<div class="sub-title">admin@agrocompanion.co.ke</div>
+                                <div class="sub-title">admin@agrocompanion.co.ke</div>
                             </div>
                         </div>
                     </div>
@@ -258,7 +277,7 @@ session_start();
                             <textarea class="message" cols="30" rows="10" placeholder="Message.."></textarea>
                         </div>
                         <div class="button-area">
-                            <button class="send-msg" type="submit" name="send" >Send message</button>
+                            <button class="send-msg" type="submit" name="send">Send message</button>
                         </div>
                     </form>
                 </div>
@@ -267,41 +286,13 @@ session_start();
     </section>
 
     <!-- footer section start -->
-    <footer>
-        <span>Agrocompanion| <span class="far fa-copyright"></span>  All rights reserved.</span>
-        <!--FONT AWESOME-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<!--GOOGLE FONTS-->
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Play&display=swap" rel="stylesheet"> 
-</head>
-<body>
-<footer>
-<div class="footer">
-<div class="row">
-<a href="#"><i class="fa fa-facebook"></i></a>
-<a href="#"><i class="fa fa-instagram"></i></a>
-<a href="#"><i class="fa fa-youtube"></i></a>
-<a href="#"><i class="fa fa-twitter"></i></a>
-</div>
-
-<div class="row">
-<ul>
-<a href="#">Contact us</a>&nbsp;&nbsp;
-<a href="#">Our Services</a>&nbsp;&nbsp;
-<a href="#">Privacy Policy</a>&nbsp;&nbsp;
-<a href="#">Terms & Conditions</a>&nbsp;&nbsp;
-
-</ul>
-</div>
 
 
-</div>
 
+    <?php
+include('footer/footer.php')
+?>
 
-    </footer>
-
-    <script src="script.js"></script>
 </body>
+
 </html>

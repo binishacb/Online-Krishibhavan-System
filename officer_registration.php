@@ -137,46 +137,6 @@ if (isset($_POST['submit'])) {
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-    /* Additional CSS styles */
-    .card {
-        max-width: 400px;
-        margin: 0 auto;
-        /* Center the card horizontally */
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        background-color: rgba(255, 255, 255, 0.8);
-
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        /* Drop shadow for the form container */
-    }
-
-    .card-body {
-        padding: 20px;
-
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .btn-primary {
-        width: 100%;
-    }
-
-    blockquote,
-    q {
-        quotes: none;
-    }
-
-    blockquote:before,
-    blockquote:after,
-    q:before,
-    q:after {
-        content: '';
-        content: none;
-    }
-
     body {
         background-color: #4CAF50;
         /* Green background color */
@@ -194,40 +154,54 @@ if (isset($_POST['submit'])) {
     </style>
     <title>officer Registration</title>
 </head>
+
 <body>
+    <?php
+    include('navbar/navbar_admin.php');
+    
+?>
     <div class="container mt-5">
+
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Officer Registration</h5>
-                        <form class="needs-validation" method="post" action="#" onsubmit="return validateForm()" novalidate>
+                        <h5 class="card-title text-center">Registration</h5>
+                        <form class="needs-validation" method="post" action="#" onsubmit="return validateForm()"
+                            novalidate>
 
                             <div class="form-group">
                                 <label for="name">Name:</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Please fill officer full name" oninput="validateName(this.value)" required>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Please fill officer full name " oninput="validateName(this.value)"
+                                    required>
 
                                 <div id="name-warning" class="invalid-feedback"></div>
                                 <div id="name-error" class="invalid-feedback"></div>
                             </div>
 
+
+
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Enter officer email id" oninput="validateEmail(this.value)" required>
+                                <input type="text" class="form-control" id="email" name="email"
+                                    placeholder="Enter officer email id" oninput="validateEmail(this.value)" required>
 
                                 <div id="email-warning" class="invalid-feedback"></div>
-                                <div id="email-error" class="invalid-feedback"></div>
+                                <div id="email-error"></div>
                             </div>
+
 
                             <div class="form-group">
                                 <label for="phone">Phone Number:</label>
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone number" oninput="validatePhone(this.value)" required>
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                    placeholder="Enter phone number" oninput="validatePhone(this.value)" required>
                                 <div id="phone-warning" class="invalid-feedback"></div>
-                                <div id="phone-error" class="invalid-feedback"></div>
+                                <div id="phone-error"></div>
                             </div>
 
                             <div class="form-group">
-                                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                              <center>  <button type="submit" name="submit" class="btn btn-primary">Submit</button></center>
                             </div>
                         </form>
 
@@ -236,10 +210,18 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
     </div>
+    <br>
+    <br>
+    <?php
+    include('footer/footer.php');
+    
+?>
 
     <!-- Include Bootstrap JS (optional) -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+    <!-- Include JavaScript for form validation (assuming you have this script) -->
+    <script src="your-validation-script.js"></script>
+     
     <script>
        function validateName(name) {
     const nameInput = document.getElementById('name');
@@ -318,33 +300,48 @@ function validateEmail(email) {
     }
 }
 
+function hasRepeatingDigits(phone) {
+    const repeatingDigitsRegex = /(.)\1{5}/; // Matches any digit repeated 6 or more times
 
-        function validatePhone(phone) {
-            const phoneRegex = /^[0-9]{10}$/;
-            const phoneInput = document.getElementById('phone');
-            const phoneWarning = document.getElementById('phone-warning');
-            const phoneError = document.getElementById('phone-error');
+    return repeatingDigitsRegex.test(phone);
+}
 
-            if (phone === '') {
-                phoneWarning.textContent = 'Warning: Phone number field is empty.';
-                phoneInput.classList.add('is-invalid');
-                phoneError.textContent = '';
-                return false; // Return false to prevent form submission
-            }
+function validatePhone(phone) {
+    const phoneRegex = /^[0-9]{10}$/;
+    const phoneInput = document.getElementById('phone');
+    const phoneWarning = document.getElementById('phone-warning');
+    const phoneError = document.getElementById('phone-error');
 
-            if (phoneRegex.test(phone)) {
-                phoneInput.classList.remove('is-invalid');
-                phoneInput.classList.add('is-valid');
-                phoneWarning.textContent = '';
-                phoneError.textContent = '';
-                return true; // Return true if validation is successful
-            } else {
-                phoneInput.classList.add('is-invalid');
-                phoneWarning.textContent = '';
-                phoneError.textContent = 'Error: Invalid phone number. Please enter a 10-digit number.';
-                return false; // Return false to prevent form submission
-            }
+    if (phone === '') {
+        phoneWarning.textContent = 'Warning: Phone number field is empty.';
+        phoneInput.classList.add('is-invalid');
+        phoneError.textContent = '';
+        return false; // Return false to prevent form submission
+    }
+
+    if (phoneRegex.test(phone)) {
+        if (hasRepeatingDigits(phone)) {
+            phoneInput.classList.add('is-invalid');
+            phoneWarning.textContent = '';
+            phoneError.style.color = 'red';
+            phoneError.textContent = 'Error: Phone number contains repeating digits.';
+            return false; // Return false to prevent form submission
+        } else {
+            phoneInput.classList.remove('is-invalid');
+            phoneInput.classList.add('is-valid');
+            phoneWarning.textContent = '';
+            phoneError.textContent = '';
+            return true; // Return true if validation is successful
         }
+    } else {
+        phoneInput.classList.add('is-invalid');
+        phoneWarning.textContent = '';
+        phoneError.style.color = 'red';
+        phoneError.textContent = 'Error: Invalid phone number. Please enter a 10-digit number.';
+        return false; // Return false to prevent form submission
+    }
+}
+
 
         function validateForm() {
             const isNameValid = validateName(document.getElementById('name').value);
@@ -355,3 +352,5 @@ function validateEmail(email) {
         }
     </script>
 </body>
+
+</html>
