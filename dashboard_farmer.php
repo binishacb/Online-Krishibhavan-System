@@ -22,7 +22,7 @@ if (!isset($_SESSION['useremail'])) {
     <br>
     <div class="container">
         <div class="card">
-            <h5 class="card-header">Welcome, <?php
+            <h5 class="card-header">Welcome <?php
                 if (isset($_SESSION['useremail'])) {
                     echo '' . $_SESSION['useremail'];
                 }

@@ -55,7 +55,7 @@ session_start();
             <h2 class="title">About us</h2>
             <div class="about-content">
                 <div class="column left">
-                    <img src="images/tea.jpg" alt="">
+                    <img src="images/img1.jpg" alt="">
                 </div>
                 <div class="column right">
 

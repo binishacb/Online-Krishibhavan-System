@@ -93,10 +93,44 @@ if (!isset($_SESSION['useremail'])) {
                     </div>
                 </div>
             </div> -->
+        <!-- </div> -->
+  <!-- Additional Bootstrap elements and agricultural content -->
+  <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="images/b1.jpg" class="card-img-top" alt="Crops">
+                    <div class="card-body">
+                        <h5 class="card-title">Crop Information</h5>
+                       <!--<p class="card-text">Add different crops, their cultivation, and best practices.</p>-->
+                        <a href="#" class="btn btn-success">Add Crops</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="images/b2.jpg" class="card-img-top" alt="Government Schemes">
+                    <div class="card-body">
+                        <h5 class="card-title">Government Schemes</h5>
+                        
+                        <a href="#" class="btn btn-info">Add Schemes</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <h3 class="mt-4">Admin Dashboard Overview</h3>
-        <p>This section provides an overview of the admin dashboard's main features and functionalities.</p>
+        <!-- Agricultural tips or news 
+        <h3 class="mt-4">Agricultural Tips</h3>
+        <div class="card">
+            <img src="images/b3.jpg" class="card-img-top" alt="Agriculture Tips">
+            <div class="card-body">
+                <h5 class="card-title">Latest Agricultural Tips</h5>
+                <p class="card-text">Stay updated with the latest agricultural tips and news.</p>
+                <a href="#" class="btn btn-primary"></a>
+            </div>
+        </div>
+        <!-- <h3 class="mt-4">Admin Dashboard Overview</h3>
+        <p>This section provides an overview of the admin dashboard's main features and functionalities.</p> -->
 
         <!-- Your additional content goes here -->
     </div>

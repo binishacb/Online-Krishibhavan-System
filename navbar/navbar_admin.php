@@ -13,7 +13,8 @@
         top: 0;
         left: -250px;
         /* Initially hidden to the left */
-        background-color: #333;
+        /* background-color: #333; */
+        background-color:#104911;
         /* Dark gray background color */
         padding-top: 20px;
         padding-left: 15px;
@@ -44,16 +45,20 @@
     .vertical-navbar a:hover {
         background-color: #444;
         /* Slightly lighter gray when hovered */
-        color: #007BFF;
+         color: #007BFF; 
         /* Blue color for text on hover */
     }
 
+
+
+    
     /* Custom CSS for the button to show/hide the sidebar */
     .sidebar-toggle {
         position: fixed;
         top: 20px;
         left: 20px;
-        background-color: #007BFF;
+        /* background-color: #007BFF; */
+        background-color:#104911;
         color: #fff;
         padding: 10px;
         border: none;
@@ -67,11 +72,16 @@
         top: 10px;
         right: 10px;
         background-color: #007BFF;
+
         color: #fff;
         border: none;
         border-radius: 50%;
         cursor: pointer;
     }
+    .horizontal-navbar {
+    background-color: #104911;
+}
+
     </style>
 
 </head>
@@ -84,13 +94,14 @@
         <a href="dashboard_admin.php"><i class="fas fa-home"></i> Home</a>
         <a href="viewfarmer.php"><i class="fas fa-user"></i> Farmers</a>
         <a href="officer_registration.php"><i class="fas fa-user-plus"></i> Add Officers</a>
-        <a href="#"><i class="fas fa-users"></i> Officers</a>
+        <a href="viewofficers.php"><i class="fas fa-users"></i> Officers</a>
         <a href="#"><i class="fas fa-newspaper"></i> News</a>
         <a href="#"><i class="fas fa-leaf"></i> Crops</a>
         <a href="#"><i class="fas fa-landmark"></i> Govt. Schemes</a>
     </nav>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark horizontal-navbar">
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-dark horizontal-navbar"> -->
+    <nav class="navbar navbar-expand-lg navbar-lg bg-#104911 horizontal-navbar">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -153,8 +164,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
 
 </body>
 

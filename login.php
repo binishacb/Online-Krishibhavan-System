@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("SQL query failed: " . $con->error);
     }
     if ($result_user->num_rows > 0) {
-        echo "haiiii";
+        //echo "haiiii";
         $user_row = $result_user->fetch_assoc();
         $role_id = $user_row['role_id'];
         $verification_status = $user_row['verify_status']; // Assuming this is the name of the verification status column in your table
@@ -23,7 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Farmer login
             $_SESSION['useremail'] = $email ;
             echo "<script>alert('Farmer login successful.')</script>";
-            header('Location: dashboard_farmer.php');
+            // header('Location: dashboard_farmer.php');
+            header('Location: splashpage.php');
             exit();
             }
             else{
