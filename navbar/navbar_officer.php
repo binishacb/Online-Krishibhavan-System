@@ -81,13 +81,14 @@
         <button class="btn btn-primary" onclick="hideSidebar()">
             <i class="fas fa-times"></i>
         </button>
-        <a href="dashboard_farmer.php"><i class="fas fa-home"></i> Home</a>
+        <a href="dashboard_officer.php"><i class="fas fa-home"></i> Home</a>
         <a href=""><i class="fas fa-user"></i> Profile</a>
         <a href=""><i class="fas fa-user-plus"></i> Add Details</a>
 
         <a href="#"><i class="fas fa-newspaper"></i> News</a>
         <a href="#"><i class="fas fa-leaf"></i> Crops</a>
-        <a href="#"><i class="fas fa-landmark"></i> Govt. Schemes</a>
+        <a href="addschemes.php"><i class="fas fa-landmark"></i>Add Govt. Schemes</a>
+        <a href="viewschemes.php"><i class="fas fa-landmark"></i>View Schemes</a>
     </nav>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-dark horizontal-navbar">
@@ -103,14 +104,9 @@
 
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="dashboard_farmer.php">Home</a>
+                    <a class="nav-link text-white" href="dashboard_officer.php">Home</a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link text-white" href="#">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Explore</a>
-                </li> -->
+               
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"

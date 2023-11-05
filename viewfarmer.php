@@ -50,22 +50,49 @@ if (!isset($_SESSION['useremail'])) {
             cursor: pointer;
         }
 		</style>
+        
+    <script>
+        // JavaScript function to handle the search functionality
+        function searchFarmers() {
+            var input, filter, table, tr, td, i, firstName, lastName;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("farmersTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                firstName = tr[i].getElementsByTagName("td")[0];
+                lastName = tr[i].getElementsByTagName("td")[1];
+                if (firstName && lastName) {
+                    var name = (firstName.textContent + " " + lastName.textContent).toUpperCase();
+                    if (name.indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
 	</head>
 	
 <body>
 
 	<div class="container">
 		<h2 style="font: 30px 'Akaya Telivigala', cursive;font-weight: 900">Farmers</h2>
-<table class="table">
+        <table id="farmersTable" class="table">
 <div class="search-container">
-            <input type="text" class="search-box" placeholder="Search...">
+          
+            <input type="text" id="searchInput" class="search-box" placeholder="Search..." onkeyup="searchFarmers()">
             <button class="search-button">Search</button>
         </div>
 	<thead>
 		<tr style="font: 20px 'Akaya Telivigala', cursive;font-weight: 900">
 		
-		<th>Full Name</th>
+		<th>First Name</th>
 		
+		<th>Last Name</th>
+
 		<th>Email</th>
 	
 		<th>Mobile</th>
@@ -75,7 +102,7 @@ if (!isset($_SESSION['useremail'])) {
 	</thead>
 	<tbody>	
 		<?php
-		$sql = "SELECT f.log_id, f.name, l.email, f.phone_no  FROM farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id";
+		$sql = "SELECT f.log_id, f.firstname,f.lastname, l.email, f.phone_no  FROM farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id";
 		//execute the query
 		$result = $con->query($sql);
 			if ($result->num_rows > 0) {
@@ -85,7 +112,9 @@ if (!isset($_SESSION['useremail'])) {
 
 					<tr>
 					
-					<td><?php echo $row['name']; ?></td>
+					<td><?php echo $row['firstname']; ?></td>
+
+                    <td><?php echo $row['lastname']; ?></td>
 					
 					<td><?php echo $row['email']; ?></td>
 					

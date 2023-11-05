@@ -25,25 +25,67 @@ if (!isset($_SESSION['useremail'])) {
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
-		<!-- <noscript>
-			<link rel="stylesheet" href="css/skel.css" />
-			<link rel="stylesheet" href="css/style.css" />
-			<link rel="stylesheet" href="css/style-xlarge.css" />
-		</noscript> 
-		<link rel="stylesheet" href="indexfooter.css" />  -->
-		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<style>
+			 .search-container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .search-box {
+            width: 50%;
+            padding: 10px;
+            border: 2px solid green;
+            border-radius: 5px;
+        }
+
+        .search-button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+		</style>
+		 <script>
+        // JavaScript function to handle the search functionality
+        function searchOfficers() {
+            var input, filter, table, tr, td, i, firstName, lastName;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("officersTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                firstName = tr[i].getElementsByTagName("td")[0];
+                lastName = tr[i].getElementsByTagName("td")[1];
+                if (firstName && lastName) {
+                    var name = (firstName.textContent + " " + lastName.textContent).toUpperCase();
+                    if (name.indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
 	</head>
 	
 <body>
 
+
 	<div class="container">
 		<h2 style="font: 30px 'Akaya Telivigala', cursive;font-weight: 900">Officers</h2>
-<table class="table">
+		<div class="search-container">
+            <input type="text" id="searchInput" class="search-box" placeholder="Search..." onkeyup="searchOfficers()">
+        </div>
+		<table id="officersTable" class="table">
 	<thead>
 		<tr style="font: 20px 'Akaya Telivigala', cursive;font-weight: 900">
 		
-		<th>Full Name</th>
-		
+		<th>First Name</th>
+		<th>Last Name</th>
 		<th>Email</th>
 	
 		<th>Mobile</th>
@@ -53,7 +95,7 @@ if (!isset($_SESSION['useremail'])) {
 	</thead>
 	<tbody>	
 		<?php
-		$sql = "SELECT o.log_id, o.name, l.email, o.phone_no  FROM officer AS o INNER JOIN login AS l ON o.log_id = l.log_id";
+		$sql = "SELECT o.log_id, o.firstname,o.lastname, l.email, o.phone_no  FROM officer AS o INNER JOIN login AS l ON o.log_id = l.log_id";
 		//execute the query
 		$result = $con->query($sql);
 			if ($result->num_rows > 0) {
@@ -63,7 +105,9 @@ if (!isset($_SESSION['useremail'])) {
 
 					<tr>
 					
-					<td><?php echo $row['name']; ?></td>
+					<td><?php echo $row['firstname']; ?></td>
+
+					<td><?php echo $row['lastname']; ?></td>
 					
 					<td><?php echo $row['email']; ?></td>
 					

@@ -80,11 +80,12 @@
         // Retrieve the farmer's email from the session
         $farmeremail = $_SESSION['useremail'];
         // Fetch farmer details from the database
-        $sql = "SELECT f.log_id, f.name, l.email, f.phone_no, f.dob FROM farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id WHERE l.email = '$farmeremail'";
+        $sql = "SELECT f.log_id, f.firstname,f.lastname, l.email, f.phone_no, f.dob FROM farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id WHERE l.email = '$farmeremail'";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $name = $row["name"];
+            $firstname = $row["firstname"];
+            $lastname = $row["lastname"];
             // $email = $row["email"];
             $phone_no = $row["phone_no"];
             $dob = $row["dob"];
@@ -99,12 +100,13 @@
     
     // Check if the form is submitted for updating the profile
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $newName = $_POST['new_name'];
+        $newFirstName = $_POST['new_firstname'];
+        $newLastName = $_POST['new_lastname'];
         $newPhone = $_POST['new_phone'];
         $newDob = $_POST['new_dob'];
         //$newEmail = $_POST['new_email'];
         // Update the profile in the database
-        $updateSql = "UPDATE farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id SET f.name = '$newName', f.phone_no = '$newPhone', f.dob = '$newDob' WHERE l.email = '$farmeremail'";
+        $updateSql = "UPDATE farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id SET f.firstname = '$newFirstName',f.lastname = '$newLastName', f.phone_no = '$newPhone', f.dob = '$newDob' WHERE l.email = '$farmeremail'";
         if ($con->query($updateSql) == TRUE) {
             echo "<script>alert('Profile updated successfully');</script>";
             // $_SESSION['useremail'] = $newEmail; 
@@ -122,10 +124,13 @@
             <h2>Edit Profile:</h2>
             <form method="POST">
                 <div class="profile-details">
-                    <label for="new_name">Name:</label>
-                    <input type="text" name="new_name" value="<?php echo $name; ?>">
+                    <label for="new_name">First Name:</label>
+                    <input type="text" name="new_firstname" value="<?php echo $firstname; ?>">
                 </div>
-               
+                <div class="profile-details">
+                    <label for="new_name">Last Name:</label>
+                    <input type="text" name="new_lastname" value="<?php echo $lastname; ?>">
+                </div>
                 <div class="profile-details">
                     <label for="new_phone">Phone Number:</label>
                     <input type="text" name="new_phone" value="<?php echo $phone_no; ?>">

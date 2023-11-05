@@ -116,12 +116,13 @@ if (isset($_SESSION['useremail'])) {
 
     // Fetch farmer details from the database
    // $sql = "SELECT name,email, phone_no FROM farmer WHERE id = $farmerId";
-   $sql = "SELECT f.log_id, f.name, l.email, f.phone_no,f.dob FROM farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id WHERE l.email = '$farmeremail'";
+   $sql = "SELECT f.log_id, f.firstname,f.lastname, l.email, f.phone_no,f.dob FROM farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id WHERE l.email = '$farmeremail'";
    $result = $con->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             echo "<h2>Profile:</h2>";
-            echo "<p><strong>Name:</strong> " . $row["name"] . "</p>";
+            echo "<p><strong>First Name:</strong> " . $row["firstname"] . "</p>";
+            echo "<p><strong>Last Name:</strong> " . $row["lastname"] . "</p>";
             echo "<p><strong>Email:</strong> " . $row["email"] . "</p>";
             echo "<p><strong>Phone Number:</strong> " . $row["phone_no"] . "</p>";
             echo "<p><strong>DOB:</strong> " . $row["dob"] . "</p>";

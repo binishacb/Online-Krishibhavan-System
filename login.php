@@ -47,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                header('Location:dashboard_officer.php');
                 exit();
         }
+        
 
     } else {
         // If no user is found, display an error message

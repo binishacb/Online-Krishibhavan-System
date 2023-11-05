@@ -40,7 +40,8 @@ function sendemail_verify($email, $verify_token)
 
 if (isset($_POST['submit'])) {
     // Get form data
-    $name = $_POST['name'];
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $password = $_POST['password'];
@@ -66,7 +67,7 @@ if (isset($_POST['submit'])) {
             $log_id = mysqli_insert_id($con);
 
             // Now, insert the farmer data with the obtained 'log_id'
-            $query_farmer = "INSERT INTO `farmer`(`name`, `phone_no`, `dob`, `log_id`) VALUES ('$name', '$phone', '$dob', '$log_id')";
+            $query_farmer = "INSERT INTO `farmer`(`firstname`,`lastname`, `phone_no`, `dob`, `log_id`) VALUES ('$firstname','$lastname', '$phone', '$dob', '$log_id')";
             $query_farmer_run = mysqli_query($con, $query_farmer);
             
             if ($query_farmer_run) {
@@ -184,16 +185,18 @@ if (isset($_POST['submit'])) {
                                 novalidate>
 
                                 <div class="form-group">
-                                    <label for="name">Name:</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Please fill your full name " oninput="validateName(this.value)"
-                                        required>
+    <label for="firstname">First Name:</label>
+    <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter your first name" oninput="validateFirstName(this.value)" required>
+    <div id="firstname-warning" class="invalid-feedback"></div>
+    <div id="firstname-error" class="invalid-feedback"></div>
+</div>
 
-                                    <div id="name-warning" class="invalid-feedback"></div>
-                                    <div id="name-error" class="invalid-feedback"></div>
-                                </div>
-
-
+<div class="form-group">
+    <label for="lastname">Last Name:</label>
+    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your last name" oninput="validateLastName(this.value)" required>
+    <div id="lastname-warning" class="invalid-feedback"></div>
+    <div id="lastname-error" class="invalid-feedback"></div>
+</div>
 
                                 <div class="form-group">
                                     <label for="email">Email:</label>
@@ -262,56 +265,104 @@ if (isset($_POST['submit'])) {
 
 
         <script>
-        function validateName(name) {
-    const nameInput = document.getElementById('name');
-    const nameWarning = document.getElementById('name-warning');
-    const nameError = document.getElementById('name-error');
+        function validateFirstName(firstName) {
+    // Get elements for first name validation
+    const firstNameInput = document.getElementById('firstname');
+    const firstNameWarning = document.getElementById('firstname-warning');
+    const firstNameError = document.getElementById('firstname-error');
+    firstName = firstName.trim();
 
-    if (name === '') {
-        nameWarning.textContent = 'Warning: Name field is empty.';
-        nameInput.classList.add('is-invalid');
-        nameError.textContent = '';
+       
+        // Convert to capital letters
+        firstName = firstName.toUpperCase();
+
+        // Update the input field with the capitalized first name
+        firstNameInput.value = firstName;
+    // Validate first name
+    if (firstName === '') {
+        firstNameWarning.textContent = 'Warning: First Name field is empty.';
+        firstNameInput.classList.add('is-invalid');
+        firstNameError.textContent = '';
         return false; // Return false to prevent form submission
-    } else if (name.length < 3) {
-        nameInput.classList.add('is-invalid');
-        nameWarning.textContent = '';
-        nameError.textContent = 'Error: Name should contain at least 3 letters.';
+    } else if (firstName.length < 3) {
+        firstNameInput.classList.add('is-invalid');
+        firstNameWarning.textContent = '';
+        firstNameError.textContent = 'Error: First Name should contain at least 3 letters.';
         return false; // Return false to prevent form submission
-    } else if (!/^[a-zA-Z]+$/.test(name)) {
-        nameInput.classList.add('is-invalid');
-        nameWarning.textContent = '';
-        nameError.textContent = 'Error: Name should not contain numbers or special characters.';
+    } else if (!/^[a-zA-Z]+$/.test(firstName)) {
+        firstNameInput.classList.add('is-invalid');
+        firstNameWarning.textContent = '';
+        firstNameError.textContent = 'Error: First Name should not contain numbers or special characters.';
         return false; // Return false to prevent form submission
-    } else if (name.length > 50) {
-        nameInput.classList.add('is-invalid');
-        nameWarning.textContent = '';
-        nameError.textContent = 'Error: Name exceeds the maximum character limit of 50.';
+    } //else if (/(\b\w+\b)\s+\1/.test(firstName)) {
+    //     firstNameInput.classList.add('is-invalid');
+    //     firstNameWarning.textContent = '';
+    //     firstNameError.textContent = 'Error: First Name should not contain continuous repeating words.';
+    //     return false; // Return false to prevent form submission
+    // }
+    else if (firstName.length > 30) {
+        firstNameInput.classList.add('is-invalid');
+        firstNameWarning.textContent = '';
+        firstNameError.textContent = 'Error: Name exceeds the maximum character limit of 30.';
         return false; // Return false to prevent form submission
-    } else if (/^(.)\1+$/i.test(name)) {
-        nameInput.classList.add('is-invalid');
-        nameWarning.textContent = '';
-        nameError.textContent = 'Error: Name should be meaningful and not consist of repeating characters.';
-        return false; // Return false to prevent form submission
-    }  else if (!/^[A-Z][a-zA-Z\s.]*[a-zA-Z]$/.test(name)) {
-        //nameInput.classList.remove('is-invalid');
-        nameInput.classList.add('is-invalid');
-        nameWarning.textContent = '';
-        nameError.textContent = 'Error: Invalid name format. Please use a capitalized first letter and provide your full name without hyphens or single quotes.';
-        return false; // Return true if validation is successful
-    } 
-    
-    
+    }
+    else if (/^(.)\1+$/i.test(firstName)) {
+        firstNameInput.classList.add('is-invalid');
+        firstNameWarning.textContent = '';
+        firstNameError.textContent = 'Error: Name should be meaningful and not consist of repeating characters.';
+        return false;
+    }
     else {
-        nameInput.classList.remove('is-invalid');
-        //nameInput.classList.add('is-valid');
-        nameInput.style.border = '2px solid green';
-        nameWarning.textContent = '';
-        nameError.textContent = '';
+        firstNameInput.classList.remove('is-invalid');
+        firstNameInput.style.border = '2px solid green';
+        firstNameWarning.textContent = '';
+        firstNameError.textContent = '';
         return true; // Return true if validation is successful
     }
 }
+function validateLastName(lastName) {
+    // Get elements for last name validation
+    const lastNameInput = document.getElementById('lastname');
+    const lastNameWarning = document.getElementById('lastname-warning');
+    const lastNameError = document.getElementById('lastname-error');
 
+    // Remove leading and trailing whitespace
+    lastName = lastName.trim();
 
+    // Convert to capital letters
+    lastName = lastName.toUpperCase();
+
+    // Update the input field with the capitalized last name
+    lastNameInput.value = lastName;
+    // Ensure at least two alphabets and convert to capital letters
+    if (lastName.length < 2) {
+        lastNameInput.classList.add('is-invalid');
+        lastNameWarning.textContent = '';
+        lastNameError.textContent = 'Error: Last Name should contain at least two alphabets.';
+        return false; // Return false to prevent form submission
+    }
+    else if (/^(.)\1+$/i.test(lastName)) {
+        lastNameInput.classList.add('is-invalid');
+        lastNameWarning.textContent = '';
+        lastNameError.textContent = 'Error: Name should be meaningful and not consist of repeating characters.';
+        return false;
+    }
+    else if (lastName.length > 30) {
+        lastNameInput.classList.add('is-invalid');
+        lastNameWarning.textContent = '';
+        lastNameError.textContent = 'Error: Name exceeds the maximum character limit of 30.';
+        return false; // Return false to prevent form submission
+    }
+
+else{
+    // Clear any previous validation messages
+    lastNameInput.classList.remove('is-invalid');
+    lastNameInput.style.border = '2px solid green';
+    lastNameWarning.textContent = '';
+    lastNameError.textContent = '';
+    return true; // Return true if validation is successful
+}
+}
         function validateEmail(email) {
             //const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
             const emailRegex = /^[A-Za-z][A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
