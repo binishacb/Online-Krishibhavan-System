@@ -67,14 +67,14 @@ if (!isset($_SESSION['useremail'])) {
                         <div class="card-body">
                             <h5 class="card-title text-center">Scheme Registration</h5><br>
                             <form class="needs-validation" method="post" action="#" onsubmit="return validateForm()">
-              <!--novalidate>  -->
+                                 <!--novalidate>  -->
 
                                 <div class="form-group">
                                     <label for="scheme_name">Scheme Name:</label>
                                     <input type="text" class="form-control" id="scheme_name" name="scheme_name"
                                         placeholder="Enter the scheme name" oninput="validateSchemeName(this.value)" required>
                                         <div id="scheme_name-warning" class="invalid-feedback"></div>
-                                        <div id="scheme_name-error" class="invalid-feedback"></div>
+                                        <div id="scheme_name-error" class="invalid-feedback" ></div>
 
                                 </div>
 
@@ -159,6 +159,8 @@ if (isset($_POST['submit'])) {
 
 <script>
 function validateSchemeName(schemeName) {
+   
+    
     const schemeNameInput = document.getElementById('scheme_name');
     const schemeNameWarning = document.getElementById('scheme_name-warning');
     const schemeNameError = document.getElementById('scheme_name-error');
@@ -174,7 +176,7 @@ function validateSchemeName(schemeName) {
     }
  
 
-    if (/(\w{2,})\1{1,}/.test(schemeName) || /(\b\w+\b)\s+\1{2,}/.test(schemeName)) {
+    if (/(\w{3,})\1{1,}/.test(schemeName) || /(\b\w+\b)\s+\1{2,}/.test(schemeName)) {
         errorMessages.push('Error: Scheme Name should not contain repeating characters or words.');
     }
 
@@ -196,6 +198,7 @@ function validateSchemeName(schemeName) {
     }
 }
 function validateDescription(description) {
+    
     const descriptionInput = document.getElementById('description');
     const descriptionWarning = document.getElementById('description-warning');
     const descriptionError = document.getElementById('description-error');
@@ -373,6 +376,7 @@ function validateEndDate() {
 
 
 function validateForm() {
+    let isValid = true;
     const isSchemeNameValid = validateSchemeName(document.getElementById('scheme_name').value);
     const isDescriptionValid = validateDescription(document.getElementById('description').value);
     const isEligibilityValid = validateEligibility(document.getElementById('eligibility').value);
@@ -381,30 +385,22 @@ function validateForm() {
     const isstartDateFieldsValid = validateStartDate(document.getElementById('start_date').value);
     const isendDateFieldsValid = validateEndDate(document.getElementById('end_date').value);
    
-    // Add other validation checks here as needed
- // return isSchemeNameValid && isDescriptionValid && isEligibilityValid && isstartDateFieldsValid && isendDateFieldsValid ;
-// AJAX request to check for overlapping schemes in your database
+    //return isSchemeNameValid && isDescriptionValid && isEligibilityValid && isstartDateFieldsValid && isendDateFieldsValid;
 
-// const xhr = new XMLHttpRequest();
-//     xhr.open('POST', 'check_overlapping_schemes.php', true);
-//     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-//     xhr.onreadystatechange = function() {
-//         if (xhr.readyState === 4 && xhr.status === 200) {
-//             if (xhr.responseText === 'overlap') {
-//                 alert('Error: The new scheme overlaps .');
-//             } else {
-//                 // Submit the form if no overlap
-//                 document.forms[0].submit();
-//             }
-//         }
-//     };
+    // Check if any of the fields are empty
+    if (schemeNameInput.value.trim() === '' || 
+        descriptionInput.value.trim() === '' ||
+        eligibilityInput.value.trim() === '' ||
+        startDateInput.value.trim() === '' ||
+        endDateInput.value.trim() === '') {
 
-//     // Send the new scheme dates to the server for checking overlaps
-//     const params = 'start_date=' + newSchemeStartDate + '&end_date=' + newSchemeEndDate;
-//     xhr.send(params);
-
-//     return false;
-
+        // Display a generic error message
+        const formError = document.getElementById('form-error');
+        formError.style.display = 'block';
+        formError.textContent = 'Please fill in all required fields.';
+        
+        return false; // Prevent form submission
+    }
    
 
     if (!isSchemeNameValid || !isDescriptionValid || !isEligibilityValid || !isstartDateFieldsValid || !isendDateFieldsValid) {
@@ -413,16 +409,20 @@ function validateForm() {
         return false; // Prevent form submission
     }
 
-    // // If all validations pass, hide the error message and allow form submission
-    // const formError = document.getElementById('form-error');
-    // formError.style.display = 'none';
-
-    // Your AJAX request to check for overlapping schemes and other logic
-    // ...
-
     return true; // Allow form submission
 
 }
+
+// if (!isValid) {
+//         const formError = document.getElementById('form-error');
+//         formError.style.display = 'block';
+//     } else {
+//         const formError = document.getElementById('form-error');
+//         formError.style.display = 'none'; // Hide any previous error messages
+//     }
+
+//     return isValid;
+// }
 
 </script>
 <?php

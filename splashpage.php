@@ -110,7 +110,7 @@ include('dbconnection.php');
             "The ultimate goal of farming is not the growing of crops, but the cultivation and perfection of human beings.",
             "Farmers are the founders of human civilization.",
             "Agriculture is our wisest pursuit because it will, in the end, contribute most to real wealth, good morals, and happiness.",
-            "The good old days are now.",
+            
             "Every day is a new day. It is better to be lucky. But I would rather be exact. Then when luck comes you are ready."
         ];
 

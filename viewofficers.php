@@ -2,11 +2,6 @@
 // Start or resume the session
 session_start();
 include('dbconnection.php');
-include('navbar/navbar_admin.php');
-if (!isset($_SESSION['useremail'])) {
-    header('Location: index.php'); // Redirect to index.php
-    exit(); // Stop further execution of the current script
-}
 
 ?>
 <!DOCTYPE html>
@@ -74,7 +69,13 @@ if (!isset($_SESSION['useremail'])) {
 	
 <body>
 
-
+<?php
+include('navbar/navbar_admin.php');
+if (!isset($_SESSION['useremail'])) {
+    header('Location: index.php'); // Redirect to index.php
+    exit(); // Stop further execution of the current script
+}
+?>
 	<div class="container">
 		<h2 style="font: 30px 'Akaya Telivigala', cursive;font-weight: 900">Officers</h2>
 		<div class="search-container">
@@ -89,18 +90,20 @@ if (!isset($_SESSION['useremail'])) {
 		<th>Email</th>
 	
 		<th>Mobile</th>
-		
+		<th>Status</th>
 		<!--<th>Action</th> -->
 	</tr>
 	</thead>
 	<tbody>	
 		<?php
-		$sql = "SELECT o.log_id, o.firstname,o.lastname, l.email, o.phone_no  FROM officer AS o INNER JOIN login AS l ON o.log_id = l.log_id";
+		$sql = "SELECT o.log_id, o.firstname,o.lastname, l.email, o.phone_no ,o.status FROM officer AS o INNER JOIN login AS l ON o.log_id = l.log_id";
 		//execute the query
 		$result = $con->query($sql);
 			if ($result->num_rows > 0) {
 				//output data of each row
 				while ($row = $result->fetch_assoc()) {
+					$status = $row['status'];
+					$statusText = ($status == 1) ? "Inactive" : "Active";
 		?>
 
 					<tr>
@@ -113,6 +116,7 @@ if (!isset($_SESSION['useremail'])) {
 					
 					<td><?php echo $row['phone_no']; ?></td>
 					
+					<td><?php echo $statusText; ?></td>
 				
 					</tr>	
 					

@@ -82,11 +82,40 @@ if (isset($_POST['submit'])) {
     // Generate a random password
     $rpassword = generateRandomPassword();
     $hashed_password = hashPassword($rpassword);
-    if (empty($firstname) || empty($lastname) || empty($email) || empty($phone) || empty($krishibhavan_name)) {
-        echo "<script>alert('Please fill in all the required fields.'); window.location = 'admin_add_officer.php';</script>";
-        exit; // Stop further execution of the code
+    
+    $errorMessages = array();
+
+    if (empty($firstname)) {
+        $errorMessages['firstname'] = "First Name is required.";
     }
-   
+    
+    if (empty($lastname)) {
+        $errorMessages['lastname'] = "Last Name is required.";
+    }
+    
+    if (empty($email)) {
+        $errorMessages['email'] = "Email is required.";
+    }
+    
+    if (empty($phone)) {
+        $errorMessages['phone'] = "Phone is required.";
+    }
+    
+    if (empty($krishibhavan_name)) {
+        $errorMessages['krishibhavan_name'] = "Krishibhavan Name is required.";
+    }
+    
+    // Check if any fields are empty
+    if (!empty($errorMessages)) {
+        // Output the error messages next to the respective fields
+        echo "<div style='color: red;'>";
+        foreach ($errorMessages as $field => $message) {
+            echo "$message<br>";
+            // You can use JavaScript to highlight the specific input fields with errors
+            echo "<script>document.getElementById('$field').classList.add('is-invalid');</script>";
+        }
+        echo "</div>";
+    }
 
     // Query the 'designation' table to get the ID for the selected designation
     $designation_query = "SELECT designation_id FROM designation WHERE designation_name = '$designation_name'";
@@ -451,7 +480,6 @@ if (isset($_POST['submit'])) {
         // return isFirstNameValid && isLastNameValid && isEmailValid && isPhoneValid && isKrishibhavanValid && isDesignationValid;
 
         if (!isFirstNameValid || !isLastNameValid || !isEmailValid || !isPhoneValid || !isKrishibhavanValid || !isDesignationValid) {
-            alert("Please fill in all the required fields.");
             return false; // Prevent form submission
             // "Please fill the fields";
         }

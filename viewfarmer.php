@@ -2,11 +2,7 @@
 // Start or resume the session
 session_start();
 include('dbconnection.php');
-include('navbar/navbar_admin.php');
-if (!isset($_SESSION['useremail'])) {
-    header('Location: index.php'); // Redirect to index.php
-    exit(); // Stop further execution of the current script
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,6 +73,13 @@ if (!isset($_SESSION['useremail'])) {
 	</head>
 	
 <body>
+    <?php
+    include('navbar/navbar_admin.php');
+    if (!isset($_SESSION['useremail'])) {
+        header('Location: index.php'); // Redirect to index.php
+        exit(); // Stop further execution of the current script
+    }
+    ?>
 
 	<div class="container">
 		<h2 style="font: 30px 'Akaya Telivigala', cursive;font-weight: 900">Farmers</h2>

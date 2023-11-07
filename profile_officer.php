@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('dbconnection.php');
-include('navbar/navbar_farmer.php');
+
 ?>
 
 
@@ -10,8 +10,7 @@ include('navbar/navbar_farmer.php');
     /* Style for the body */
 body {
     font-family: Arial, sans-serif;
-    /* background-color:#8FB06C; */
-    background-color:#f0f0f0;
+    background-color:#8FB06C;
     margin: 0;
     padding: 0;
 }
@@ -21,7 +20,7 @@ body {
     width: 50%; /* Increase the max-width to your desired size */
     margin: 0 auto;
     padding: 50px 40px; /* Adjust padding as needed */
-    background-color: #f0f0f0;
+    background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     position: relative;
@@ -103,30 +102,27 @@ a:hover {
 </style></head>
 
 <body>
-
+<?php
+include('navbar/navbar_officer.php');
+ 
+if (!isset($_SESSION['useremail'])) {
+    header('Location: index.php'); // Redirect to index.php
+       exit(); // Stop further execution of the current script
+   }
+?>
  <div class="container">
         <div class="profile-container">
-        <a href="editprofile_farmer.php" class="edit-button">Edit Profile</a>
-        <a href="changepassword.php" class ="change-password-button">Change password</a>
+        <a href="editprofile_officer.php" class="edit-button">Edit Profile</a>
+        <a href="changepassword_officer.php" class ="change-password-button">Change password</a>
             <?php
 // Check if the farmer is logged in and their ID is stored in the session
 if (isset($_SESSION['useremail'])) {
     
     // Retrieve the farmer's ID from the session
-    $farmeremail = $_SESSION['useremail'];
-    $avatarDirectory = 'images/avatar/';
-    $farmerAvatarFilename = 'farmer_avatar.jpg';
-
-    // Construct the full URL to the farmer's avatar image
-    $avatarUrl = $avatarDirectory . $farmerAvatarFilename;
-    echo '<div style="display: flex; justify-content: center; align-items: center; height: 100px;">';
-    echo '<img src="' . $avatarUrl . '" alt="Avatar" width="100" height="200" style="object-fit: cover;" />';
-    echo '</div>';
-
-    
+    $officeremail = $_SESSION['useremail'];
     // Fetch farmer details from the database
    // $sql = "SELECT name,email, phone_no FROM farmer WHERE id = $farmerId";
-   $sql = "SELECT f.log_id, f.firstname,f.lastname, l.email, f.phone_no,f.dob FROM farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id WHERE l.email = '$farmeremail'";
+   $sql = "SELECT o.log_id, o.firstname,o.lastname, l.email, o.phone_no FROM officer AS o INNER JOIN login AS l ON o.log_id = l.log_id WHERE l.email = '$officeremail'";
    $result = $con->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -135,16 +131,16 @@ if (isset($_SESSION['useremail'])) {
             echo "<p><strong>Last Name:</strong> " . $row["lastname"] . "</p>";
             echo "<p><strong>Email:</strong> " . $row["email"] . "</p>";
             echo "<p><strong>Phone Number:</strong> " . $row["phone_no"] . "</p>";
-            echo "<p><strong>DOB:</strong> " . $row["dob"] . "</p>";
+           // echo "<p><strong>DOB:</strong> " . $row["dob"] . "</p>";
         }
     } else {
-        echo "No farmer found with ID: " . $farmeremail;
+        echo "No officer found with ID: " . $officeremail;
     }
 
     // Close the database connection
     $con->close();
 } else {
-    echo "Farmer not logged in.";
+    echo "Officer not logged in.";
 }
 ?>
 </div></div>
