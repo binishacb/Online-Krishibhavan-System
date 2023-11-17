@@ -2,7 +2,11 @@
     // Start a session (if not already started)
     session_start();
     include('dbconnection.php');
-    include('navbar/navbar_officer.php');
+    if (!isset($_SESSION['useremail'])) {
+        header('Location: index.php');
+        exit();
+    }
+    
    // echo $_SESSION['useremail'];
 ?>
 
@@ -76,7 +80,7 @@
 </head>
 <body>
     <?php
-   
+   include('navbar/navbar_officer.php');
     // Check if the farmer is logged in and their ID is stored in the session
     if (isset($_SESSION['useremail'])) {
         // Retrieve the farmer's email from the session
@@ -111,7 +115,7 @@
         $updateSql = "UPDATE officer AS o INNER JOIN login AS l ON o.log_id = l.log_id SET o.firstname = '$newFirstName',o.lastname = '$newLastName', o.phone_no = '$newPhone' WHERE l.email = '$officeremail'";
          if ($con->query($updateSql) == TRUE) {
              echo "<script>alert('Profile updated successfully');</script>";
-             header('location:profile_officer.php'); 
+             //header('location:profile_officer.php'); 
               exit;
          } else {
              echo "Error updating profile: " . $con->error;

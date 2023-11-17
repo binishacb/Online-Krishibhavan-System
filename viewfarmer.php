@@ -2,7 +2,10 @@
 // Start or resume the session
 session_start();
 include('dbconnection.php');
-
+if (!isset($_SESSION['useremail'])) {
+    header('Location: index.php'); // Redirect to index.php
+    exit(); // Stop further execution of the current script
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,10 +78,7 @@ include('dbconnection.php');
 <body>
     <?php
     include('navbar/navbar_admin.php');
-    if (!isset($_SESSION['useremail'])) {
-        header('Location: index.php'); // Redirect to index.php
-        exit(); // Stop further execution of the current script
-    }
+   
     ?>
 
 	<div class="container">
@@ -99,18 +99,21 @@ include('dbconnection.php');
 		<th>Email</th>
 	
 		<th>Mobile</th>
+        <th>Status</th>
 		
 		<!--<th>Action</th> -->
 	</tr>
 	</thead>
 	<tbody>	
 		<?php
-		$sql = "SELECT f.log_id, f.firstname,f.lastname, l.email, f.phone_no  FROM farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id";
+		$sql = "SELECT f.log_id, f.firstname,f.lastname, l.email, f.phone_no ,f.status FROM farmer AS f INNER JOIN login AS l ON f.log_id = l.log_id";
 		//execute the query
 		$result = $con->query($sql);
 			if ($result->num_rows > 0) {
 				//output data of each row
 				while ($row = $result->fetch_assoc()) {
+                    $status = $row['status'];
+					$statusText = ($status == 1) ? "Inactive" : "Active";
 		?>
 
 					<tr>
@@ -122,7 +125,8 @@ include('dbconnection.php');
 					<td><?php echo $row['email']; ?></td>
 					
 					<td><?php echo $row['phone_no']; ?></td>
-					
+
+					<td><?php echo $statusText; ?></td>
 				
 					</tr>	
 					

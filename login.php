@@ -96,10 +96,11 @@ $con->close();
 
     .btn-primary {
         width: 100%;
+       
     }
 
     body {
-        background-color: #4CAF50;
+       /* background-color: #4CAF50;*/
         /* Green background color */
         background: linear-gradient(45deg, #4CAF50, #FFC107);
         /* Gradient from green to orange */

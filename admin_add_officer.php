@@ -2,31 +2,27 @@
 session_start();
 include('dbconnection.php'); 
 ?>
-
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Officers Management</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-
 <body>
     <?php
     include('navbar/navbar_admin.php');
     // Function to check if officers exist for a specific designation
     function checkOfficerExists($con, $designation_id)
     {
-        $sql = "SELECT * FROM officer WHERE designation_id = $designation_id";
+        $sql = "SELECT * FROM officer WHERE designation_id = $designation_id and status=0 ";
         $result = $con->query($sql);
         return $result->num_rows;
     }
-
     // Function to get the first names and IDs of officers with a specific designation
     function getOfficerData($con, $designation_id)
     {
         $officerData = array();
-        $sql = "SELECT officer_id, firstname FROM officer WHERE designation_id = $designation_id";
+        $sql = "SELECT officer_id, firstname FROM officer WHERE designation_id = $designation_id and status=0";
         $result = $con->query($sql);
         while ($row = $result->fetch_assoc()) {
             $officerData[] = $row;
@@ -38,12 +34,11 @@ include('dbconnection.php');
     $agricultureOfficerCount = checkOfficerExists($con, 1);
     $assistantOfficerCount = checkOfficerExists($con, 2);
     $marketingOfficerCount = checkOfficerExists($con, 3);
-    $staffCount = checkOfficerExists($con, 4);
+    $staffCount = checkOfficerExists($con,4);
     $agricultureOfficerData = getOfficerData($con, 1);
     $assistantOfficerData = getOfficerData($con, 2);
     $marketingOfficerData = getOfficerData($con, 3);
     $staffData = getOfficerData($con, 4);
-
     ?>
     <div class="container mt-5">
         <h1>Officers Management</h1>
@@ -150,5 +145,4 @@ include('dbconnection.php');
         </div>
     </div>
 </body>
-
 </html>

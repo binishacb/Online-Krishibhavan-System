@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
-include('dbconnection.php');
 session_start();
+include('dbconnection.php');
 if (!isset($_SESSION['useremail'])) {
     header('Location: index.php'); // Redirect to index.php
     exit(); // Stop further execution of the current script
@@ -25,6 +25,7 @@ if (!isset($_SESSION['useremail'])) {
 <body>
     <?php
     include('navbar/navbar_officer.php');
+   
     ?>
     <br>
     <div class="container">

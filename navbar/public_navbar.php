@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-dark horizontal-navbar">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-green horizontal-navbar">
     <a class="navbar-brand text-white" style="padding-right: 100px;" href="#">AgroCompanion</a>
 
 

@@ -2,7 +2,10 @@
 // Start or resume the session
 session_start();
 include('dbconnection.php');
-
+if (!isset($_SESSION['useremail'])) {
+    header('Location: index.php'); // Redirect to index.php
+    exit(); // Stop further execution of the current script
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +24,21 @@ include('dbconnection.php');
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
 		<style>
+			table {
+            border: 5px solid green;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 2px solid green;
+        }
+
+        th {
+            background-color: lightgreen;
+        }
 			 .search-container {
             text-align: center;
             margin: 20px;
@@ -71,10 +89,7 @@ include('dbconnection.php');
 
 <?php
 include('navbar/navbar_admin.php');
-if (!isset($_SESSION['useremail'])) {
-    header('Location: index.php'); // Redirect to index.php
-    exit(); // Stop further execution of the current script
-}
+
 ?>
 	<div class="container">
 		<h2 style="font: 30px 'Akaya Telivigala', cursive;font-weight: 900">Officers</h2>

@@ -2,7 +2,6 @@
 // Start or resume the session
 session_start();
 include('dbconnection.php');
-include('navbar/navbar_officer.php');
 if (!isset($_SESSION['useremail'])) {
     header('Location: index.php'); // Redirect to index.php
     exit(); // Stop further execution of the current script
@@ -59,7 +58,9 @@ if (!isset($_SESSION['useremail'])) {
 </head>
 <body>
 
-
+<?php
+include('navbar/navbar_officer.php');
+?>
 <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -380,49 +381,32 @@ function validateForm() {
     const isSchemeNameValid = validateSchemeName(document.getElementById('scheme_name').value);
     const isDescriptionValid = validateDescription(document.getElementById('description').value);
     const isEligibilityValid = validateEligibility(document.getElementById('eligibility').value);
-    //const isDateFieldsValid = validateDateFields(document.getElementById(startDateInput, endDateInput).value);
-   // const isDateFieldsValid = validateDateFields(document.getElementById('start_date', 'end_date'));
-    const isstartDateFieldsValid = validateStartDate(document.getElementById('start_date').value);
-    const isendDateFieldsValid = validateEndDate(document.getElementById('end_date').value);
-   
-    //return isSchemeNameValid && isDescriptionValid && isEligibilityValid && isstartDateFieldsValid && isendDateFieldsValid;
-
+    const isstartDateFieldsValid = validateStartDate();
+    const isendDateFieldsValid = validateEndDate();
+    
     // Check if any of the fields are empty
-    if (schemeNameInput.value.trim() === '' || 
-        descriptionInput.value.trim() === '' ||
-        eligibilityInput.value.trim() === '' ||
-        startDateInput.value.trim() === '' ||
-        endDateInput.value.trim() === '') {
-
+    if (
+        document.getElementById('scheme_name').value.trim() === '' ||
+        document.getElementById('description').value.trim() === '' ||
+        document.getElementById('eligibility').value.trim() === '' ||
+        document.getElementById('start_date').value.trim() === '' ||
+        document.getElementById('end_date').value.trim() === ''
+    ) {
         // Display a generic error message
         const formError = document.getElementById('form-error');
         formError.style.display = 'block';
         formError.textContent = 'Please fill in all required fields.';
-        
         return false; // Prevent form submission
     }
    
-
     if (!isSchemeNameValid || !isDescriptionValid || !isEligibilityValid || !isstartDateFieldsValid || !isendDateFieldsValid) {
         const formError = document.getElementById('form-error');
         formError.style.display = 'block';
         return false; // Prevent form submission
     }
-
-    return true; // Allow form submission
-
+    else{return true;}
+     // Allow form submission if all validations pass
 }
-
-// if (!isValid) {
-//         const formError = document.getElementById('form-error');
-//         formError.style.display = 'block';
-//     } else {
-//         const formError = document.getElementById('form-error');
-//         formError.style.display = 'none'; // Hide any previous error messages
-//     }
-
-//     return isValid;
-// }
 
 </script>
 <?php

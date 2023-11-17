@@ -1,11 +1,8 @@
 <?php
     // Start a session (if not already started)
-    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-    header("Cache-Control: post-check=0, pre-check=0", false);
-    header("Pragma: no-cache");
     session_start();
     include('dbconnection.php');
-    include('navbar/navbar_farmer.php');
+   
 ?>
 
 <!DOCTYPE html>
@@ -77,7 +74,7 @@
 </head>
 <body>
     <?php
-   
+    include('navbar/navbar_farmer.php');
     // Check if the farmer is logged in and their ID is stored in the session
     if (isset($_SESSION['useremail'])) {
         // Retrieve the farmer's email from the session

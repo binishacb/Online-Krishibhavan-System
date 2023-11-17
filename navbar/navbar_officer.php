@@ -88,7 +88,7 @@
         <a href="#"><i class="fas fa-newspaper"></i> News</a>
         <a href="#"><i class="fas fa-leaf"></i> Crops</a>
         <a href="addschemes.php"><i class="fas fa-landmark"></i>Add Govt. Schemes</a>
-        <a href="viewschemes.php"><i class="fas fa-landmark"></i>View Schemes</a>
+        <a href="view_schemes.php"><i class="fas fa-landmark"></i>View Schemes</a>
     </nav>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-dark horizontal-navbar">
@@ -120,7 +120,7 @@
                         ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="profile_officer.php">Profile</a>
                         <a class="dropdown-item" href="#">Settings</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="logout.php">Logout</a>

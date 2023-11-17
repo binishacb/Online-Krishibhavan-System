@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('dbconnection.php');
-include('navbar/navbar_farmer.php');
+
 ?>
 
 
@@ -103,7 +103,9 @@ a:hover {
 </style></head>
 
 <body>
-
+<?php
+include('navbar/navbar_farmer.php');
+?>
  <div class="container">
         <div class="profile-container">
         <a href="editprofile_farmer.php" class="edit-button">Edit Profile</a>

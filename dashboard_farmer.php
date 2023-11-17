@@ -67,7 +67,7 @@ if (!isset($_SESSION['useremail'])) {
             <div class="card-body">
                 <h5 class="card-title">Latest Machines</h5>
                 <p class="card-text">Stay updated with the latest agricultural tips and machines.</p>
-                <a href="#" class="btn btn-primary">Read More</a>
+                <a href="machines_farmer.php" class="btn btn-primary">View Machines</a>
             </div>
         </div>
     </div>

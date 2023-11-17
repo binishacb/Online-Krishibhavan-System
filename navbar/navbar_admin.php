@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
     /* Custom CSS for the side navigation bar */
     .vertical-navbar {
@@ -97,7 +99,7 @@
         <a href="viewofficers.php"><i class="fas fa-users"></i> Officers</a>
         <a href="#"><i class="fas fa-newspaper"></i> News</a>
         <a href="#"><i class="fas fa-leaf"></i> Crops</a>
-        <a href="#"><i class="fas fa-landmark"></i> Govt. Schemes</a>
+        <a href="add_machines.php"><i class="fas fa-landmark"></i>Add Equipments</a>
     </nav>
 
     <!-- <nav class="navbar navbar-expand-lg navbar-light bg-dark horizontal-navbar"> -->
@@ -124,26 +126,36 @@
                 </li> -->
 
 
-                <li class="nav-item dropdown">
+                <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="images/avatar/admin.png" style="height: 30px;" alt="User Avatar"
                             class="navbar-avatar">
-                        <?php
-                        if (isset($_SESSION['useremail'])) {
-                            echo '' .$_SESSION['useremail'];
-                        }
-                        ?>
+                       
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="#">Profile</a>
                         <a class="dropdown-item" href="#">Settings</a>
                         <div class="dropdown-divider"></div>
 
-                    </div>
-                </li>
-                <a class="btn btn-danger" href="logout.php">Logout</a>
+                    </div> 
+                </li> -->
 
+                <li class="nav-item">
+    <a class="nav-link text-white" href="#">
+        <img src="images/avatar/admin.png" style="height: 30px;" alt="User Avatar" class="navbar-avatar">
+        <?php
+        if (isset($_SESSION['useremail'])) {
+            echo '' .$_SESSION['useremail'];
+        }
+        ?>
+    </a>
+</li>
+
+
+
+
+                <a class="btn btn-danger" href="logout.php">Logout</a>
             </ul>
         </div>
     </nav>
@@ -155,7 +167,6 @@
         const sidebar = document.querySelector(".vertical-navbar");
         sidebar.style.left = "0px";
     }
-
     function hideSidebar() {
         const sidebar = document.querySelector(".vertical-navbar");
         sidebar.style.left = "-250px";
@@ -166,5 +177,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
-
 </html>

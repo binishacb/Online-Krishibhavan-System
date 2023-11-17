@@ -1,7 +1,10 @@
 <?php
 session_start();
 include('dbconnection.php');
-
+if (!isset($_SESSION['useremail'])) {
+    header('Location: index.php'); // Redirect to index.php
+       exit(); // Stop further execution of the current script
+   }
 ?>
 
 <!DOCTYPE html>
@@ -44,17 +47,15 @@ include('dbconnection.php');
     <?php
      include('navbar/navbar_farmer.php');
     
-    if (!isset($_SESSION['useremail'])) {
-             header('Location: index.php'); // Redirect to index.php
-                exit(); // Stop further execution of the current script
-            }
-    $sql = "SELECT scheme_name, end_date FROM schemes WHERE end_date >= NOW()";
+   
+    $sql = "SELECT scheme_id,scheme_name, end_date FROM schemes WHERE end_date >= NOW()";
     $result = $con->query($sql);
      // Check if there are schemes to display
     if ($result->num_rows > 0) {
         $count = 0; // Initialize a counter to keep track of schemes in each row
         echo '<div class="row">';
         while ($row = $result->fetch_assoc()) {
+        $schemeID = $row['scheme_id'];
         $schemeName = $row['scheme_name'];
         $endDate = strtotime($row['end_date']);
         
@@ -67,12 +68,13 @@ include('dbconnection.php');
 
         echo '<div class="col-md-6">';
         echo '<div class="scheme-box">';
+       
         echo '<h3>' . $schemeName . '</h3>';
         echo '<p ' . $endDateColor . '>End Date: ' . date('Y-m-d', $endDate) . '</p>';
         
         // Add a "View Details" button with a link to the details page
-        echo '<a href="scheme_details.php?scheme_name=' . urlencode($schemeName) . '" class="btn btn-primary">View Details</a>';
-        echo '<a href="apply.php?scheme_name=' . urlencode($schemeName) . '" class="btn btn-success">Apply</a>';
+        echo '<a href="scheme_details.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-primary">View Details</a>';
+        echo '<a href="apply.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-success">Apply</a>';
         echo '</div>';
         echo '</div>';
 

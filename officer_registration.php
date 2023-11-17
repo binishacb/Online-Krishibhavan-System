@@ -71,52 +71,23 @@ function hashPassword($password) {
 ?>
 
 <?php
+
 if (isset($_POST['submit'])) {
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
 
-    $krishibhavan_name = $_POST['krishibhavan'];
+    $krishibhavan_name = $_POST['krishibhavan_name'];
+   echo $firstname;
 
     // Generate a random password
     $rpassword = generateRandomPassword();
     $hashed_password = hashPassword($rpassword);
     
-    $errorMessages = array();
-
-    if (empty($firstname)) {
-        $errorMessages['firstname'] = "First Name is required.";
-    }
-    
-    if (empty($lastname)) {
-        $errorMessages['lastname'] = "Last Name is required.";
-    }
-    
-    if (empty($email)) {
-        $errorMessages['email'] = "Email is required.";
-    }
-    
-    if (empty($phone)) {
-        $errorMessages['phone'] = "Phone is required.";
-    }
-    
-    if (empty($krishibhavan_name)) {
-        $errorMessages['krishibhavan_name'] = "Krishibhavan Name is required.";
-    }
-    
-    // Check if any fields are empty
-    if (!empty($errorMessages)) {
-        // Output the error messages next to the respective fields
-        echo "<div style='color: red;'>";
-        foreach ($errorMessages as $field => $message) {
-            echo "$message<br>";
-            // You can use JavaScript to highlight the specific input fields with errors
-            echo "<script>document.getElementById('$field').classList.add('is-invalid');</script>";
-        }
-        echo "</div>";
-    }
-
+    if (empty($firstname) || empty($lastname) || empty($email) || empty($phone) ) {
+        echo "Please fill out all the fields.";
+    }  else {
     // Query the 'designation' table to get the ID for the selected designation
     $designation_query = "SELECT designation_id FROM designation WHERE designation_name = '$designation_name'";
     $designation_result = mysqli_query($con, $designation_query);
@@ -160,7 +131,7 @@ if (isset($_POST['submit'])) {
     } else {
         echo "<script>alert('Designation not found'); window.location = 'admin_add_officer.php';</script>";
     }
-    
+}
 }
 // else{
 //     echo "<script>alert('Please fill the required fields'); window.location = 'admin_add_officer.php';</script>";
@@ -203,8 +174,7 @@ if (isset($_POST['submit'])) {
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title text-center">Add <?php echo  $designation_name ?></h5>
-                        <form class="needs-validation" method="post" action="#" onsubmit="return validateForm()"
-                            novalidate>
+                        <form class="needs-validation" method="post" action="#" onsubmit= "return validateForm()">
 
                             <div class="form-group">
                                 <label for="name">First Name:</label>
@@ -247,20 +217,20 @@ if (isset($_POST['submit'])) {
 
                             <div class="form-group">
                                 <label for="krishibhavan">Krishibhavan:</label>
-                                <select class="form-control" id="krishibhavan" name="krishibhavan" required>
+                                <select class="form-control" id="krishibhavan_name" name="krishibhavan_name" required>
                                     <option value="" disabled selected>Select Krishibhavan</option>
                                     <option value="KB chazhur">KB Chazhur</option>
                                     <!-- Add options for Krishibhavans here -->
                                 </select>
                             </div>
-
-
-
+                           
+                           
+                              </div>
 
 
 
                             <div class="form-group">
-                                <center> <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                                <center> <button type="submit" name="submit"  class="btn btn-primary">Submit</button>
                                 </center>
                             </div>
                         </form>
@@ -475,15 +445,16 @@ if (isset($_POST['submit'])) {
         const isEmailValid = validateEmail(document.getElementById('email').value);
         const isPhoneValid = validatePhone(document.getElementById('phone').value);
         const isKrishibhavanValid = validateSelect('krishibhavan_name');
-        const isDesignationValid = validateSelect('designation');
+        // const isDesignationValid = validateSelect('designation');
 
         // return isFirstNameValid && isLastNameValid && isEmailValid && isPhoneValid && isKrishibhavanValid && isDesignationValid;
 
-        if (!isFirstNameValid || !isLastNameValid || !isEmailValid || !isPhoneValid || !isKrishibhavanValid || !isDesignationValid) {
-            return false; // Prevent form submission
-            // "Please fill the fields";
+        if (!isfirstNameValid || !islastNameValid || !isEmailValid || !isPhoneValid || !isKrishibhavanValid ) {
+
+        return false; // Prevent form submission
         }
-        return true;
+        
+        
     }
     </script>
 </body>

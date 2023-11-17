@@ -101,6 +101,9 @@ input[type="submit"]:hover {
 </style>
 </head>
 <body>
+    <?php
+    include('navbar\navbar_officer');
+    ?>
     <!-- Your HTML form for changing the password -->
     <form method="POST" onsubmit="return validateForm()">
         <label for="old_password">Old Password:</label>

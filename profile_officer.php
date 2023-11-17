@@ -104,11 +104,7 @@ a:hover {
 <body>
 <?php
 include('navbar/navbar_officer.php');
- 
-if (!isset($_SESSION['useremail'])) {
-    header('Location: index.php'); // Redirect to index.php
-       exit(); // Stop further execution of the current script
-   }
+
 ?>
  <div class="container">
         <div class="profile-container">

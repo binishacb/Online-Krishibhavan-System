@@ -113,7 +113,7 @@ if (!isset($_SESSION['useremail'])) {
                     <div class="card-body">
                         <h5 class="card-title">Government Schemes</h5>
                         
-                        <a href="viewschemes.php" class="btn btn-info">View Schemes</a>
+                        <a href="view_machines.php" class="btn btn-info">View Machines</a>
                     </div>
                 </div>
             </div>
