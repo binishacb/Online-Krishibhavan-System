@@ -82,8 +82,6 @@ if (!isset($_SESSION['useremail'])) {
        
     </style>
     <script>
-        
-    include('add_machines.js');
 
         function showFields(option) {
             var buyFields = document.getElementById("buyFields");
@@ -130,11 +128,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST["description"];
     $capacity = $_POST["capacity"];
     $quantity = $_POST["quantity"];
-    // $image = $_POST["image"];
-    $userLog = $_POST["userLog"];
+   // $userLog = $_POST["userLog"];
    
     $categoryId = "SELECT type_id FROM machine_type WHERE type_name = '$categoryName'";
-   
+    $pdfPath = ''; 
+    if (!empty($_FILES['userLog'])) {
+        $userLogFile = $_FILES['userLog'];
+        
+        // Check if there was no error during file upload
+        if ($userLogFile['error'] == UPLOAD_ERR_OK) {
+            $tmpName = $userLogFile['tmp_name'];
+            $pdfName = uniqid() . '_' . $userLogFile['name']; // Unique name to avoid conflicts
+            $pdfPath = 'uploads/' . $pdfName; // Specify the directory where you want to store the file
+
+            // Move the uploaded file to the specified directory
+            move_uploaded_file($tmpName, $pdfPath);
+        } else {
+            // Handle file upload error
+            echo "<script>alert('File upload error');</script>";
+        }
+    }
 
     if (!empty($_FILES['image']) && $_FILES['image']['error'] == 4) {
         echo "<script>alert('Image does not exist');</script>";
@@ -158,71 +171,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $newImageName = uniqid();
             $newImageName = $newImageName . '.' . $imageExtension;
             move_uploaded_file($tmpName,'uploads/'. $newImageName);
-            $insert_machine = "INSERT INTO machines (machine_name, type_id, description, capacity, quantity, machine_image,userlog) VALUES ('$productName', (SELECT type_id FROM machine_type WHERE type_name = '$categoryName'), '$description', '$capacity', '$quantity', '$newImageName','$userLog')";
+            $insert_machine = "INSERT INTO machines (machine_name, type_id, description, capacity, quantity, machine_image,userlog) VALUES ('$productName', (SELECT type_id FROM machine_type WHERE type_name = '$categoryName'), '$description', '$capacity', '$quantity', '$newImageName','$pdfPath')";
            
             if ($con->query($insert_machine) == TRUE) {
                 $lastMachineId = $con->insert_id;
-               // echo $lastMachineId;
-                // Check the selected action (buy or rent)
-                        
-                        // Check if "action" is set in $_POST
+              
             if (isset($_POST["action"])) {
                 // Check if "buy" is in the array
                 if (in_array("buy", $_POST["action"])) {
             // Process buy action
-            $productPrice = $_POST["productPrice"];
-            $discount = $_POST["discount"];
-            $salesPrice = $_POST["salesPrice"];
-            
-            // Insert into 'buy_machines' table with foreign key reference
-            $sqlBuy = "INSERT INTO buy_product (bp_id, product_price, discount, sales_price) VALUES ('$lastMachineId', '$productPrice', '$discount', '$salesPrice')";
-            
-            if ($con->query($sqlBuy) !== TRUE) {
-                echo "Error inserting into buy_machines: " . $con->error;
-            }
-            
-            // Get the last inserted bp_id and update 'machines' table
-            $bpIdResult = $con->query("SELECT LAST_INSERT_ID() AS bp_id");
-            if ($bpIdResult->num_rows > 0) {
-                $bpRow = $bpIdResult->fetch_assoc();
-                $bpId = $bpRow["bp_id"];
+                    $productPrice = $_POST["productPrice"];
+                    $discount = $_POST["discount"];
+                    $salesPrice = $_POST["salesPrice"];
+                    
+                    // Insert into 'buy_machines' table with foreign key reference
+                    $sqlBuy = "INSERT INTO buy_product (bp_id, product_price, discount, sales_price) VALUES ('$lastMachineId', '$productPrice', '$discount', '$salesPrice')";
+                    
+                    if ($con->query($sqlBuy) !== TRUE) {
+                        echo "Error inserting into buy_machines: " . $con->error;
+                    }
+                    
+                    // Get the last inserted bp_id and update 'machines' table
+                    $bpIdResult = $con->query("SELECT LAST_INSERT_ID() AS bp_id");
+                    if ($bpIdResult->num_rows > 0) {
+                        $bpRow = $bpIdResult->fetch_assoc();
+                        $bpId = $bpRow["bp_id"];
 
-                // Update 'machines' table with the fetched bp_id
-                $con->query("UPDATE machines SET bp_id = '$bpId' WHERE machine_id = '$lastMachineId'");
-            }
+                        // Update 'machines' table with the fetched bp_id
+                        $con->query("UPDATE machines SET bp_id = '$bpId' WHERE machine_id = '$lastMachineId'");
+                    }
         }
 
-        // Check if "rent" is in the array
-        if (in_array("rent", $_POST["action"])) {
-            // Process rent action
-            $farePerHour = $_POST["farePerHour"];
-            $farePerDay = $_POST["farePerDay"];
-            
-            // Insert into 'rent_machines' table with foreign key reference
-            $sqlRent = "INSERT INTO rent_product (rp_id, fare_per_hour, fare_per_day) VALUES ('$lastMachineId', '$farePerHour', '$farePerDay')";
-            
-            if ($con->query($sqlRent) !== TRUE) {
-                echo "Error inserting into rent_machines: " . $con->error;
-            }
+                    // Check if "rent" is in the array
+                    if (in_array("rent", $_POST["action"])) {
+                        // Process rent action
+                        $farePerHour = $_POST["farePerHour"];
+                        $farePerDay = $_POST["farePerDay"];
+                        echo $farePerDay;
+                        // Insert into 'rent_machines' table with foreign key reference
+                        $sqlRent = "INSERT INTO rent_product (rp_id, fare_per_hour, fare_per_day) VALUES ('$lastMachineId', '$farePerHour', '$farePerDay')";
+                        
+                        if ($con->query($sqlRent) !== TRUE) {
+                            echo "Error inserting into rent_machines: " . $con->error;
+                        }
+                        else{
+                        // Get the last inserted rp_id and update 'machines' table
+                        $rpIdResult = $con->query("SELECT LAST_INSERT_ID() AS rp_id");
+                        if ($rpIdResult->num_rows > 0) {
+                            $rpRow = $rpIdResult->fetch_assoc();
+                            $rpId = $rpRow["rp_id"];
 
-            // Get the last inserted rp_id and update 'machines' table
-            $rpIdResult = $con->query("SELECT LAST_INSERT_ID() AS rp_id");
-            if ($rpIdResult->num_rows > 0) {
-                $rpRow = $rpIdResult->fetch_assoc();
-                $rpId = $rpRow["rp_id"];
+                            // Update 'machines' table with the fetched rp_id
+                            $con->query("UPDATE machines SET rp_id = '$rpId' WHERE machine_id = '$lastMachineId'");
+                        }
+                    }}
 
-                // Update 'machines' table with the fetched rp_id
-                $con->query("UPDATE machines SET rp_id = '$rpId' WHERE machine_id = '$lastMachineId'");
-            }
-        }
-
-        echo "<script>alert('Inserted successfully');</script>";
-    } else {
-        echo "Error: No action selected";
-    }
-         }
-            }
-        }
+                    echo "<script>alert('Inserted successfully');</script>";
+                } else {
+                    echo "<script>alert('No action selected');</script>";
+                }
+                    }
+                        }
+                    }
 
     }
 }
@@ -238,9 +248,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="category">Category:</label>
         <select id="category" name="category" required>
             <option value="" disabled selected>Select category</option>
-            <option value="tractor">Tractor</option>
+            <option value="tractor">Brush Cutter</option>
             <option value="sprayer">Sprayer</option>
             <option value="pumpset">Pumpset</option>
+            <option value="pumpset">Weeder</option>
         </select><br>
 
 
@@ -250,7 +261,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="capacity">Capacity(in litre):</label>
         <input type="number" step="any" id="capacity" name="capacity"><br>
 
-        <label for="quantity">Quantity:</label>
+        <label for="quantity">Quantity(in numbers):</label>
         <input type="number" id="quantity" name="quantity" required><br>
 
        
@@ -265,21 +276,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div id="buyFields" style="display: none;">
-            <label for="productPrice">Product Price:</label>
+            <label for="productPrice">Product Price(INR):</label>
             <input type="number" step="any" id="productPrice" name="productPrice" required oninput="calculateSalesPrice()"><br>
 
             <label for="discount">Discount (%):</label>
             <input type="number" step="any" id="discount" name="discount" oninput="calculateSalesPrice()"><br>
 
-            <label for="salesPrice">Sales Price:</label>
+            <label for="salesPrice">Sales Price(INR):</label>
             <input type="number" step="any" id="salesPrice" name="salesPrice" readonly><br>
         </div>
 
         <div id="rentFields" style="display: none;">
-            <label for="farePerHour">Fare Per Hour:</label>
+            <label for="farePerHour">Fare Per Hour(INR):</label>
             <input type="number" step="any" id="farePerHour" name="farePerHour"><br>
 
-            <label for="farePerDay">Fare Per Day:</label>
+            <label for="farePerDay">Fare Per Day(INR):</label>
             <input type="number" step="any" id="farePerDay" name="farePerDay"><br>
         </div>
 

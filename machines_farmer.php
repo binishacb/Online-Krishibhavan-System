@@ -55,7 +55,7 @@ if (!isset($_SESSION['useremail'])) {
 
         .discount {
             font-size: 18px;
-            color: #e44d26; /* Your desired color for discount text */
+            color: #e44d26; 
         }
 
         .actual-price {
@@ -79,14 +79,15 @@ include('navbar/navbar_admin.php');
 <div class="machine-container">
     <?php
     // Retrieve machines data from the database for those in stock
-    $sql = "SELECT m.machine_name, m.machine_image,bp.product_price,bp.discount,bp.sales_price FROM machines m INNER JOIN buy_product bp on m.bp_id = bp.bp_id  ";
+    $sql = "SELECT m.machine_id,m.machine_name, m.machine_image,bp.product_price,bp.discount,bp.sales_price FROM machines m INNER JOIN buy_product bp on m.bp_id = bp.bp_id  ";
     // WHERE stock > 0";
     $result = $con->query($sql);
 
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             echo "<div class='machine-card'>
-                    <img src='uploads/{$row['machine_image']}' alt='{$row['machine_name']}' style='max-width: 100%;'>
+                    <a href='machine_details.php?machine_id={$row['machine_id']}'>
+                    <img src='uploads/{$row['machine_image']}' alt='{$row['machine_name']}' style='max-width: 100%;'></a>
                     <h3>{$row['machine_name']}</h3>
                     <div class='price-container'>
                     <div class='discount'>-{$row['discount']}%</div> 

@@ -1,19 +1,7 @@
-<!--
-// Start or resume the session
-session_start();
-
-// Destroy the session
-session_destroy();
-
-// Redirect the user to the login page or another location
-header("Location: login.php"); // Replace "login.php" with the desired page URL
-exit();
-?>
--->
 
 <?php
 	session_start();
-		$_SESSION['logged_in'] = false;
+	$_SESSION['logged_in'] = false;
 	session_unset();
 	session_destroy();
 ?>

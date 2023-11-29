@@ -76,9 +76,10 @@ $sql = "SELECT machines.*, machines.machine_id,machine_type.type_name, buy_produ
         FROM machines 
         LEFT JOIN machine_type ON machines.type_id = machine_type.type_id
         LEFT JOIN buy_product ON machines.bp_id = buy_product.bp_id
-        LEFT JOIN rent_product ON machines.rp_id = rent_product.rp_id";
+        LEFT JOIN rent_product ON machines.rp_id = rent_product.rp_id  WHERE machines.quantity > 0";
 
 $result = $con->query($sql);
+
 
 if ($result->num_rows > 0) {
     echo "<table>

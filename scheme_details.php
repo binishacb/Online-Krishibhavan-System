@@ -22,12 +22,13 @@ if (isset($_GET['scheme_id'])) {
         $eligibility = $row['eligibility'];
         $start_date = $row['start_date'];
         $end_date = $row['end_date'];
-    } else {
-        // Handle the case where the scheme with the provided ID doesn't exist
+    } 
+    else {
         echo "Scheme not found.";
         exit();
     }
-} else {
+} 
+else {
     // Handle the case where no scheme ID is provided
     echo "Scheme ID not provided.";
     exit();
@@ -89,6 +90,7 @@ if (isset($_GET['scheme_id'])) {
             border-radius: 5px;
             cursor: pointer;
         }
+
     </style>
 </head>
 <body>
@@ -125,13 +127,73 @@ include('navbar/navbar_officer.php');
             </tr>
         </table>
         <div class="apply-button-container">
-            <button class="apply-button">Apply</button>
+        <button class="apply-button" data-toggle="modal" data-target="#eligibilityModal">Apply</button>
         </div>
     </div>
 
-<?php
-include('footer/footer.php');
-?>
+
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="eligibilityModal" tabindex="-1" role="dialog" aria-labelledby="eligibilityModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eligibilityModalLabel">Check Eligibility</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Display the eligibility criteria specific to the selected scheme -->
+             
+                <!-- Add eligibility options specific to the "Weather Based Crop Insurance" scheme -->
+                <p>Eligibility Criteria:</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="landCriteria">
+                    <label class="form-check-label" for="landCriteria">
+                        Farmer has at least 50 cents of land
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="cropCriteria">
+                    <label class="form-check-label" for="cropCriteria">
+                        Crop should be Paddy
+                    </label>
+                </div>
+                <!-- Add more options as needed -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- Add a button to perform the eligibility check -->
+                <button type="button" class="btn btn-primary" onclick="performEligibilityCheck()">Check Eligibility</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php include('footer/footer.php'); ?>
+
+<!-- Add Bootstrap JS and jQuery scripts at the end of the body -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function performEligibilityCheck() {
+      var landCriteria = document.getElementById("landCriteria").checked;
+        var cropCriteria = document.getElementById("cropCriteria").checked;
+
+        // Check if both conditions are true
+        if (landCriteria && cropCriteria) {
+            alert("Eligibility checked successfully! You are eligible to apply for the scheme.");
+        } else {
+            alert("You are not eligible to apply for the scheme. Please check the eligibility criteria.");
+        }
+       
+    }
+</script>
 
 </body>
 </html>
+
+
