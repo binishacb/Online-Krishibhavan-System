@@ -79,7 +79,7 @@ include('navbar/navbar_admin.php');
 <div class="machine-container">
     <?php
     // Retrieve machines data from the database for those in stock
-    $sql = "SELECT m.machine_id,m.machine_name, m.machine_image,bp.product_price,bp.discount,bp.sales_price FROM machines m INNER JOIN buy_product bp on m.bp_id = bp.bp_id  ";
+    $sql = "SELECT m.machine_id,m.machine_name, m.machine_image,bp.product_price,bp.discount,bp.sales_price FROM machines m INNER JOIN buy_product bp on m.bp_id = bp.bp_id WHERE m.quantity > 0 ";
     // WHERE stock > 0";
     $result = $con->query($sql);
 

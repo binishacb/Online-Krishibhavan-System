@@ -30,16 +30,16 @@ if (!isset($_SESSION['useremail'])) {
     <br>
     <div class="container">
         <div class="card">
-            <h5 class="card-header">Welcome, <?php
+            <h5 class="card-header">Welcome <?php
                 if (isset($_SESSION['useremail'])) {
                     echo '' . $_SESSION['useremail'];
                 }
                 ?></h5>
-            <div class="card-body">
+            <!-- <div class="card-body">
                 <h5 class="card-title">Find More</h5>
                 <p class="card-text">Explore the Website</p>
                 <a href="#" class="btn btn-primary">Explore</a>
-            </div>
+            </div> -->
         </div>
 
         <!-- Additional Bootstrap elements for the officer's dashboard -->
@@ -48,19 +48,19 @@ if (!isset($_SESSION['useremail'])) {
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Tasks</h5>
-                        <p class="card-text">Manage your tasks here.</p>
-                        <a href="#" class="btn btn-success">View Tasks</a>
+                        <p class="card-text">Details of the schemes </p>
+                        <a href="#" class="btn btn-success">View schemes details</a>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-body">
+                    <!-- <div class="card-body">
                         <h5 class="card-title">Reports</h5>
                         <p class="card-text">Access and generate reports.</p>
                         <a href="#" class="btn btn-info">View Reports</a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

@@ -143,7 +143,7 @@ $con->close();
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="submit" name="submit" class="btn btn-primary">Login</button>
+                                    <button type="submit"id="submit" name="submit" class="btn btn-primary">Login</button>
                                 </div>
                             </form>
                             <p class="text-center">Don't have an account? <a href="registration.php">Register</a></p>

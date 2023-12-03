@@ -20,7 +20,13 @@ if (!isset($_SESSION['useremail'])) {
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         margin-bottom: 20px;
     }
-
+    .scheme-box .btn-more-details {
+    position: absolute;
+    bottom: 18px; /* Adjust the bottom position as needed */
+    left: 50%; /* Center the button horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+    background-color: green;
+}
     .scheme-box a {
         margin-top: 10px;
         padding: 5px 10px;
@@ -32,8 +38,19 @@ if (!isset($_SESSION['useremail'])) {
 <body>
     <?php
     include('navbar/navbar_farmer.php');
+    echo '<br><br><br><br>';
+    $farmer_email = $_SESSION['useremail'];
+    $getFarmerIdQuery ="SELECT farmer.farmer_id FROM farmer JOIN login ON farmer.log_id = login.log_id WHERE login.email = '$farmer_email'";
+    $getFarmerIdResult = $con->query($getFarmerIdQuery);
 
-    $sql = "SELECT scheme_id, scheme_name, acres, crop, end_date FROM schemes ";
+    // Check if farmer_id exists
+    if ($getFarmerIdResult->num_rows > 0) {
+        $rowFarmerId = $getFarmerIdResult->fetch_assoc();
+        $farmer_id = $rowFarmerId['farmer_id'];
+
+
+
+    $sql = "SELECT scheme_id, scheme_name, acres, crop, end_date FROM schemes  WHERE end_date >= CURDATE()"; 
     $result = $con->query($sql);
 
     // Check if there are schemes to display
@@ -45,38 +62,45 @@ if (!isset($_SESSION['useremail'])) {
             $acres = $row['acres'];
             $crop = $row['crop'];
             $endDate = strtotime($row['end_date']);
-
+            
             // Calculate the difference in days between the current date and the end date
             $currentDate = time();
             $daysUntilEndDate = round(($endDate - $currentDate) / (60 * 60 * 24));
 
             // Check if the end date is nearly 5 days away
             $endDateColor = ($daysUntilEndDate <= 5) ? 'style="color: red;"' : '';
+           
 
             // Check if crop and acres exist in the farmers_crops table
-            $cropExistsQuery = "SELECT * FROM farmers_crops WHERE farmer_email = '{$_SESSION['useremail']}' AND acres >= $acres AND crop = '$crop'";
+            $cropExistsQuery = "SELECT * FROM farmers_crops WHERE farmer_email = '$farmer_email' AND acres >= $acres AND crop = '$crop'";
             $cropExistsResult = $con->query($cropExistsQuery);
-
+            
             echo '<div class="col-md-4">';
             echo '<div class="card scheme-box">';
             echo '<div class="card-body">';
             echo '<h5 class="card-title">' . $schemeName . '</h5>';
             echo '<p class="card-text" ' . $endDateColor . '>End Date: ' . date('Y-m-d', $endDate) . '</p>';
-
+            echo '<a href="scheme_details.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-secondary btn-more-details">More Details</a>';
             // Check if the scheme is still active
             if ($row['end_date'] >= date('Y-m-d')) {
                 if ($cropExistsResult->num_rows > 0) {
                     // Crop and acres exist, display the "Apply" button
-                    echo '<a href="scheme_details.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-primary">Apply</a>';
+                    echo '<a href="?scheme_id=' . urlencode($schemeID) . '&eligible=1" class="btn btn-primary">Apply</a>';
+                    
                 } else {
                     // Crop and acres do not exist, display a disabled button
                     echo '<button class="btn btn-secondary" disabled>Not Eligible</button>';
+                    //echo '<a href="scheme_details.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-secondary btn-more-details">More Details</a>';
                 }
 
                 if ($daysUntilEndDate <= 5) {
                     echo '<span class="badge badge-danger">Expires Soon</span>';
                 }
-            } else {
+      
+
+
+            } 
+            else {
                 echo '<button class="btn btn-secondary" disabled>Expired</button>';
             }
 
@@ -85,10 +109,18 @@ if (!isset($_SESSION['useremail'])) {
             echo '</div>';
         }
         echo '</div></div>'; // Close the row and container
-    } else {
+    } 
+    else {
         echo '<div class="container"><div class="alert alert-info" role="alert">No schemes to display.</div></div>';
     }
-
+}
+    else {
+        // Handle error if farmer_id is not found
+        echo '<div class="container"><div class="alert alert-danger" role="alert">Error: Farmer ID not found.</div></div>';
+    }
+?>
+<br><br><br><br><br><br>
+<?php
     // Close the database connection
     $con->close();
 

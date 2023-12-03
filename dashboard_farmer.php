@@ -43,7 +43,7 @@ if (!isset($_SESSION['useremail'])) {
                     <div class="card-body">
                         <h5 class="card-title">Crop Information</h5>
                         <p class="card-text">Learn about different crops, their cultivation, and best practices.</p>
-                        <a href="#" class="btn btn-success">Explore Crops</a>
+                        <a href="farmer_add_crop.php" class="btn btn-success">Explore Crops</a>
                     </div>
                 </div>
             </div>

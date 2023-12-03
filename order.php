@@ -1,4 +1,5 @@
 <?php 
+session_start();
 include('dbconnection.php');
 $pid=$_GET['machine_id'];
 ?>
@@ -30,6 +31,9 @@ $pid=$_GET['machine_id'];
     </style>
 </head>
 <body>
+<?php 
+include('navbar/navbar_farmer.php'); 
+?>
 
 <div class="container mt-3">
 <div class="row">
@@ -41,24 +45,20 @@ $row=mysqli_fetch_array($result);
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $name = $_POST['name'];
+ 
   $address = $_POST['address'];
-  $phone = $_POST['phone'];
-  $pin = $_POST['pin'];
-  $district = $_POST['district'];
-  $place = $_POST['place'];
 
-echo $name;
+
+
   // Insert data into the shipping_address table
-  $order_query = "INSERT INTO shipping_address (name, address, phone_number, pin_code, district, place) VALUES ('$name', '$address', '$phone', '$pin', '$district', '$place')";
+  $order_query = "INSERT INTO shipping_address (address) VALUES ('$address')";
   $order_query_run = mysqli_query($con, $order_query);
 
   $order_id= mysqli_insert_id($con);
-  echo($order_id);
-
 if($order_query_run){
   echo "<script>alert('order placed successfully');</script>";
-  header("Location: buy.php?order_id=$order_id&machine_id=$pid");
+  // header("Location: buy.php?order_id=$order_id&machine_id=$pid");
+  echo "<script>window.location.href='buy.php?order_id=$order_id&machine_id=$pid';</script>";
   exit();
 }
 else{
@@ -82,7 +82,7 @@ else{
                         </tr>
                         <tr>
                             <th>Total Price: </th>
-                            <td><?php echo $row['sales_price']?></td>
+                            <td>M.R.P.: ₹<?php echo $row['sales_price']?></td>
 
                         </tr>
 
@@ -92,7 +92,11 @@ else{
                     <h4>Enter your details</h4>
                     <form action="" method="POST" accept-charset="utf-8">
                       <div class="form-group">
-                        <label for="name">Name:</label>
+                      <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="textbox" id="address" name="address" class="form-control" placeholder="Enter your address" required>
+                      </div>
+                        <!-- <label for="name">Name:</label>
                         <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
                       </div>
                       <div class="form-group">
@@ -114,7 +118,7 @@ else{
                       <div class="form-group">
                         <label for="place">Place:</label>
                         <input type="text" id="place" name="place" class="form-control" placeholder="Enter your place" required>
-                      </div>
+                      </div> -->
                       <button type="submit" name="submit" class="btn btn-primary">Place order</button>
                     </form>
                     

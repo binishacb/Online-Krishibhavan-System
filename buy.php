@@ -2,8 +2,6 @@
 session_start();
 include('dbconnection.php');
 
-
-
 if (isset($_SESSION['useremail'])) {
     $farmer_email = $_SESSION['useremail'];
 } else {
@@ -15,10 +13,6 @@ $farmer="SELECT farmer.farmer_id FROM farmer JOIN login ON farmer.log_id = login
 $result=mysqli_query($con,$farmer);
 $row=$result->fetch_assoc();
 $farmer_id=$row['farmer_id'];
-
-
-
-
 $pid = $_GET['machine_id'];
 $sql = "SELECT * from machines m INNER JOIN buy_product bp on m.bp_id=bp.bp_id WHERE machine_id=$pid";
 $sql_result = mysqli_query($con, $sql);
@@ -38,8 +32,11 @@ if (isset($_GET['order_id'])) {
 
     if ($result && $row = mysqli_fetch_assoc($result)) {
         // Display order details
-        $fullAddress = $row['name'] . ', ' . $row['address'] . ', <br>phone:' . $row['phone_number'] . ', <br>Pin Code: ' . $row['pin_code'] . ', <br>District: ' . $row['district'] . ', <br>Place: ' . $row['place'];
-        ?>
+      //  $fullAddress = $row['name'] . ', ' . $row['address'] . ', <br>phone:' . $row['phone_number'] . ', <br>Pin Code: ' . $row['pin_code'] . ', <br>District: ' . $row['district'] . ', <br>Place: ' . $row['place'];
+      $fullAddress = $row['address'];
+
+      
+       ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,7 +77,7 @@ if (isset($_GET['order_id'])) {
 </head>
 
 <body>
-
+  <?php include('navbar/navbar_farmer.php'); ?>
     <div class="container mt-3">
         <h2 class="text-center p-2 text-primary">Order Details</h2>
         <div class="row justify-content-center">
@@ -119,7 +116,7 @@ function pay_now(button) {
     var productid = $(button).data('productid');
     var productname = $(button).data('productname');
     var farmer_id = $(button).data('farmer_id');
-    var name = "Binisha";
+    var name = "Agrocompanion";
     var actual_amount = 100 * amount;
 
     var options = {
@@ -163,10 +160,6 @@ function pay_now(button) {
     }
 }
 </script>
-
-
-
-
 
 </html>
 <?php
