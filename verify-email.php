@@ -51,9 +51,3 @@ if(isset($_GET['token']))
        window.location = 'login.php';</script>";
     }
 }
-/*
-else{
-    $_SESSION['status'] = "Not allowed";
-    header("Location: login.php");
-}*/
-?>

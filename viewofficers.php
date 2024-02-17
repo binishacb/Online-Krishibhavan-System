@@ -103,15 +103,15 @@ include('navbar/navbar_admin.php');
 		<th>First Name</th>
 		<th>Last Name</th>
 		<th>Email</th>
-	
+		<th>Designation</th>
 		<th>Mobile</th>
 		<th>Status</th>
-		<!--<th>Action</th> -->
+	
 	</tr>
 	</thead>
 	<tbody>	
 		<?php
-		$sql = "SELECT o.log_id, o.firstname,o.lastname, l.email, o.phone_no ,o.status FROM officer AS o INNER JOIN login AS l ON o.log_id = l.log_id";
+		$sql = "SELECT o.log_id, o.firstname,o.lastname, l.email,d.designation_name, o.phone_no ,o.status FROM officer AS o INNER JOIN login AS l ON o.log_id = l.log_id  INNER JOIN designation AS d ON o.designation_id = d.designation_id";
 		//execute the query
 		$result = $con->query($sql);
 			if ($result->num_rows > 0) {
@@ -128,6 +128,8 @@ include('navbar/navbar_admin.php');
 					<td><?php echo $row['lastname']; ?></td>
 					
 					<td><?php echo $row['email']; ?></td>
+
+					<td><?php echo $row['designation_name'];?></td>
 					
 					<td><?php echo $row['phone_no']; ?></td>
 					

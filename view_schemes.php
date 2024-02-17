@@ -84,8 +84,9 @@ if (!isset($_SESSION['useremail'])) {
             // Check if the scheme is still active
             if ($row['end_date'] >= date('Y-m-d')) {
                 if ($cropExistsResult->num_rows > 0) {
+                    
                     // Crop and acres exist, display the "Apply" button
-                    echo '<a href="?scheme_id=' . urlencode($schemeID) . '&eligible=1" class="btn btn-primary">Apply</a>';
+                    echo '<a href="apply_scheme.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-primary">Apply</a>';
                     
                 } else {
                     // Crop and acres do not exist, display a disabled button
@@ -119,7 +120,7 @@ if (!isset($_SESSION['useremail'])) {
         echo '<div class="container"><div class="alert alert-danger" role="alert">Error: Farmer ID not found.</div></div>';
     }
 ?>
-<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br>
 <?php
     // Close the database connection
     $con->close();

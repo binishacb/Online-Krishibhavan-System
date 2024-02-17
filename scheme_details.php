@@ -163,7 +163,7 @@ if ($schemeDetailsResult->num_rows > 0) {
             // Crop and acres exist, display the "Apply" button
             ?>
             <div class="apply-button-container"><?php
-            echo '<a href="?scheme_id=' . urlencode($schemeID) . '" class="btn btn-primary">Apply</a>';
+           // echo '<a href="?scheme_id=' . urlencode($schemeID) . '" class="btn btn-primary">Apply</a>';
         } else {
             // Crop and acres do not exist, display a disabled button
             ?><center><?php

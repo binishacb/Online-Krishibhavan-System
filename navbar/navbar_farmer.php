@@ -83,7 +83,7 @@
         </button>
         <a href="dashboard_farmer.php"><i class="fas fa-home"></i> Home</a>
         <a href="profile_farmer.php"><i class="fas fa-user"></i> Profile</a>
-        <a href="editprofile_farmer.php"><i class="fas fa-user-plus"></i>Edit profile</a>
+        <!-- <a href="editprofile_farmer.php" id="edit_profile"><i class="fas fa-user-plus"></i>Edit profile</a> -->
 
         <a href="#"><i class="fas fa-newspaper"></i> News</a>
         <a href="farmer_add_crop.php"><i class="fas fa-leaf"></i> Crops</a>

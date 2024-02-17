@@ -8,8 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the user is a client
     $sql_user = "SELECT * FROM login WHERE email='$email' AND password='$hashed_password'";
     $result_user = $con->query($sql_user);
-    //echo $sql_user;
-//echo $password;
+  
     if (!$result_user) {
         die("SQL query failed: " . $con->error);
     }
@@ -17,11 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //echo "haiiii";
         $user_row = $result_user->fetch_assoc();
         $role_id = $user_row['role_id'];
-        $verification_status = $user_row['verify_status']; // Assuming this is the name of the verification status column in your table
+        $verification_status = $user_row['verify_status'];
         if ($role_id == 2) {
             if ($verification_status == 1) {
             // Farmer login
             $_SESSION['useremail'] = $email ;
+            $_SESSION['usertype'] = 'farmer' ;
             echo "<script>alert('Farmer login successful.')</script>";
             // header('Location: dashboard_farmer.php');
             header('Location: splashpage.php');
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ($role_id == 1) {
             // Admin login
             $_SESSION['useremail'] = $email ;
-        
+            $_SESSION['usertype'] = 'admin' ;
             echo "<script>alert('Admin login successful.')</script>";
             header('Location: dashboard_admin.php');
             exit();
@@ -43,10 +43,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         elseif ($role_id == 3) {
                 //echo "SQL Query: $sql_user";
                 $_SESSION['useremail'] = $email ;
+                $_SESSION['usertype'] = 'officer' ;
                 echo "<script>alert('officer login successful.')</script>";
                header('Location:dashboard_officer.php');
                 exit();
         }
+        elseif ($role_id == 4) {
+            $sql_vendor = "SELECT v.status, l.* FROM vendor AS v INNER JOIN login AS l ON l.log_id = v.log_id WHERE l.email = '$email' AND l.password = '$hashed_password'";
+            $result_vendor = $con->query($sql_vendor);
+        
+            if (!$result_vendor) {
+                die("SQL query failed: " . $con->error);
+            }
+        
+            if ($result_vendor->num_rows > 0) {
+                $vendor_row = $result_vendor->fetch_assoc();
+                $approval_status = $vendor_row['status'];
+        
+                if ($approval_status == 1) {
+                    // Vendor login
+                    $_SESSION['useremail'] = $email;
+                    $_SESSION['usertype'] = 'vendor';
+                    echo "<script>alert('Vendor login successful.')</script>";
+                    header('Location: ./vendor_details/dashboard_vendor.php');
+                    exit();
+                } else {
+                    // Application not approved
+                    echo "<script>alert('Application is not approved. Check your mail...')</script>";
+                    header('Location: login.php');
+                    exit();
+                }
+            } else {
+                // Incorrect email or password
+                echo "<script>alert('Incorrect email or password.')</script>";
+            }
+        }
+        
         
 
     } else {
@@ -67,7 +99,7 @@ $con->close();
                                 }
                             </script>
   </div>
-                            -->
+-->
 
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -219,9 +251,10 @@ $con->close();
             return isEmailValid && isPasswordValid;
         }
         </script>
+        <br><br>  <br>
         <br>
         <br>
-        <br>
+        
         <?php
         include('footer/footer.php')
         ?>

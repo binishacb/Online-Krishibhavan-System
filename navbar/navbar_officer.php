@@ -87,7 +87,7 @@
 
         <a href="#"><i class="fas fa-newspaper"></i> News</a>
         <a href="#"><i class="fas fa-leaf"></i> Crops</a>
-        <a href="addschemes.php"><i class="fas fa-landmark"></i>Add Govt. Schemes</a>
+        <!-- <a href="addschemes.php"><i class="fas fa-landmark"></i>Add Govt. Schemes</a> -->
         <a href="view_schemes.php"><i class="fas fa-landmark"></i>View Schemes</a>
     </nav>
 

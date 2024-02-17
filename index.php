@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('dbconnection.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +10,42 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agrocompanion : Home</title>
     <link rel="stylesheet" href="css/landingpage.css">
+    <style>
+      
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+  
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+}
+
+.dropdown-menu li {
+    padding: 10px;
+    
+}
+
+.dropdown-menu li:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu a {
+    text-decoration: none;
+   
+    display: block;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+</style>
 
 </head>
 
@@ -27,7 +64,14 @@ session_start();
                 <li><a href="#services" class="menu-btn">Services</a></li>
                 <li><a href="#market" class="menu-btn">Market</a></li>
                 <li><a href="#contact" class="menu-btn">Contact</a></li>
-                <li><a href="registration.php" class="menu-btn">Register</a></li>
+                <!-- <li><a href="registration.php" class="menu-btn">Register</a></li>  -->
+                <li class="dropdown">
+                <a class="menu-btn">Register <i class="fas fa-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="registration.php">Farmer</a></li>
+                    <li><a href="registration_vendor.php">Vendor</a></li>
+                </ul>
+            </li>
                 <li><a href="login.php" class="menu-btn">Login</a></li>
             </ul>
             <div class="menu-btn">
@@ -43,7 +87,7 @@ session_start();
                 <div class="home-content">
                     <div class="text-2" style="font-size:60px;">Your product Our market!!</div>
                     <div class="text-3">Change how you trade. </div>
-                    <a href="#">Get started</a>
+                    <!-- <a href="#">Get started</a> -->
                 </div>
             </div>
         </div>
@@ -87,7 +131,34 @@ session_start();
 
         </div>
     </section>
-
+<section class="usercount" id="count">
+    <div style="width: 200px; padding: 15px; background-color:green; border: 1px solid dark green; border-radius: 5px; font-size: 18px; font-weight: bold; color: #fff; margin:10px auto;  float:left; margin-left: 280px; "><?php
+        $farmer_count = "SELECT count(*) as user_count from login WHERE role_id='2'";
+        $res = $con->query($farmer_count);
+        if ($res->num_rows > 0) {
+            $row = $res->fetch_assoc();
+            $userCount = $row["user_count"];
+            echo "Number of farmers registered: " . $userCount;
+        } else {
+            echo "No users found.";
+        }
+        
+?>
+    </div>
+    <div style="width: 200px; padding: 17px; background-color: green; border: 1px solid dark green; border-radius: 5px; font-size: 18px; font-weight: bold; color: #fff; margin: 10px auto;  float:left; margin-left: 350px; "><?php
+    $scheme_count = "SELECT count(*) as scheme_count from schemes";
+    $result = $con->query($scheme_count);
+    if($result->num_rows>0)
+    {
+        $row=$result->fetch_assoc();
+        $scheme_count=$row['scheme_count'];
+        echo "Schemes registered :".$scheme_count;
+    }
+    else{
+        echo "No schemes registered";
+    }
+    ?></div>
+</section>
     <!-- services section start -->
     <section class="services" id="services">
         <div class="max-width">
@@ -123,7 +194,7 @@ session_start();
 
 
     <!-- skills section start -->
-    <section class="skills" id="skills">
+    <!-- <section class="skills" id="skills">
         <div class="max-width">
             <h2 class="title">Our Products</h2>
             <div class="skills-content">
@@ -166,7 +237,7 @@ session_start();
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- teams section start 
     <section class="teams" id="teams">

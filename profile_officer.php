@@ -108,7 +108,7 @@ include('navbar/navbar_officer.php');
 ?>
  <div class="container">
         <div class="profile-container">
-        <a href="editprofile_officer.php" class="edit-button">Edit Profile</a>
+        <a href="editprofile_officer.php" id="edit-button" class="edit-button">Edit Profile</a>
         <a href="changepassword_officer.php" class ="change-password-button">Change password</a>
             <?php
 // Check if the farmer is logged in and their ID is stored in the session

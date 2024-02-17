@@ -173,7 +173,7 @@ if (isset($_POST['submit'])) {
         $insertSQL = "INSERT INTO schemes (scheme_name, scheme_description, eligibility,acres,crop, start_date, end_date) VALUES ('$SchemeName', '$description', '$eligibility','$acres','$crop', '$newSchemeStartDate', '$newSchemeEndDate')";
         
         if ($con->query($insertSQL) == TRUE) {
-            echo "<script>alert('New scheme added successfully'); </script>";
+            echo "<script>alert('New scheme added successfully');</script>";
         } else {
             echo "<script>alert('Error: . $insertSQL . <br> . $con->error');</script>";
         }

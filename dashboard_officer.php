@@ -2,9 +2,9 @@
 <?php
 session_start();
 include('dbconnection.php');
-if (!isset($_SESSION['useremail'])) {
-    header('Location: index.php'); // Redirect to index.php
-    exit(); // Stop further execution of the current script
+if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'officer') {
+    header('Location: index.php'); 
+    exit();
 }
 ?>
 <html>
@@ -16,9 +16,9 @@ if (!isset($_SESSION['useremail'])) {
     <!-- Link to Bootstrap CSS (you may have already linked it in your project) -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <!-- Add your custom CSS styles here -->
+   
     <style>
-    /* Add custom CSS styles for this page if needed */
+    
     </style>
 </head>
 
@@ -49,7 +49,12 @@ if (!isset($_SESSION['useremail'])) {
                     <div class="card-body">
                         <h5 class="card-title">Tasks</h5>
                         <p class="card-text">Details of the schemes </p>
-                        <a href="#" class="btn btn-success">View schemes details</a>
+                        <a href="scheme_verification.php" id = "addScheme" class="btn btn-success">View schemes details</a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Tasks</h5>
+                        <p class="card-text">Details of the schemes </p>
+                        <a href="addschemes.php" class="btn btn-success">Add schemes </a>
                     </div>
                 </div>
             </div>

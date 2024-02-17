@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <?php
 include('dbconnection.php');
-session_start();
-if (!isset($_SESSION['useremail'])) {
+session_start(); // Make sure to start the session before using $_SESSION
+
+// Check if the 'usertype' session variable is set and its value is 'farmer'
+if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
     header('Location: index.php'); // Redirect to index.php
     exit(); // Stop further execution of the current script
 }
@@ -71,7 +73,9 @@ if (!isset($_SESSION['useremail'])) {
             </div>
         </div>
     </div>
-
+<?php
+include('footer/footer.php');
+?>
 </body>
 
 </html>

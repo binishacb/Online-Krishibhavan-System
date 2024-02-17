@@ -125,21 +125,21 @@
             <form method="POST">
                 <div class="profile-details">
                     <label for="new_name">First Name:</label>
-                    <input type="text" name="new_firstname" value="<?php echo $firstname; ?>">
+                    <input type="text" name="new_firstname" id="new_firstname" value="<?php echo $firstname; ?>">
                 </div>
                 <div class="profile-details">
                     <label for="new_name">Last Name:</label>
-                    <input type="text" name="new_lastname" value="<?php echo $lastname; ?>">
+                    <input type="text" name="new_lastname" id="new_lastname" value="<?php echo $lastname; ?>">
                 </div>
                 <div class="profile-details">
                     <label for="new_phone">Phone Number:</label>
-                    <input type="text" name="new_phone" value="<?php echo $phone_no; ?>">
+                    <input type="text" name="new_phone" id="new_phone" value="<?php echo $phone_no; ?>">
                 </div>
                 <div class="profile-details">
                     <label for="new_dob">Date of Birth:</label>
-                    <input type="text" name="new_dob" value="<?php echo $dob; ?>">
+                    <input type="text" name="new_dob" id="new_dob" value="<?php echo $dob; ?>">
                 </div>
-                <button type="submit" class="edit-button">Save Changes</button>
+                <button type="submit" name="update" id="update" class="edit-button">Save Changes</button>
             </form>
         </div>
     </div><br><br><br><br><br><br><br><br><br>

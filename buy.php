@@ -95,7 +95,7 @@ if (isset($_GET['order_id'])) {
             </div>
             <div class="col-md-10 mb-5">
                 <button id="rzp-button1" onclick="pay_now(this)" data-farmer_id="<?php echo $farmer_id ?>"
-                    data-productid="<?php echo $data['machine_id']; ?>"
+                    data-productid="<?php echo $data['machine_id']; ?>"  data-orderid="<?php echo $row['order_id']; ?>"
                     data-productname="<?php echo $data['machine_name']; ?>"
                     data-amount="<?php echo $data['sales_price']; ?>" class="btn btn-primary buynow">
                     Buy Now
@@ -116,9 +116,10 @@ function pay_now(button) {
     var productid = $(button).data('productid');
     var productname = $(button).data('productname');
     var farmer_id = $(button).data('farmer_id');
+    var orderid =  $(button).data('order_id');
     var name = "Agrocompanion";
     var actual_amount = 100 * amount;
-
+    
     var options = {
         "key": "rzp_test_aM3JBE4V3rZWsp",
         "amount": actual_amount,
@@ -136,12 +137,13 @@ function pay_now(button) {
                     'amount': actual_amount,
                     'name': name,
                     'product_id': productid,
-                    'farmer_id': farmer_id
+                    'farmer_id': farmer_id,
+                    'order_id':orderid
                 },
                 success: function(data) {
                     console.log(data);
-                    alert(response.razorpay_payment_id);
-                    window.location.href = 'payment_success.php';
+                    //alert(response.razorpay_payment_id);
+                    window.location.href = 'payment_success.php?order_id=<?php echo $order_id?>';
                 }
             });
         },

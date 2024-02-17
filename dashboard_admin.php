@@ -2,7 +2,7 @@
 // Start or resume the session
 session_start();
 include('dbconnection.php');
-if (!isset($_SESSION['useremail'])) {
+if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'admin') {
     header('Location: index.php'); // Redirect to index.php
     exit(); // Stop further execution of the current script
 }
@@ -119,19 +119,7 @@ if (!isset($_SESSION['useremail'])) {
             </div>
         </div>
 
-        <!-- <h3 class="mt-4">Agricultural Tips</h3>
-        <div class="card">
-            <img src="images/b3.jpg" class="card-img-top" alt="Agriculture Tips">
-            <div class="card-body">
-                <h5 class="card-title">Latest Agricultural Tips</h5>
-                <p class="card-text">Stay updated with the latest agricultural tips and news.</p>
-                <a href="#" class="btn btn-primary"></a>
-            </div>
-        </div> -->
-        <!-- <h3 class="mt-4">Admin Dashboard Overview</h3>
-        <p>This section provides an overview of the admin dashboard's main features and functionalities.</p> -->
-
-        <!-- Your additional content goes here -->
+    
     </div>
 
     <br>

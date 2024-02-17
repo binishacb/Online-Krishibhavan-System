@@ -5,4 +5,3 @@ $con = mysqli_connect("localhost","root","","krishibhavan");  //"" is password w
 {
     echo "connectionsuccessfull";
 }*/
-?>

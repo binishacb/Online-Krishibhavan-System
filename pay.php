@@ -1,14 +1,18 @@
 <?php
 include('dbconnection.php');
-if (isset($_POST['payment_id']) && isset($_POST['amount']) && isset($_POST['name']) && isset($_POST['farmer_id']) && isset($_POST['product_id'])) {
+
+if (isset($_POST['payment_id']) && isset($_POST['amount']) && isset($_POST['name']) && isset($_POST['farmer_id']) && isset($_POST['product_id']) && isset($_POST['order_id'])) {
     $paymentId = $_POST['payment_id'];
     $amount = $_POST['amount'];
     $name = $_POST['name'];
     $farmer_id =  $_POST['farmer_id'];
     $product_id =  $_POST['product_id'];
+    $order_id = $_POST['order_id'];
+
     // Check if the product is available in the required quantity
     $checkAvailability = "SELECT quantity FROM machines WHERE machine_id = $product_id";
     $availabilityResult = $con->query($checkAvailability);
+
     if ($availabilityResult->num_rows > 0) {
         $row = $availabilityResult->fetch_assoc();
         $currentQuantity = $row['quantity'];
@@ -24,12 +28,16 @@ if (isset($_POST['payment_id']) && isset($_POST['amount']) && isset($_POST['name
 
             // Insert data into the orders table with payment status as 'success'
             $paymentStatus = 'success'; // Assuming 'success' is the desired payment status
-            $sql = "INSERT INTO orders (machine_id, payment_id, farmer_id, amount, payment_status) VALUES ('$product_id', '$paymentId', '$farmer_id', '$amount',1)";
-            $stmt = $con->prepare($sql);
-            $stmt->execute();
-            // Redirect to a success page or do other post-purchase processing
-            // header("Location: payment_success.php");
-            echo "Purchase successful!";
+            $sql = "INSERT INTO orders (orderid, machine_id, payment_id, farmer_id, amount, payment_status) 
+                    VALUES ('$order_id', '$product_id', '$paymentId', '$farmer_id', '$amount', 1)";
+
+            if ($con->query($sql)) {
+                // Redirect to a success page or do other post-purchase processing
+                // header("Location: payment_success.php");
+                echo "Purchase successful!";
+            } else {
+                echo "Error: " . $con->error;
+            }
         } else {
             echo "Not enough quantity available.";
         }

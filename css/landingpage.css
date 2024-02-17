@@ -322,6 +322,8 @@ section .title::after{
 	font-family: 'Akaya Telivigala', cursive;
 }
 
+
+
 /* skills section styling */
 
 .skills .title::after{
@@ -562,7 +564,7 @@ section .title::after{
   color: #000;
   background: none;
 }
-/* footer section styling */
+/* footer section styling
 footer{
     background: #111;
     padding: 15px 23px;
@@ -576,7 +578,7 @@ footer span a{
 }
 footer span a:hover{
     text-decoration: underline;
-}
+} */
 
 
 /* responsive media query start */
@@ -705,3 +707,4 @@ footer span a:hover{
         line-height: 38px;
     }
 }
+

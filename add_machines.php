@@ -120,7 +120,7 @@ if (!isset($_SESSION['useremail'])) {
 </head>
 <body>
 <?php
-include('navbar/navbar_admin.php');
+include('./vendor_details/navbar_vendor.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $productName = $_POST["productName"];

@@ -185,18 +185,18 @@ if (isset($_POST['submit'])) {
                                 novalidate>
 
                                 <div class="form-group">
-    <label for="firstname">First Name:</label>
-    <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter your first name" oninput="validateFirstName(this.value)" required>
-    <div id="firstname-warning" class="invalid-feedback"></div>
-    <div id="firstname-error" class="invalid-feedback"></div>
-</div>
+                                    <label for="firstname">First Name:</label>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter your first name" oninput="validateFirstName(this.value)" required>
+                                    <div id="firstname-warning" class="invalid-feedback"></div>
+                                    <div id="firstname-error" class="invalid-feedback"></div>
+                                </div>
 
-<div class="form-group">
-    <label for="lastname">Last Name:</label>
-    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your last name" oninput="validateLastName(this.value)" required>
-    <div id="lastname-warning" class="invalid-feedback"></div>
-    <div id="lastname-error" class="invalid-feedback"></div>
-</div>
+                                <div class="form-group">
+                                    <label for="lastname">Last Name:</label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your last name" oninput="validateLastName(this.value)" required>
+                                    <div id="lastname-warning" class="invalid-feedback"></div>
+                                    <div id="lastname-error" class="invalid-feedback"></div>
+                                </div>
 
                                 <div class="form-group">
                                     <label for="email">Email:</label>
@@ -264,8 +264,8 @@ if (isset($_POST['submit'])) {
 
 
 
-        <script>
-        function validateFirstName(firstName) {
+    <script>
+    function validateFirstName(firstName) {
     // Get elements for first name validation
     const firstNameInput = document.getElementById('firstname');
     const firstNameWarning = document.getElementById('firstname-warning');

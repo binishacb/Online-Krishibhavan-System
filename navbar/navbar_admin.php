@@ -99,7 +99,8 @@
         <a href="viewofficers.php"><i class="fas fa-users"></i> Officers</a>
         <a href="#"><i class="fas fa-newspaper"></i> News</a>
         <a href="#"><i class="fas fa-leaf"></i> Crops</a>
-        <a href="add_machines.php"><i class="fas fa-landmark"></i>Add Equipments</a>
+        <!-- <a href="add_machines.php"><i class="fas fa-cogs"></i>Add Equipments</a> -->
+        <a href="add_krishibhavan.php"><i class="fas fa-landmark"></i>Add Krishibhavan</a>
     </nav>
 
     <!-- <nav class="navbar navbar-expand-lg navbar-light bg-dark horizontal-navbar"> -->
@@ -118,12 +119,12 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="dashboard_admin.php">Home</a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link text-white" href="#">About</a>
+               <li class="nav-item">
+                    <a class="nav-link text-white" href="./vendor_details/vendors.php">Vendors</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link text-white" href="#">Explore</a>
-                </li> -->
+                </li> --> 
 
 
                 <!-- <li class="nav-item dropdown">
