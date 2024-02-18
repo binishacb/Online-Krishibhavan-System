@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -29,7 +28,35 @@
             <i class="ti ti-x fs-8"></i>
           </div>
         </div>
+        
         <!-- Sidebar navigation-->
+
+     
+        <div class="container">
+  <div class="row">
+    <div class="col text-center">
+      <img src="/Binishaprg/src/assets/images/profile/user-1.jpg" class="img-fluid rounded-circle mb-3" alt="Profile Picture" 
+      style="width: 100px; height: 100px;">
+      <?php
+      // Make sure to start the session
+      if (isset($_SESSION['useremail'])) {
+        echo '<p>' . $_SESSION['useremail'] . '</p>';
+      }
+      ?>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          View
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="#">My Profile</a></li>
+          <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
           <ul id="sidebarnav">
             <li class="nav-small-cap">
@@ -103,33 +130,7 @@
               </a>
             </li> -->
           </ul>
-          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-             
-              <li class="nav-item dropdown">
-                
-                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <img src="/Binishaprg/src/assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
-                </a>
-                 <?php
-                        if (isset($_SESSION['useremail'])) {
-                            echo '' .$_SESSION['useremail'];
-                        }
-                        ?>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
-                  <div class="message-body">
-                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                      <i class="ti ti-user fs-6"></i>
-                      <p class="mb-0 fs-3">My Profile</p>
-                    </a>
-                   
-                    <a href="../logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
-                  </div>
-                </div> 
-              </li>
-            </ul>
-          </div>
+         
         </nav>
       </header>
   <script src="/Binishaprg/src/assets/libs/jquery/dist/jquery.min.js"></script>

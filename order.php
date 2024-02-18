@@ -8,6 +8,33 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
 }
 
 ?>
+    <?php 
+    
+    if (isset($_GET['machine_id']) && isset($_GET['m_quantity']) && isset($_GET['total_price'])) {
+      $machine_id = $_GET['machine_id'];
+      $quantity = $_GET['m_quantity'];
+      $total_price = $_GET['total_price'];
+      echo $total_price;
+      $sql = "SELECT * FROM machines m INNER JOIN buy_product bp ON m.bp_id = bp.bp_id WHERE machine_id = $machine_id"; 
+      $result = mysqli_query($con, $sql);
+      $row = mysqli_fetch_array($result);
+
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $address = $_POST['address'];
+        $order_query = "INSERT INTO shipping_address (order_id, address) VALUES ('$orderId', '$address')";
+        $order_query_run = mysqli_query($con, $order_query);
+
+        $order_id = mysqli_insert_id($con);
+        if ($order_query_run) {
+          echo "<script>alert('Order placed successfully');</script>";
+          echo "<script>window.location.href='buy.php?order_id=$order_id&machine_id=$machine_id';</script>";
+          exit();
+        } else {
+          echo "<script>alert('Order failed');</script>";
+        }
+      }
+    }
+    ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,33 +90,6 @@ include('navbar/navbar_farmer.php');
     $orderId = generateRandomString(9);
     ?>
 
-    <?php 
-    
-    if (isset($_GET['machine_id']) && isset($_GET['quantity']) && isset($_GET['total_price'])) {
-      $machine_id = $_GET['machine_id'];
-      $quantity = $_GET['quantity'];
-      $total_price = $_GET['total_price'];
-      echo $total_price;
-      $sql = "SELECT * FROM machines m INNER JOIN buy_product bp ON m.bp_id = bp.bp_id WHERE machine_id = $machine_id"; 
-      $result = mysqli_query($con, $sql);
-      $row = mysqli_fetch_array($result);
-
-      if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $address = $_POST['address'];
-        $order_query = "INSERT INTO shipping_address (order_id, address) VALUES ('$orderId', '$address')";
-        $order_query_run = mysqli_query($con, $order_query);
-
-        $order_id = mysqli_insert_id($con);
-        if ($order_query_run) {
-          echo "<script>alert('Order placed successfully');</script>";
-          echo "<script>window.location.href='buy.php?order_id=$order_id&machine_id=$machine_id';</script>";
-          exit();
-        } else {
-          echo "<script>alert('Order failed');</script>";
-        }
-      }
-    }
-    ?>
 
  <div class="container">
       <div class="row justify-content-center">

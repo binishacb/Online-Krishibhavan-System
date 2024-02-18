@@ -129,7 +129,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'vendor') {
                                             <?php else: ?>
                                                 <p><strong>User Log:</strong> <?php echo $row['userlog']; ?></p>
                                             <?php endif; ?>
-                                            <!-- You can add more fields as needed -->
+                                          
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

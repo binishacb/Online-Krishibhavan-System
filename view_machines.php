@@ -26,7 +26,7 @@ include('dbconnection.php');
                 FROM machines 
                 LEFT JOIN machine_type ON machines.type_id = machine_type.type_id
                 LEFT JOIN buy_product ON machines.bp_id = buy_product.bp_id
-                LEFT JOIN rent_product ON machines.rp_id = rent_product.rp_id  WHERE machines.quantity > 0";
+                LEFT JOIN rent_product ON machines.rp_id = rent_product.rp_id  WHERE machines.m_quantity > 0";
 
         $result = $con->query($sql);
 
@@ -58,7 +58,7 @@ include('dbconnection.php');
                         <td>{$row['type_name']}</td>
                        
                         <td>{$row['capacity']}</td>
-                        <td>{$row['quantity']}</td>
+                        <td>{$row['m_quantity']}</td>
                         <td>{$row['product_price']}</td>
                         <td>{$row['discount']}</td>
                         <td>{$row['sales_price']}</td>

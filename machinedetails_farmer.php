@@ -34,23 +34,32 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
             $row = $result->fetch_assoc();
             $availableQuantity = $row['m_quantity'];
             echo '<script>var availableQuantity = ' . json_encode($availableQuantity) . ';</script>';
-           
+    
             ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var addToCartButton = document.querySelector('.addToCartBtn');
-var salesPrice = parseFloat(addToCartButton.getAttribute('sales-price'));
+    var salesPrice = parseFloat(addToCartButton.getAttribute('sales-price'));
 
+    // Fetch available quantity from PHP
+    var availableQuantity = parseInt(<?php echo $row['m_quantity']; ?>);
+
+    // Set maximum quantity for the input field
     var quantityInput = document.getElementById('quantity');
-   // var salesPrice = parseFloat(addToCartButton.getAttribute('sales-price'));
+    quantityInput.max = availableQuantity;
+    var buyNowBtn = document.getElementById('buyNowBtn');
 
+quantityInput.addEventListener('input', function () {
+    buyNowBtn.href = 'order.php?machine_id=<?php echo $row['machine_id']; ?>&quantity=' + quantityInput.value;
+});
     addToCartButton.addEventListener('click', function () {
-        var quantity = parseInt(quantityInput.value, 10) || 1; // Default to 1 if not found
+        var quantity = parseInt(quantityInput.value, 10) || 1;
+
+        // Check if the quantity exceeds the available quantity
         if (quantity > availableQuantity) {
-    alert('There are only ' + availableQuantity + ' machine(s) available.');
-} else {
-            // Calculate total price
+            alert('There are only ' + availableQuantity + ' machine(s) available.');
+        } else {
             var totalPrice = salesPrice * quantity;
 
             $.ajax({
@@ -72,13 +81,11 @@ var salesPrice = parseFloat(addToCartButton.getAttribute('sales-price'));
     });
 });
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 <?php
-    } else {
-            echo "<script>alert('Machine ID not found');</script>";
-            exit();
-        }
+    } 
     } else {
         echo "<script>alert('Machine ID not found');</script>";
         exit();
@@ -105,32 +112,38 @@ var salesPrice = parseFloat(addToCartButton.getAttribute('sales-price'));
                         <p class="card-text"><?php echo $row['description']; ?></p>
 
 
-<div class="input-group mb-3">
-<form id="quantityForm" class="form-inline">  <span class="mr-2"><b>Quantity: </b></span>
-      <button type="button" class="btn btn-outline-secondary decrement-btn" onclick="decrement()">-</button>
-      <input type="text" class="form-control text-center bg-white input-qty" id="quantity" value="1" disabled style="width: 80px;">
-      <button type="button" class="btn btn-outline-secondary increment-btn" onclick="increment()">+</button>
-    </form>
-</div>
+                        <div class="input-group mb-3">
+                        <form id="quantityForm" class="form-inline">  <span class="mr-2"><b>Quantity: </b></span>
+                            <button type="button" class="btn btn-outline-secondary decrement-btn" onclick="decrement()">-</button>
+                            <input type="text" class="form-control text-center bg-white input-qty" id="quantity" value="1" disabled style="width: 80px;">
+                            <button type="button" class="btn btn-outline-secondary increment-btn" onclick="increment()">+</button>
+                            </form>
+                        </div>
 
                         <div class="row mt-3">
                         <div class="col-md-6">
-                        <button class="btn btn-warning px-4 addToCartBtn" 
-        value="<?php echo $row['machine_id'];?>"
-        sales-price="<?php echo $row['sales_price'];?>">
-    <i class="fa fa-shopping-cart me-2" style="color: darkyellow;"></i>Add to Cart
-</button>
+                        <button class="btn btn-warning px-4 addToCartBtn" value="<?php echo $row['machine_id'];?>" sales-price="<?php echo $row['sales_price'];?>">
+                            <i class="fa fa-shopping-cart me-2" style="color: darkyellow;"></i>Add to Cart
+                        </button>
+                        </div>
+
+                        <div class="col-md-6">
+                        <form action="add_to_wishlist.php" method="post">
+                            <input type="hidden" name="machine_id" value="<?php echo $row['machine_id']; ?>">
+                            <button type="submit" class="btn btn-danger px-4">
+                                <i class="fa fa-heart me-2"></i>Add to wishlist
+                            </button>
+                        </form>
+
+                </div>
+                        </div>
+
+
+<div class="row mt-3">
+    <a href="order.php?machine_id=<?php echo $row['machine_id']; ?>&quantity=" id="buyNowBtn" class="btn btn-primary">Buy Now</a>
 </div>
 
-                            <div class="col-md-6">
-                                <button class="btn btn-danger px-4"style=" background-color: #dc3545;">
-                                <i class="fa fa-heart me-2" ></i>Add to wishlist
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                        <a href="order.php" class="btn btn-primary" id="buyNowBtn">Buy Now</a>
-            </div>
+
 
                         </div>
                     </div>
@@ -143,26 +156,27 @@ var salesPrice = parseFloat(addToCartButton.getAttribute('sales-price'));
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-function increment() {
-      var quantityInput = document.getElementById('quantity');
-      var currentQuantity = parseInt(quantityInput.value, 10);
+    function increment() {
+        var quantityInput = document.getElementById('quantity');
+        var currentQuantity = parseInt(quantityInput.value, 10);
 
-      // Ensure the quantity doesn't exceed 10
-      if (currentQuantity < 10) {
-        quantityInput.value = currentQuantity + 1;
-      }
+        // Ensure the quantity doesn't exceed the maximum limit
+        if (currentQuantity < availableQuantity) {
+            quantityInput.value = currentQuantity + 1;
+        }
     }
 
     function decrement() {
-      var quantityInput = document.getElementById('quantity');
-      var currentQuantity = parseInt(quantityInput.value, 10);
+        var quantityInput = document.getElementById('quantity');
+        var currentQuantity = parseInt(quantityInput.value, 10);
 
-      // Ensure the quantity doesn't go below 1
-      if (currentQuantity > 1) {
-        quantityInput.value = currentQuantity - 1;
-      }
+        // Ensure the quantity doesn't go below 1
+        if (currentQuantity > 1) {
+            quantityInput.value = currentQuantity - 1;
+        }
     }
-  </script>
+
+</script>
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
@@ -180,7 +194,7 @@ function increment() {
     }
     ?>
     </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
      
 </body>
