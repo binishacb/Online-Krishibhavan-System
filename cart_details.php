@@ -16,9 +16,7 @@ JOIN machines ON cart.machine_id = machines.machine_id
 JOIN buy_product ON machines.bp_id = buy_product.bp_id
 WHERE cart.farmer_id = '$farmer_id' AND cart.status = '1'";
 
-    
-    
-    $getCartItemsResult = $con->query($getCartItemsQuery);
+$getCartItemsResult = $con->query($getCartItemsQuery);
 ?>
 
 <!DOCTYPE html>
@@ -31,14 +29,14 @@ WHERE cart.farmer_id = '$farmer_id' AND cart.status = '1'";
 </head>
 <body>
 <?php
-include('navbar/navbar_farmer.php');
+include('navbar/navbar_machines.php');
 ?>
 <div class="container mt-5 machine-details">
     <h2>Shopping Cart</h2>
     
     <?php
     while ($rowCartItem = $getCartItemsResult->fetch_assoc()) {
-        //echo $rowCartItem['available_quantity'];
+        $availability =  $rowCartItem['available_quantity'];
         ?>
 <script>
     function updateTotalPrice(cartItemId, availableQuantity, unitPrice) {
@@ -69,8 +67,8 @@ include('navbar/navbar_farmer.php');
 
                             <?php
                             // Assuming a maximum quantity of 10, you can adjust this based on your requirements
-                            for ($i = 1; $i <= 10; $i++) {
-                                $selected = ($i == $rowCartItem['quantity']) ? 'selected' : '';
+                            for ($i = 1; $i <= $availability; $i++) {
+                               
                                 echo '<option value="' . $i . '" ' . $selected . '>' . $i . '</option>';
                             }
                             ?>
@@ -87,7 +85,7 @@ include('navbar/navbar_farmer.php');
                 </form>
             </div>
             <div class="col-md-2">
-                <p class="total-price_<?php echo $rowCartItem['cart_item_id']; ?>">₹<?php echo $rowCartItem['total_price']; ?></p>
+                <p class="total-price_<?php echo $rowCartItem['cart_item_id']; ?>">₹<?php echo $rowCartItem['sales_price']; ?></p>
             </div>
         </div>
         <?php

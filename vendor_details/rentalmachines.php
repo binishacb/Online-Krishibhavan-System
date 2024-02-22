@@ -29,25 +29,42 @@ if ($con->connect_error) {
     include('./navbar_vendor.php');
     ?>
     <?php
-      if(isset($_POST['enable']))
-      {
-          $machineId = $_POST['enable'];
-          $enableMachine = "UPDATE  rent_product SET availability_status = 'available' where rp_id= $machineId";
-          $updateResult = $con->query($enableMachine);
-      
-          if ($updateResult) {
-            
-             echo '<script type="text/javascript">
-                window.location.href = "rentalmachines.php";
-            </script>';
-           exit();
-          } else {
-             
-              echo "Error deleting product: " . $con->error;
-          }
-      } 
-      ?>
 
+if (isset($_POST['toggle_status'])) {
+    $machineId = $_POST['toggle_status'];
+
+    // Retrieve the current status from the database
+    $getCurrentStatusQuery = "SELECT availability_status FROM rent_product WHERE rp_id = $machineId";
+    $currentStatusResult = $con->query($getCurrentStatusQuery);
+
+    if ($currentStatusResult && $currentStatusResult->num_rows > 0) {
+        $currentStatus = $currentStatusResult->fetch_assoc()['availability_status'];
+
+        // Toggle the status
+        $newStatus = ($currentStatus == 'available') ? 'not available' : 'available';
+
+        // Update the status in the database
+        $updateStatusQuery = "UPDATE rent_product SET availability_status = '$newStatus' WHERE rp_id = $machineId";
+        $updateResult = $con->query($updateStatusQuery);
+
+        if ($updateResult) {
+            echo '<script type="text/javascript">
+                    window.location.href = "rentalmachines.php";
+                  </script>';
+            exit();
+        } else {
+            echo "Error updating status: " . $con->error;
+        }
+    } else {
+        echo "Error retrieving current status: " . $con->error;
+    }
+}
+?>
+
+?>
+
+
+?>
     <br><br><br>
     <div class="container mt-5">
         <h2 class="text-center mb-4 display-6 font-weight-bold text-dark">View Rental Machines</h2>
@@ -57,7 +74,7 @@ if ($con->connect_error) {
 
         <?php
        // $sql = "SELECT machines.*, rent_product.* FROM machines INNER JOIN rent_product ON machines.rp_id = rent_product.rp_id";
-        $sql = "SELECT rent_product.* from rent_product where availability_status='available'";
+        $sql = "SELECT * from rent_product"; 
         $result = $con->query($sql);
         ?>
 
@@ -77,28 +94,26 @@ if ($con->connect_error) {
                     while ($row = $result->fetch_assoc()) {
                         $machineId = $row['rp_id'];
                         $status = $row['availability_status'];
-
+                    
                         echo "<tr>
                                 <td>{$row['rp_name']}</td>
                                 <td><img src='../uploads/{$row['rp_image']}' alt='Machine Image' style='max-width: 100px;'></td>
-                               
                                 <td>{$row['rp_quantity']}</td>
-                                <td>
-                                    <a href='?id=$machineId' class='btn btn-primary'>Edit</a>
-                                    " . ($status == "unavailable" ? "
-                                        <form method='POST' action='' style='display: inline;'>
-                                            <input type='hidden' name='id' value='$machineId'>
-                                            <button type='submit' class='btn btn-danger' style='background-color: #dc3545; border-color: #dc3545;'>Disable</button>
-                                        </form>" : "
-                                        <form method='POST' action='' style='display: inline;'>
-                                            <input type='hidden' name='enable' value='$machineId'>
-                                            <button type='submit' class='btn btn-danger' style='background-color: #6c757d; border-color: #6c757d;'>Enable</button>
-                                        </form>"
-                                    ) . "
-                                </td>
+                                <td  <div class='d-flex align-items-center'>
+                                <a href='?id={$machineId}' class='btn btn-primary mr-2'>Edit</a>";
+                
+                if (isset($status)) {
+                    echo "<form method='POST' action=''>
+                            <input type='hidden' name='toggle_status' value='{$machineId}'>
+                            <button type='submit' class='btn btn-danger' style='background-color: #dc3545; border-color: #dc3545;'>
+                                " . ($status == 'available' ? 'Disable' : 'Enable') . "
+                            </button>
+                          </form>";
+                }
+                
+                echo "</div></td>
                                 <td>
                                     <button type='button' class='btn btn-info' data-toggle='modal' data-target='#detailsModal{$machineId}'>More Details</button>
-                                
                                     <div class='modal fade' id='detailsModal{$machineId}' tabindex='-1' role='dialog' aria-labelledby='detailsModalLabel' aria-hidden='true'>
                                         <div class='modal-dialog modal-dialog-centered' role='document'>
                                             <div class='modal-content'>
@@ -112,8 +127,7 @@ if ($con->connect_error) {
                                                     <!-- Additional details fetched from the database -->
                                                     <p><strong>Description:</strong> {$row['rp_description']}</p>
                                                     <p><strong>fare_per_hour:</strong> {$row['fare_per_hour']}</p>
-                                                    <p><strong>fare_per_day:</strong> {$row['fare_per_day']}</p>
-                                                   
+                                                    
                                                 </div>
                                                 <div class='modal-footer'>
                                                     <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
@@ -124,6 +138,7 @@ if ($con->connect_error) {
                                 </td>
                             </tr>";
                     }
+                    
                 } else {
                     echo '<tr><td colspan="6">No machines found.</td></tr>';
                 }

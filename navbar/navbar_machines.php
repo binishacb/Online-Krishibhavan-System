@@ -108,45 +108,65 @@
                     <a class="nav-link text-white" href="#">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Explore</a>
-                </li> -->
+                    <a class="nav-link text-white" href="#">Explore</a>-->
+ <li class="nav-item dropdown">
+   <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <?php
+         if (isset($_SESSION['useremail'])) {
+            echo $_SESSION['useremail'];
+         }
+      ?>
+   </a>
+   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+      <!-- Dropdown items go here -->
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="logout.php">Logout</a>
+   </div>
+</li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <!-- <img src="images/avatar/admin.png" style="height: 30px;" alt="User Avatar"class="navbar-avatar"> -->
 
-                        <?php
-                        if (isset($_SESSION['useremail'])) {
-                            echo '' .$_SESSION['useremail'];
-                        }
-                        ?>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Profile</a>
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="logout.php">Logout</a>
-                    </div>
-                </li>
+
+                <li class="nav-item">
+                <a class="nav-link text-white" href="cart_details.php">
+                    <i class="fas fa-shopping-cart"></i> Shopping Cart
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="./vendor_details/view_wishlist.php">
+                    <i class="fas fa-heart"></i> Wishlist
+                </a>
+            </li>
+
             </ul>
         </div>
     </nav>
 
     <!-- Content goes here -->
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
-    <script>
+<!-- Include Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+
+<!-- Include Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Include Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Your existing styles and other HTML content -->
+
+<script>
     function showSidebar() {
         const sidebar = document.querySelector(".vertical-navbar");
         sidebar.style.left = "0px";
     }
+
     function hideSidebar() {
         const sidebar = document.querySelector(".vertical-navbar");
         sidebar.style.left = "-250px";
     }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</script>
+
 </body>
 </html>

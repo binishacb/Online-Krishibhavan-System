@@ -32,20 +32,20 @@
         <!-- Sidebar navigation-->
 
      
-        <div class="container">
+<div class="container">
   <div class="row">
     <div class="col text-center">
       <img src="/Binishaprg/src/assets/images/profile/user-1.jpg" class="img-fluid rounded-circle mb-3" alt="Profile Picture" 
       style="width: 100px; height: 100px;">
-      <?php
+  
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="height:40px">
+        <?php
       // Make sure to start the session
       if (isset($_SESSION['useremail'])) {
         echo '<p>' . $_SESSION['useremail'] . '</p>';
       }
       ?>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          View
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
           <li><a class="dropdown-item" href="#">My Profile</a></li>

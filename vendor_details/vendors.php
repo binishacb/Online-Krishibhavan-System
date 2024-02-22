@@ -57,20 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' ) {
             // Update the database with the rejection status
             $updateQuery = "UPDATE vendor SET status = '2' WHERE v_id = '$vendorId'";
             mysqli_query($con, $updateQuery);
+            $rejectionReason = mysqli_real_escape_string($con, $_POST['rejection_reason']);
 
             // Send rejection email to the vendor
             $subject = "Application Rejected";
-            $message = "Dear {$vendorDetails['firstName']} {$vendorDetails['lastName']},\n\nWe regret to inform you that your application with Vendor ID: {$vendorDetails['v_id']} has been rejected. If you have any concerns, please contact us.\n\nBest regards,\nThe Admin Team";
-        } else {
-            echo 'Application has already been rejected.';
-            // You may choose to exit or perform additional actions here
-            exit;
-        }
-    } else {
-        echo 'Invalid action.';
-        // You may choose to exit or perform additional actions here
-        exit;
-    }
+            $message = "Dear {$vendorDetails['firstName']} {$vendorDetails['lastName']},\n\nWe regret to inform you that your application with Vendor ID: {$vendorDetails['v_id']} has been rejected for the following reason:\n\n{$rejectionReason}\n\nIf you have any concerns, please contact us.\n\nBest regards,\nThe Admin Team";
+        } 
+    } 
 
 
   
@@ -114,153 +107,100 @@ if (mysqli_num_rows($result) > 0) {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Vendor Details</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            /* Add your custom styles here */
-           
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 0;
-    }
 
-   
-
-    h2 {
-        color: #007bff;
-        margin-bottom: 20px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
-    th, td {
-        padding: 15px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-
-    th {
-        background-color: #007bff;
-        color: #fff;
-        font-weight: bold;
-    }
-
-    tbody tr:hover {
-        background-color: #f0f8ff;
-        transition: background-color 0.3s ease;
-    }
-
-    .btn {
-        padding: 10px 15px;
-        font-size: 14px;
-        font-weight: bold;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        cursor: pointer;
-        border: none;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-    }
-
-    .btn-primary {
-        color: #fff;
-        background-color: #007bff;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
-
-    .btn-success {
-        color: #fff;
-        background-color: #28a745;
-    }
-
-    .btn-success:hover {
-        background-color: #218838;
-    }
-
-    .btn-danger {
-        color: #fff;
-        background-color: #dc3545;
-    }
-
-    .btn-danger:hover {
-        background-color: #c82333;
-    }
-
-
-            .btn-disabled {
-                pointer-events: none;
-                
-            }
-        </style>
     </head>
     <body>
+<?php
+include('../navbar/navbar_admin.php');
+?>
 
-    <div class="container mt-4">
-        <h2>Vendor Details</h2>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Vendor ID</th>
-                <th>Vendor Name</th>
-                <th>Email</th>
-                <th>Phone no</th>
-                <th>Shop name</th>
-                <th>Licence no</th>
-                <th>Licence</th>
-                <th>Action</th>
-                <!-- Add more columns based on your vendor table structure -->
-            </tr>
+
+<div class="container mt-4">
+    <h3>Vendor Data</h3><br>
+    <div class="table-responsive">
+        <table class="table table-bordered" style="color:light;">
+            <thead class="thead-light">
+                <tr>
+                    <!-- <th>Vendor ID</th> -->
+                    <th>Vendor Name</th>
+                    <th>Email</th>
+                    <th>Phone no</th>
+                    <th>Shop name</th>
+                    <th>Licence no</th>
+                    <th>Licence</th>
+                    <th>Action</th>
+                    <!-- Add more columns based on your vendor table structure -->
+                </tr>
             </thead>
             <tbody>
-            <?php
-            // Loop through the results and display each vendor's details
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo '<tr>';
-                echo '<td>' . $row['v_id'] . '</td>';
-                echo '<td>' . $row['firstName'] . ' ' . $row['lastName'] . '</td>';
-                echo '<td>' . $row['email'] . '</td>';
-                echo '<td>' . $row['phone_no'] . '</td>';
-                echo '<td>' . $row['shopName'] . '</td>';
-                echo '<td>' . $row['licence_no'] . '</td>';
-                
-                // Display the PDF link
-                echo '<td><a href="../uploads/' . $row['licence_image'] . '" class="btn btn-primary" target="_blank" download>View Licence</a></td>';
+                <?php
+                // Loop through the results and display each vendor's details
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<tr>';
+                    // echo '<td>' . $row['v_id'] . '</td>';
+                    echo '<td>' . $row['firstName'] . ' ' . $row['lastName'] . '</td>';
+                    echo '<td>' . $row['email'] . '</td>';
+                    echo '<td>' . $row['phone_no'] . '</td>';
+                    echo '<td>' . $row['shopName'] . '</td>';
+                    echo '<td>' . $row['licence_no'] . '</td>';
 
-                // Add approval status check and render appropriate button
-                $approvalStatus = $row['status'];
-                echo '<td>';
-                if ($approvalStatus == '0') {
-                    echo '<form action="" method="post">
-                    <input type="hidden" name="vendor_id" value="' . $row['v_id'] . '">
-                    <button type="submit" name="approval_status" value="approve" class="btn btn-success">Approve</button>
-                    <button type="submit" name="approval_status" value="reject" class="btn btn-danger">Reject</button>
-                  </form>';
-                } elseif ($approvalStatus == '1') {
-                    echo '<button class="btn btn-success btn-disabled">Approved</button>';
-                } elseif ($approvalStatus == '2') {
-                    echo '<button class="btn btn-danger btn-disabled">Rejected</button>';
+                    // Display the PDF link
+                    echo '<td><a href="../uploads/' . $row['licence_image'] . '" class="btn btn-primary" target="_blank" download>View Licence</a></td>';
+
+                    // Add approval status check and render appropriate button
+                    $approvalStatus = $row['status'];
+                    echo '<td>';
+                    if ($approvalStatus == '0') {
+                        echo '<form action="" method="post" class="d-flex" onsubmit="prepareRejectionReason()">
+                                <input type="hidden" name="vendor_id" value="' . $row['v_id'] . '">
+                                <button type="submit" name="approval_status" value="approve" class="btn btn-success me-2">Approve</button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">Reject</button>
+                              ';
+                    } elseif ($approvalStatus == '1') {
+                        echo '<button class="btn btn-success btn-disabled">Approved</button>';
+                    } elseif ($approvalStatus == '2') {
+                        echo '<button class="btn btn-danger btn-disabled">Rejected</button>';
+                    }
+                    
+                    
+                    echo '</td>';
+
+                    echo '</tr>';
                 }
-                echo '</td>';
-
-                echo '</tr>';
-            }
-            ?>
-            </tbody>
-        </table>
+                ?>
+   <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectModalLabel">Reject Vendor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="rejectionReason" class="form-label">Reason for Rejection:</label>
+                <textarea class="form-control" id="rejectionReason" name="rejection_reason" rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" name="approval_status" value="reject" class="btn btn-danger">Reject</button>
+            </div>
+        </div>
     </div>
+</div>
+</form>
+<script>
+    function prepareRejectionReason() {
+        var rejectionReason = document.getElementById('rejectionReason').value;
+        document.getElementById('hiddenRejectionReason').value = rejectionReason;
+    }
+</script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
-    </html>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
     <?php
 } else {
     echo 'No vendors found.';

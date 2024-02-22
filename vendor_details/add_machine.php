@@ -23,13 +23,26 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'vendor') {
 <body>
     <?php
 include('./navbar_vendor.php');
+
+
+$vendorEmail = $_SESSION['useremail'];
+$vendorIdquery = "SELECT v.vendor_id  FROM vendor v  INNER JOIN login l ON v.log_id = l.log_id  WHERE l.email = '$vendorEmail'";
+$result = $con->query($vendorIdquery);
+
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $vendorId = $row['vendor_id'];
+
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $productName = $_POST["productName"];
     $categoryName = $_POST["category"];
     $description = $_POST["description"];
     $capacity = $_POST["capacity"];
     $quantity = $_POST["quantity"];
-  
+ 
+
     $categoryId = "SELECT type_id FROM machine_type WHERE type_name = '$categoryName'";
     $pdfPath = ''; 
     if (!empty($_FILES['userLog'])) {
@@ -71,7 +84,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $newImageName = uniqid();
             $newImageName = $newImageName . '.' . $imageExtension;
             move_uploaded_file($tmpName,'../uploads/'. $newImageName);
-            $insert_machine = "INSERT INTO machines (machine_name, type_id, description, capacity, m_quantity, machine_image,userlog) VALUES ('$productName', (SELECT type_id FROM machine_type WHERE type_name = '$categoryName'), '$description', '$capacity', '$quantity', '$newImageName','$pdfPath')";
+
+            $insert_machine = "INSERT INTO machines (machine_name, type_id, description, capacity, m_quantity, machine_image,userlog,vendor_id) VALUES ('$productName', (SELECT type_id FROM machine_type WHERE type_name = '$categoryName'), '$description', '$capacity', '$quantity', '$newImageName','$pdfPath',' $vendorId')";
            
             if ($con->query($insert_machine) == TRUE) {
                 $lastMachineId = $con->insert_id;
@@ -106,10 +120,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if (in_array("rent", $_POST["action"])) {
                         // Process rent action
                         $farePerHour = $_POST["farePerHour"];
-                        $farePerDay = $_POST["farePerDay"];
-                        // echo $farePerDay;
-                        // Insert into 'rent_machines' table with foreign key reference
-                        $sqlRent = "INSERT INTO rent_product (rp_id, fare_per_hour, fare_per_day,rp_name,type_id,rp_description,rp_capacity,rp_quantity,rp_image,availability_status) VALUES ('$lastMachineId', '$farePerHour', '$farePerDay','$productName', ('$productName', (SELECT type_id FROM machine_type WHERE type_name = '$categoryName'),'$description', '$capacity', '$quantity', '$newImageName','available' )";
+                       $rp_quantity = $_POST['rp_quantity'];
+                       $security_amt  = $_POST['security_amt'];
+                      
+                        $sqlRent = "INSERT INTO rent_product (rp_id, fare_per_hour,rp_quantity,rp_name,type_id,rp_description,rp_capacity,rp_image,availability_status,security_amt,vendor_id) VALUES ('$lastMachineId', '$farePerHour', '$rp_quantity','$productName',  (SELECT type_id FROM machine_type WHERE type_name = '$categoryName'),'$description', '$capacity', '$newImageName','available','$security_amt','$vendorId' )";
                         
                         if ($con->query($sqlRent) !== TRUE) {
                             echo "Error inserting into rent_machines: " . $con->error;
@@ -136,7 +150,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     }
 }
+}
+else{
+    echo "<script>alert('Vendor id not found');</script>";
 
+}
 ?>  
 <br><br><br><br><br><br>
     <div class="container">
@@ -147,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="card-body">
                 <form action="" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="productName">Product Name (Produuct name must be followed by the vendor name ):</label>
+                <label for="productName">Product Name:</label>
                 
                 <input type="text" class="form-control" id="productName" name="productName" required oninput="validateProductName()">
                 <div id="productNameError"  class="invalid-feedback"></div>
@@ -226,8 +244,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                         <div class="form-group">
-                            <label for="farePerDay">Fare Per Day(INR):</label>
-                            <input type="number" step="any" class="form-control" id="farePerDay" name="farePerDay">
+                            <label for="rp_quantity">Quantity(no.):</label>
+                            <input type="number" step="any" class="form-control" id="rp_quantity" name="rp_quantity">
+                        </div>
+                        <div class="form-group">
+                            <label for="security_amt">Security amount(INR):</label>
+                            <input type="number" step="any" class="form-control" id="security_amt" name="security_amt">
                         </div>
                     </div>
 
@@ -350,13 +372,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
     
+function validateQuantity() {
+    var quantityInput = document.getElementById('quantity');
+    var quantityError = document.getElementById('quantityError');
+    var quantity = parseInt(quantityInput.value);
+
+    if (isNaN(quantity) || quantity === 0) {
+        quantityError.textContent = 'Quantity should be a valid number and greater than 0.';
+        quantityInput.classList.add('is-invalid');
+        return false;
+    } else if (quantity < 0) {
+        quantityError.textContent = 'Quantity should not be negative.';
+        quantityInput.classList.add('is-invalid');
+        return false;
+    } else if (quantity > 20) {
+        quantityError.textContent = 'Quantity should not exceed the maximum limit of 20.';
+        quantityInput.classList.add('is-invalid');
+        return false;
+    } else {
+        quantityInput.classList.remove('is-invalid');
+        quantityInput.style.border = '2px solid green';
+        quantityError.textContent = '';
+        return true;
+    }
+}
+
+function validateCapacity() {
+    var capacityInput = document.getElementById('capacity');
+    var capacityError = document.getElementById('capacityError');
+    var capacity = parseFloat(capacityInput.value);
+
+    if (isNaN(capacity) || capacity <= 0) {
+        capacityError.textContent = 'Capacity should be a valid positive number and greater than 0.';
+        capacityInput.classList.add('is-invalid');
+        return false;
+    } else if (capacity > 25) {
+        capacityError.textContent = 'Capacity should not exceed the maximum limit of 25.';
+        capacityInput.classList.add('is-invalid');
+        return false;
+    } else {
+        capacityInput.classList.remove('is-invalid');
+        capacityInput.style.border = '2px solid green';
+        capacityError.textContent = '';
+        return true;
+    }
+}
+
 
     function validateForm() {
         var isFormValid = true;
 
-        // Add similar validation functions for other fields
+
         isFormValid &= validateProductName();
         isFormValid &= validateDescription();
+        isFormValid &= validateQuantity();
+        isFormValid &= validateCapacity();
         // Add similar lines for other fields
 
         if (!isFormValid) {

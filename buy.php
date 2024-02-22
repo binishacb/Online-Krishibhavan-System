@@ -5,8 +5,8 @@ include('dbconnection.php');
 if (isset($_SESSION['useremail'])) {
     $farmer_email = $_SESSION['useremail'];
 } else {
-    // Handle the case where the farmer is not logged in
-    header("Location: login.php"); // Redirect to login page
+    
+    header("Location: login.php"); 
     exit();
 }
 $farmer="SELECT farmer.farmer_id FROM farmer JOIN login ON farmer.log_id = login.log_id WHERE login.email = '$farmer_email'";
@@ -18,25 +18,28 @@ $sql = "SELECT * from machines m INNER JOIN buy_product bp on m.bp_id=bp.bp_id W
 $sql_result = mysqli_query($con, $sql);
 $data = mysqli_fetch_array($sql_result);
 
-// Assuming you pass the order ID as a parameter in the URL
+
 if (isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
 
-    // Validate and sanitize user input to prevent SQL injection
-    $order_id = mysqli_real_escape_string($con, $order_id);
+// echo $order_id;
+    
 
-    // Retrieve order details from the database
     $order_details = "SELECT * from shipping_address where order_id = '$order_id'";
 
     $result = mysqli_query($con, $order_details);
 
     if ($result && $row = mysqli_fetch_assoc($result)) {
-        // Display order details
-      //  $fullAddress = $row['name'] . ', ' . $row['address'] . ', <br>phone:' . $row['phone_number'] . ', <br>Pin Code: ' . $row['pin_code'] . ', <br>District: ' . $row['district'] . ', <br>Place: ' . $row['place'];
-      $fullAddress = $row['address'];
+      
+        $fullAddress = $row['address'];
+        $phone_no = $row['phone_no'];
 
       
        ?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,26 +86,26 @@ if (isset($_GET['order_id'])) {
         <div class="row justify-content-center">
             <div class="col-md-6 mb-5">
                 <h3>Shipping Address:</h3>
-                <p><?php echo $fullAddress; ?></p>
+                <p>Delivery address : <?php echo $fullAddress; ?></p>
+                <p>Phone no : <?php echo $phone_no; ?></p>
+                
             </div>
             <div class="col-md-6 mb-5 product-details-container">
                 <h3>Product Details:</h3>
 
-                <img src="uploads/<?php echo $data['machine_image']; ?>" alt="<?php echo $data['machine_name']; ?>"
-                    width="200" height="200">
+                <img src="uploads/<?php echo $data['machine_image']; ?>" alt="<?php echo $data['machine_name']; ?>" width="200" height="200">
                 <p><strong>Product Name:</strong> <?php echo $data['machine_name']; ?></p>
-                <p><strong>Total Price:</strong> Rs <?php echo $data['sales_price']; ?></p>
+                <p><strong>Total Price:</strong> Rs <?php echo $row['total_price']; ?></p>
+                <p><strong>Order id </strong><?php echo $row['order_id']; ?></p>
             </div>
             <div class="col-md-10 mb-5">
-                <button id="rzp-button1" onclick="pay_now(this)" data-farmer_id="<?php echo $farmer_id ?>"
-                    data-productid="<?php echo $data['machine_id']; ?>"  data-orderid="<?php echo $row['order_id']; ?>"
-                    data-productname="<?php echo $data['machine_name']; ?>"
-                    data-amount="<?php echo $data['sales_price']; ?>" class="btn btn-primary buynow">
-                    Buy Now
-                </button>
-
-
-            </div>
+                    <input type="hidden" id="order_id" value="<?php echo $row['order_id']; ?>">
+                    <button id="rzp-button1" onclick="pay_now()" data-farmer_id="<?php echo $farmer_id ?>"
+                        data-productid="<?php echo $data['machine_id']; ?>" data-productname="<?php echo $data['machine_name']; ?>"
+                        data-amount="<?php echo $row['total_price']; ?>" class="btn btn-primary buynow">
+                        Buy Now
+                    </button>
+                </div>
         </div>
     </div>
 
@@ -111,26 +114,40 @@ if (isset($_GET['order_id'])) {
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script type="text/javascript">
-function pay_now(button) {
-    var amount = $(button).data('amount');
-    var productid = $(button).data('productid');
-    var productname = $(button).data('productname');
-    var farmer_id = $(button).data('farmer_id');
-    var orderid =  $(button).data('order_id');
+function pay_now() {
+    var amount = $('#rzp-button1').data('amount');
+    var productid = $('#rzp-button1').data('productid');
+    var productname = $('#rzp-button1').data('productname');
+    var farmer_id = $('#rzp-button1').data('farmer_id');
+    var orderid = $('#order_id').val(); // Retrieve order_id from the hidden input
     var name = "Agrocompanion";
     var actual_amount = 100 * amount;
-    
+
+    console.log("Amount:", actual_amount);
+    console.log("Product ID:", productid);
+    console.log("Product Name:", productname);
+    console.log("Farmer ID:", farmer_id);
+    console.log("Order ID:", orderid);
+
     var options = {
         "key": "rzp_test_aM3JBE4V3rZWsp",
         "amount": actual_amount,
         "currency": "INR",
         "name": name,
         "description": productname,
-        "image": "razorpay.png",
         "handler": function(response) {
             console.log(response);
+            console.log('Sending AJAX request with data:', {
+                'payment_id': response.razorpay_payment_id,
+                'amount': actual_amount,
+                'name': name,
+                'product_id': productid,
+                'farmer_id': farmer_id,
+                'order_id': orderid
+            });
+
             $.ajax({
-                url: 'pay.php',
+                url: 'buy.php',
                 type: 'POST',
                 data: {
                     'payment_id': response.razorpay_payment_id,
@@ -138,11 +155,11 @@ function pay_now(button) {
                     'name': name,
                     'product_id': productid,
                     'farmer_id': farmer_id,
-                    'order_id':orderid
+                    'order_id': orderid
                 },
                 success: function(data) {
                     console.log(data);
-                    //alert(response.razorpay_payment_id);
+                    // Redirect only after the AJAX request completes successfully
                     window.location.href = 'payment_success.php?order_id=<?php echo $order_id?>';
                 }
             });
@@ -153,17 +170,15 @@ function pay_now(button) {
 
     rzp1.on('payment.failed', function(response) {
         alert(response.error.code);
-        // Handle other failure alerts as needed
     });
 
-    document.getElementById('rzp-button1').onclick = function(e) {
-        rzp1.open();
-        e.preventDefault();
-    }
+    rzp1.open();
 }
 </script>
 
-</html>
+
+
+
 <?php
     } else {
         echo "Order not found.";
@@ -174,3 +189,5 @@ function pay_now(button) {
 
 mysqli_close($con);
 ?>
+</body>
+</html>

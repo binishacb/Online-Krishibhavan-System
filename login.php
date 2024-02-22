@@ -1,67 +1,66 @@
 <?php
 session_start();
 include('dbconnection.php'); // Include your database connection code
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $hashed_password = md5($password);
+
+   
     // Check if the user is a client
     $sql_user = "SELECT * FROM login WHERE email='$email' AND password='$hashed_password'";
     $result_user = $con->query($sql_user);
-  
+
     if (!$result_user) {
         die("SQL query failed: " . $con->error);
     }
+
     if ($result_user->num_rows > 0) {
-        //echo "haiiii";
         $user_row = $result_user->fetch_assoc();
         $role_id = $user_row['role_id'];
         $verification_status = $user_row['verify_status'];
+
         if ($role_id == 2) {
             if ($verification_status == 1) {
-            // Farmer login
-            $_SESSION['useremail'] = $email ;
-            $_SESSION['usertype'] = 'farmer' ;
-            echo "<script>alert('Farmer login successful.')</script>";
-            // header('Location: dashboard_farmer.php');
-            header('Location: splashpage.php');
-            exit();
-            }
-            else{
+                // Farmer login
+                $_SESSION['useremail'] = $email;
+                $_SESSION['usertype'] = 'farmer';
+                echo "<script>alert('Farmer login successful.')</script>";
+                header('Location: splashpage.php');
+                exit();
+            } else {
                 echo "<script>alert('Email not verified for farmers.')</script>";
             }
-
         } elseif ($role_id == 1) {
             // Admin login
-            $_SESSION['useremail'] = $email ;
-            $_SESSION['usertype'] = 'admin' ;
+            $_SESSION['useremail'] = $email;
+            $_SESSION['usertype'] = 'admin';
             echo "<script>alert('Admin login successful.')</script>";
             header('Location: dashboard_admin.php');
             exit();
-        }
-       
-        elseif ($role_id == 3) {
-                //echo "SQL Query: $sql_user";
-                $_SESSION['useremail'] = $email ;
-                $_SESSION['usertype'] = 'officer' ;
-                echo "<script>alert('officer login successful.')</script>";
-               header('Location:dashboard_officer.php');
-                exit();
-        }
-        elseif ($role_id == 4) {
+        } elseif ($role_id == 3) {
+            // Officer login
+            $_SESSION['useremail'] = $email;
+            $_SESSION['usertype'] = 'officer';
+            echo "<script>alert('Officer login successful.')</script>";
+            header('Location: dashboard_officer.php');
+            exit();
+        } elseif ($role_id == 4) {
+            // Vendor login
             $sql_vendor = "SELECT v.status, l.* FROM vendor AS v INNER JOIN login AS l ON l.log_id = v.log_id WHERE l.email = '$email' AND l.password = '$hashed_password'";
             $result_vendor = $con->query($sql_vendor);
-        
+
             if (!$result_vendor) {
                 die("SQL query failed: " . $con->error);
             }
-        
+
             if ($result_vendor->num_rows > 0) {
                 $vendor_row = $result_vendor->fetch_assoc();
                 $approval_status = $vendor_row['status'];
-        
+
                 if ($approval_status == 1) {
-                    // Vendor login
+                    // Vendor login successful
                     $_SESSION['useremail'] = $email;
                     $_SESSION['usertype'] = 'vendor';
                     echo "<script>alert('Vendor login successful.')</script>";
@@ -70,25 +69,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     // Application not approved
                     echo "<script>alert('Application is not approved. Check your mail...')</script>";
-                    header('Location: login.php');
-                    exit();
-                }
+                    // header('Location: login.php');
+                    // exit();
+                } 
             } else {
                 // Incorrect email or password
                 echo "<script>alert('Incorrect email or password.')</script>";
             }
         }
-        
-        
-
     } else {
         // If no user is found, display an error message
-        
         echo "<script>alert('Invalid email id or password..')</script>";
     }
 }
 $con->close();
 ?>
+
 <!DOCTYPE html>
 <!--
 <div id="google_element">

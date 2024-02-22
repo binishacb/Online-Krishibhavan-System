@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('dbconnection.php');
 ?>
 
 <!DOCTYPE html>
@@ -46,12 +47,12 @@ session_start();
 
         <div>
             <?php
-            include('dbconnection.php');
+           
             
             // Assuming you have a variable $orderId that holds the order ID
             $orderId = $_GET['order_id'];
 
-            $fetchShippingDetailsQuery = "SELECT * FROM shipping_address WHERE order_id = $orderId";
+            $fetchShippingDetailsQuery = "SELECT * FROM shipping_address WHERE order_id = '$orderId'";
             $shippingResult = $con->query($fetchShippingDetailsQuery);
 
             if ($shippingResult->num_rows > 0) {
@@ -60,14 +61,15 @@ session_start();
                 // Add more fields as needed
 
                 echo "<p><strong>Shipping Name:</strong> $address</p>";
-        }   $latestOrderIdQuery = "SELECT MAX(order_id) as latest_order_id FROM orders";
+        }  
+         $latestOrderIdQuery = "SELECT MAX(order_id) as latest_order_id FROM shipping_address";
         $latestOrderIdResult = $con->query($latestOrderIdQuery);
         
         if ($latestOrderIdResult && $latestOrderIdRow = $latestOrderIdResult->fetch_assoc()) {
             $latestOrderId = $latestOrderIdRow['latest_order_id'];
 
             // Query to fetch information from the orders table
-            $fetchOrderQuery = "SELECT amount, payment_status, order_date FROM orders WHERE order_id = $latestOrderId";
+            $fetchOrderQuery = "SELECT amount, payment_status, order_date FROM orders WHERE orderid = $latestOrderId";
             $result = $con->query($fetchOrderQuery);
 
             if ($result && $row = $result->fetch_assoc()) {

@@ -2,6 +2,9 @@
 session_start();
 include('../dbconnection.php');
 
+header('Location: machinedetails_farmer.php');
+exit; // Ensure that no further code is executed after the redirect
+
 if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
     header('Location:../index.php');
     exit();

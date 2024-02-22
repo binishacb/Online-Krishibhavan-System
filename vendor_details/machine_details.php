@@ -51,10 +51,20 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'vendor') {
         </div>
 
         <?php
+                    
+            $vendorEmail = $_SESSION['useremail'];
+            $vendorIdquery = "SELECT v.vendor_id  FROM vendor v  INNER JOIN login l ON v.log_id = l.log_id  WHERE l.email = '$vendorEmail'";
+            $vendorresult = $con->query($vendorIdquery);
+
+            if ($vendorresult && $vendorresult->num_rows > 0) {
+                $vendorrow = $vendorresult->fetch_assoc();
+                $vendorId = $vendorrow['vendor_id'];
+
+
         $sql = "SELECT machines.*, machines.status,machines.machine_id, machine_type.type_name, buy_product.product_price, buy_product.discount, buy_product.sales_price 
                 FROM machines 
                 LEFT JOIN machine_type ON machines.type_id = machine_type.type_id
-                LEFT JOIN buy_product ON machines.bp_id = buy_product.bp_id  WHERE machines.m_quantity > 0";
+                LEFT JOIN buy_product ON machines.bp_id = buy_product.bp_id  WHERE machines.vendor_id = $vendorId";
         $result = $con->query($sql);
 
         if ($result->num_rows > 0) {
@@ -148,6 +158,10 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'vendor') {
         } else {
             echo '<p class="alert alert-info">No products found.</p>';
         }
+    }
+    else{
+        echo "<script>alert('vendor id not found')</script>";
+    }
 
         $con->close();
         ?>

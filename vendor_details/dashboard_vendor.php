@@ -23,15 +23,15 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'vendor') {
     include('navbar_vendor.php');
     ?>
     <br><br><br>
-
+<!-- 
     <div class="container-fluid">
 
       <div class="row">
-        <!-- First Card -->
+        <!-- 
         <div class="col-lg-4">
           <div class="row">
             <div class="col-lg-12">
-              <!-- Yearly Breakup -->
+            
               <div class="card overflow-hidden" style="background-color: #ADD8E6;">
                 <div class="card-body p-4">
                   <h5 class="card-title mb-9 fw-semibold">Machine Categories</h5>
@@ -52,11 +52,11 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'vendor') {
           </div>
         </div>
 
-        <!-- Second Card -->
+       
         <div class="col-lg-4">
           <div class="row">
             <div class="col-lg-12">
-              <!-- Yearly Breakup -->
+           
               <div class="card overflow-hidden" style="background-color: #ADD8E6;">
                 <div class="card-body p-4">
                   <h5 class="card-title mb-9 fw-semibold">Total machines</h5>
@@ -80,7 +80,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'vendor') {
         <div class="col-lg-4">
           <div class="row">
             <div class="col-lg-12">
-              <!-- Yearly Breakup -->
+            
               <div class="card overflow-hidden" style="background-color: #ADD8E6;">
                 <div class="card-body p-4">
                   <h5 class="card-title mb-9 fw-semibold">Total orders</h5>
@@ -102,7 +102,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'vendor') {
         </div>
 
 
-        <!-- Chart -->
+      
         <div class="row">
           <div class="col-lg-8 d-flex align-items-strech">
             <div class="card w-100">
@@ -123,7 +123,25 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'vendor') {
                 <div id="chart"></div>
               </div>
             </div>
-          </div>
+          </div> -->
+
+          <div id="heading-container">
+        <h5 class="card-title text-center mt-3">Welcome, <?php echo $_SESSION['useremail']; ?></h5>
+    </div>
+
+    <!-- Image Container -->
+    <div id="image-container">
+        <img src="../images/dashboard_vendor.jpg" class="card-img-top" alt="Vendor Image" id="dashboard-image">
+    </div>
+
+
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
 
 </body>
 </html>
