@@ -2,6 +2,7 @@
 // Include your database connection file
 include('../dbconnection.php');
 require '../vendor/autoload.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -111,13 +112,13 @@ if (mysqli_num_rows($result) > 0) {
     </head>
     <body>
 <?php
-include('../navbar/navbar_admin.php');
+include('../navbar/navbaradmin_vendors.php');
 ?>
 
 
 
 <div class="container mt-4">
-    <h3>Vendor Data</h3><br>
+    <h3>Vendor Details</h3><br>
     <div class="table-responsive">
         <table class="table table-bordered" style="color:light;">
             <thead class="thead-light">
@@ -125,7 +126,7 @@ include('../navbar/navbar_admin.php');
                     <!-- <th>Vendor ID</th> -->
                     <th>Vendor Name</th>
                     <th>Email</th>
-                    <th>Phone no</th>
+                    <!-- <th>Phone no</th> -->
                     <th>Shop name</th>
                     <th>Licence no</th>
                     <th>Licence</th>
@@ -141,7 +142,7 @@ include('../navbar/navbar_admin.php');
                     // echo '<td>' . $row['v_id'] . '</td>';
                     echo '<td>' . $row['firstName'] . ' ' . $row['lastName'] . '</td>';
                     echo '<td>' . $row['email'] . '</td>';
-                    echo '<td>' . $row['phone_no'] . '</td>';
+                    // echo '<td>' . $row['phone_no'] . '</td>';
                     echo '<td>' . $row['shopName'] . '</td>';
                     echo '<td>' . $row['licence_no'] . '</td>';
 

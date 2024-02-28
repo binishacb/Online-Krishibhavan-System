@@ -61,10 +61,7 @@ if (isset($_POST['toggle_status'])) {
 }
 ?>
 
-?>
 
-
-?>
     <br><br><br>
     <div class="container mt-5">
         <h2 class="text-center mb-4 display-6 font-weight-bold text-dark">View Rental Machines</h2>

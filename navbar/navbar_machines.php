@@ -137,6 +137,13 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link text-white" href="payment_success.php">
+                    <i class="fas fa-eye"></i> order details
+                </a>
+            </li>
+
+
             </ul>
         </div>
     </nav>

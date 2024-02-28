@@ -136,7 +136,7 @@
                     <i class="fas fa-heart"></i> Wishlist
                 </a>
             </li>
-
+ 
             </ul>
         </div>
     </nav>

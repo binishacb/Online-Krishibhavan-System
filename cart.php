@@ -6,9 +6,7 @@ if (isset($_POST['machine_id']) && isset($_POST['sales_price'])) {
     $machine_id = $_POST['machine_id'];
     $sales_price = $_POST['sales_price'];
 
-    //echo   $machine_id;
-    //echo  $sales_price;
-
+   
     $farmer_email = $_SESSION['useremail'];
     $getFarmerIdQuery = "SELECT farmer.farmer_id FROM farmer JOIN login ON farmer.log_id = login.log_id WHERE login.email = '$farmer_email'";
     $getFarmerIdResult = $con->query($getFarmerIdQuery);

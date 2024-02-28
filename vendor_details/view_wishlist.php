@@ -57,7 +57,7 @@ if ($getFarmerIdResult->num_rows > 0) {
                         <!-- Card body with small size -->
                         <div class="card-body">
                             <!-- Display machine image -->
-                            <img src="../uploads/<?php echo $machineImage; ?>" alt="Machine Image" class="card-img-top mb-3" style="height: 100px; object-fit: cover;">
+                            <img src="../uploads/<?php echo $machineImage; ?>" alt="Machine Image" class="card-img-top mb-3" style="height: 400px; object-fit: cover;">
 
                             <!-- Display machine name -->
                             <h5 class="card-title"><?php echo $row['machine_name']; ?></h5>
@@ -65,16 +65,20 @@ if ($getFarmerIdResult->num_rows > 0) {
                             <p class="card-text">Price: <?php echo $machinePrice; ?></p>
 
                             <!-- Add to Cart and Remove buttons -->
-                            <div class="d-flex justify-content-between">
-                                <!-- Add to Cart button with golden yellow color -->
-                                <button id="addToCartButton" class="btn btn-warning">View Machine details</button>
- 
+                            <div class="row">
+                            <div class="col-md-6 d-flex justify-content-start">
+                            <a href="../machinedetails_farmer.php?machine_id=<?php echo $row['machine_id']; ?>" class="btn btn-warning btn-block">View Machine</a>
+
+
+                            </div>
+                            <div class="col-md-6 d-flex justify-content-end">
                                 <form method="post" action="removemachine_wishlist.php">
                                     <input type="hidden" name="wishlist_id" value="<?php echo $row['wishlist_id']; ?>">
-                                    <br><br>
-                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                    <button type="submit" class="btn btn-danger btn-block">Remove</button>
                                 </form>
-                           </div>
+                            </div>
+                        </div>
+
                         </div>
                         <?php } ?>
                     </div>

@@ -42,15 +42,7 @@ include('navbar/navbar_machines.php');
     function updateTotalPrice(cartItemId, availableQuantity, unitPrice) {
         var quantitySelect = document.getElementById('quantity_' + cartItemId);
         var totalElement = document.querySelector('.total-price_' + cartItemId);
-      
         var currentQuantity = parseInt(quantitySelect.value, 10);
-        
-        if (currentQuantity > availableQuantity) {
-            alert('There are only ' + availableQuantity + ' machine(s) left.');
-            quantitySelect.value = availableQuantity; 
-            currentQuantity = availableQuantity; // Set current quantity to available quantity
-        }
-        
         var newTotal = currentQuantity * unitPrice;
         totalElement.textContent = '₹' + newTotal.toFixed(2);
     }
@@ -66,9 +58,9 @@ include('navbar/navbar_machines.php');
                     <select class="form-control" id="quantity_<?php echo $rowCartItem['cart_item_id']; ?>" onchange="updateTotalPrice(<?php echo $rowCartItem['cart_item_id']; ?>, <?php echo $rowCartItem['available_quantity']; ?>, <?php echo $rowCartItem['sales_price']; ?>)">
 
                             <?php
-                            // Assuming a maximum quantity of 10, you can adjust this based on your requirements
+
                             for ($i = 1; $i <= $availability; $i++) {
-                               
+                                $selected = ($i == $rowCartItem['quantity']) ? 'selected' : '';
                                 echo '<option value="' . $i . '" ' . $selected . '>' . $i . '</option>';
                             }
                             ?>
@@ -98,19 +90,10 @@ include('navbar/navbar_machines.php');
             <h5>Total:</h5>
         </div>
         <div class="col-md-2">
-            <?php
-            // Calculate total price for all products in the cart
-            $calculateTotalQuery = "SELECT SUM(total_price) AS total FROM cart WHERE farmer_id = '$farmer_id' AND status = '1'";
-            $calculateTotalResult = $con->query($calculateTotalQuery);
-            
-            if ($calculateTotalResult) {
-                $rowTotal = $calculateTotalResult->fetch_assoc();
-                $totalPrice = $rowTotal['total'];
-                echo '<strong>₹' . number_format($totalPrice, 2) . '</strong>'; 
-            } else {
-                echo '₹0.00';
-            }
-            ?>
+          
+
+
+        
             <br><br>
         </div>
         <div class="row mt-2">
@@ -129,8 +112,7 @@ include('navbar/navbar_machines.php');
 
 <?php
 } else {
-    // Handle the case where the farmer is not logged in
-    header("Location: login.php"); // Redirect to the login page
+    header("Location: login.php"); 
     exit();
 }
 ?>

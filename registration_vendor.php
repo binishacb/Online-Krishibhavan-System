@@ -154,7 +154,7 @@ if (isset($_POST['submit']))
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function validateFirstName(firstName) {
+function validateFirstName(firstName) {
     const firstNameInput = document.getElementById('validationCustom01');
     const firstNameWarning = document.getElementById('firstname-warning');
     const firstNameError = document.getElementById('firstname-error');
@@ -164,8 +164,8 @@ if (isset($_POST['submit']))
         firstNameInput.classList.add('is-invalid');
         firstNameError.textContent = '';
         return false;
-    } else if (/\d/.test(firstName)) {
-        firstNameWarning.textContent = 'Warning: First name cannot contain numbers.';
+    } else if (!/^[a-zA-Z]{3,25}$/.test(firstName)) {
+        firstNameWarning.textContent = 'Warning: First name must be 3 to 25 characters, no numbers or special characters allowed.';
         firstNameInput.classList.add('is-invalid');
         firstNameError.textContent = '';
         return false;
@@ -187,8 +187,8 @@ function validateLastName(lastName) {
         lastNameInput.classList.add('is-invalid');
         lastNameError.textContent = '';
         return false;
-    } else if (/\d/.test(lastName)) {
-        lastNameWarning.textContent = 'Warning: Last name cannot contain numbers.';
+    } else if (!/^[a-zA-Z]{1,15}$/.test(lastName)) {
+        lastNameWarning.textContent = 'Warning: Last name maximum 25 characters, no numbers or special characters allowed.';
         lastNameInput.classList.add('is-invalid');
         lastNameError.textContent = '';
         return false;
@@ -242,7 +242,14 @@ function validateLastName(lastName) {
         phoneInput.classList.add('is-invalid');
         phoneError.textContent = '';
         return false;
-    } else {
+    } 
+    else if (/(\d)\1{5}/.test(phone)){
+        phoneWarning.textContent = 'Warning: Phone number should not contain repeating digits.';
+        phoneInput.classList.add('is-invalid');
+        phoneError.textContent = '';
+        return false;
+    }
+    else {
         phoneInput.classList.remove('is-invalid');
         phoneWarning.textContent = '';
         phoneError.textContent = '';
@@ -261,8 +268,8 @@ function validateShopName(shopName) {
         shopNameInput.classList.add('is-invalid');
         shopNameError.textContent = '';
         return false;
-    } else if (/\d/.test(shopName)) {
-        shopNameWarning.textContent = 'Warning: Shop name cannot contain numbers.';
+    } else if (shopName.length < 3 || shopName.length > 25) {
+        shopNameWarning.textContent = 'Warning: Shop name must be between 3 and 25 characters.';
         shopNameInput.classList.add('is-invalid');
         shopNameError.textContent = '';
         return false;
@@ -273,6 +280,7 @@ function validateShopName(shopName) {
         return true;
     }
 }
+
 
 
 function validateLicense(license) {

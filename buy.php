@@ -9,21 +9,20 @@ if (isset($_SESSION['useremail'])) {
     header("Location: login.php"); 
     exit();
 }
+
+
 $farmer="SELECT farmer.farmer_id FROM farmer JOIN login ON farmer.log_id = login.log_id WHERE login.email = '$farmer_email'";
 $result=mysqli_query($con,$farmer);
 $row=$result->fetch_assoc();
 $farmer_id=$row['farmer_id'];
-$pid = $_GET['machine_id'];
-$sql = "SELECT * from machines m INNER JOIN buy_product bp on m.bp_id=bp.bp_id WHERE machine_id=$pid";
-$sql_result = mysqli_query($con, $sql);
-$data = mysqli_fetch_array($sql_result);
 
-
-if (isset($_GET['order_id'])) {
+if (isset($_GET['order_id']) && isset($_GET['machine_id'])) {
     $order_id = $_GET['order_id'];
+    $pid = $_GET['machine_id'];
 
-// echo $order_id;
-    
+    $sql = "SELECT * from machines m INNER JOIN buy_product bp on m.bp_id = bp.bp_id WHERE machine_id = $pid";
+    $sql_result = mysqli_query($con, $sql);
+    $data = mysqli_fetch_array($sql_result);
 
     $order_details = "SELECT * from shipping_address where order_id = '$order_id'";
 
@@ -34,15 +33,11 @@ if (isset($_GET['order_id'])) {
         $fullAddress = $row['address'];
         $phone_no = $row['phone_no'];
 
-      
-       ?>
-
-
+?>
 
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Order Details</title>
     <meta charset="utf-8">
@@ -101,8 +96,8 @@ if (isset($_GET['order_id'])) {
             <div class="col-md-10 mb-5">
                     <input type="hidden" id="order_id" value="<?php echo $row['order_id']; ?>">
                     <button id="rzp-button1" onclick="pay_now()" data-farmer_id="<?php echo $farmer_id ?>"
-                        data-productid="<?php echo $data['machine_id']; ?>" data-productname="<?php echo $data['machine_name']; ?>"
-                        data-amount="<?php echo $row['total_price']; ?>" class="btn btn-primary buynow">
+                        data-productid="<?php echo $data['machine_id']; ?>" data-order_id = "<?php echo $row['order_id'];?>" data-productname="<?php echo $data['machine_name']; ?>"
+                        data-amount="<?php echo $row['total_price']; ?>" data-quantity="<?php echo $row['quantity']; ?>" class="btn btn-primary buynow">
                         Buy Now
                     </button>
                 </div>
@@ -110,7 +105,7 @@ if (isset($_GET['order_id'])) {
     </div>
 
 
-</body>
+
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script type="text/javascript">
@@ -119,15 +114,13 @@ function pay_now() {
     var productid = $('#rzp-button1').data('productid');
     var productname = $('#rzp-button1').data('productname');
     var farmer_id = $('#rzp-button1').data('farmer_id');
-    var orderid = $('#order_id').val(); // Retrieve order_id from the hidden input
+    var quantity = $('#rzp-button1').data('quantity');
+    var orderid =  $('#rzp-button1').data('order_id');
     var name = "Agrocompanion";
+    
     var actual_amount = 100 * amount;
 
-    console.log("Amount:", actual_amount);
-    console.log("Product ID:", productid);
-    console.log("Product Name:", productname);
-    console.log("Farmer ID:", farmer_id);
-    console.log("Order ID:", orderid);
+
 
     var options = {
         "key": "rzp_test_aM3JBE4V3rZWsp",
@@ -143,11 +136,12 @@ function pay_now() {
                 'name': name,
                 'product_id': productid,
                 'farmer_id': farmer_id,
-                'order_id': orderid
+                'order_id': orderid,
+                'quantity':quantity
             });
 
             $.ajax({
-                url: 'buy.php',
+                url: 'pay.php',
                 type: 'POST',
                 data: {
                     'payment_id': response.razorpay_payment_id,
@@ -155,12 +149,13 @@ function pay_now() {
                     'name': name,
                     'product_id': productid,
                     'farmer_id': farmer_id,
-                    'order_id': orderid
+                    'order_id': orderid,
+                    'quantity':quantity
                 },
                 success: function(data) {
                     console.log(data);
                     // Redirect only after the AJAX request completes successfully
-                    window.location.href = 'payment_success.php?order_id=<?php echo $order_id?>';
+                    // window.location.href = 'payment_success.php?order_id=<?php echo $order_id?>';
                 }
             });
         },
@@ -177,8 +172,6 @@ function pay_now() {
 </script>
 
 
-
-
 <?php
     } else {
         echo "Order not found.";
@@ -186,7 +179,6 @@ function pay_now() {
 } else {
     echo "Invalid request.";
 }
-
 mysqli_close($con);
 ?>
 </body>

@@ -80,7 +80,7 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/vendor_details/navbar_vendor.php" aria-expanded="false">
+              <a class="sidebar-link" href="./view_orderdetails.php" aria-expanded="false">
                 <span>
                 <i class="fas fa-shopping-cart"></i>
 

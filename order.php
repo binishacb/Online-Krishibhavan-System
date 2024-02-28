@@ -93,7 +93,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
         $address = $_POST['address'];
         $phone_no = $_POST['phone'];
         echo "Address: " . $address . "<br>";
-    echo "Phone Number: " . $phone_no . "<br>";
+        echo "Phone Number: " . $phone_no . "<br>";
         $order_query = "INSERT INTO shipping_address (order_id, address,phone_no,farmer_id,machine_id,quantity,total_price,status) VALUES ('$orderId', '$address','$phone_no','$farmer_id','$machine_id','$quantity','$total_price','1')";
         $order_query_run = mysqli_query($con, $order_query);
 
@@ -195,7 +195,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
     var phonePattern = /^\d{10}$/;
 
     // Check if the input is not empty
-    if (phoneInput.trim() === '') {
+    if (phoneInput === '') {
       phoneError.textContent = 'Phone number is required';
       return false;
     }
@@ -213,7 +213,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
 
   function validateForm() {
     var addressInput = document.getElementById('address').value.trim();
-    var phoneInput = document.getElementById('phone').value.trim();
+    var phoneInput = document.getElementById('phone');
     var addressError = document.getElementById('addressError');
     var phoneError = document.getElementById('phoneError');
     var phonePattern = /^\d{10}$/;

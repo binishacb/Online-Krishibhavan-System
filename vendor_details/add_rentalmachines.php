@@ -113,7 +113,7 @@ include('./navbar_vendor.php');
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="productName">Product Name (Product name must be followed by the vendor name):</label>
+                            <label for="productName">Product Name:</label>
                             <input type="text"
                                    oninput="validateProductName(this.value)"
                                    class="form-control" id="productName" name="productName">

@@ -117,7 +117,7 @@
 
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="dashboard_admin.php">Home</a>
+                    <a class="nav-link text-white" href="../dashboard_admin.php">Home</a>
                 </li>
                <li class="nav-item">
                     <a class="nav-link text-white" href="./vendor_details/vendors.php">Vendors</a>
@@ -156,7 +156,7 @@
 
 
 
-                <a class="btn btn-danger" href="logout.php">Logout</a>
+                <a class="btn btn-danger" href="../logout.php">Logout</a>
             </ul>
         </div>
     </nav>
