@@ -89,7 +89,7 @@
         <a href="farmer_add_crop.php"><i class="fas fa-leaf"></i> Crops</a>
         <a href="#"><i class="fas fa-landmark"></i> Govt. Schemes</a>
     </nav>
-    <nav class="navbar navbar-expand-lg navbar-lg bg-#104911 horizontal-navbar">
+    <nav class="navbar navbar-expand-lg navbar-lg bg-#104911 horizontal-navbar fixed-top">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -138,8 +138,8 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white" href="payment_success.php">
-                    <i class="fas fa-eye"></i> order details
+                <a class="nav-link text-white" href="vieworderdetails_farmer.php">
+                    <i class="fas fa-eye"></i> My orders
                 </a>
             </li>
 
