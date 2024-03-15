@@ -17,7 +17,33 @@ if ($viewMachineResult->num_rows > 0) {
     echo '<p class="text-center">Machine not found.</p>';
     exit();
 }
+
+if(isset($_POST['submit']) ) {
+// Assuming $machineRow['fare_per_hour'] contains the fare per hour value
+$fare_per_hour = $machineRow['fare_per_hour'];
+
+// Assuming $security_amount contains the security amount value
+$security_amount = 100; // Example security amount
+
+// Assuming $_POST['quantity'] contains the selected quantity value
+$quantity = isset($_POST['quantity']) ? $_POST['quantity'] : 1;
+
+// Assuming $_POST['rentDate'] and $_POST['returnDate'] contain the selected rent and return date values in datetime format
+$rent_date = new DateTime($_POST['rentDate']);
+$return_date = new DateTime($_POST['returnDate']);
+
+// Calculate the time difference in hours
+$time_difference = $return_date->diff($rent_date);
+$total_hours = $time_difference->h + $time_difference->days * 24;
+
+// Calculate total price
+$total_price = ($total_hours * $fare_per_hour * $quantity) + $security_amount;
+
+// Output the total price
+echo $total_price;
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,6 +82,7 @@ if ($viewMachineResult->num_rows > 0) {
                         alt="<?php echo $machineRow['rp_name']; ?>" style="width:400px;height: 350px;">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $machineRow['rp_name']; ?></h5>
+                        <p>price per hour<?php echo $machineRow['fare_per_hour']; ?></p>
                     </div>
                 </div>
             </div>
@@ -72,8 +99,7 @@ if ($viewMachineResult->num_rows > 0) {
                     </div>
                     <div class="form-group">
                         <label for="rentDate">Rent Date:</label>
-                        <input type="datetime-local" class="form-control" id="rentDate" name="rentDate"
-                            placeholder="Select Rent Date" oninput="validateRentDate()">
+                        <input type="datetime-local" class="form-control" id="rentDate" name="rentDate" placeholder="Select Rent Date" oninput="validateRentDate()">
                         <span id="rentDateError" class="error-message"></span>
                     </div>
                     <div class="form-group">
@@ -88,11 +114,49 @@ if ($viewMachineResult->num_rows > 0) {
                             placeholder="Enter your full address with contact no" oninput="validateAddress()">
                         <span id="addressError" class="error-message"></span>
                     </div>
-                    <button type="submit" class="btn btn-primary">Continue</button>
+                    <div class="form-group">
+                    <label>Total Price:</label>
+                    <p id="totalPrice" oninput="calculateTotalPrice()"></p>
+                </div>
+
+                    <button type="submit" name="submit" class="btn btn-primary">Continue</button>
                 </form>
             </div>
         </div>
     </div>
+
+
+
+
+    <!-- <script>
+function calculateTotalPrice() {
+        var quantity = parseInt(document.getElementById('quantity').value);
+        var rentDate = new Date(document.getElementById('rentDate').value);
+        var returnDate = new Date(document.getElementById('returnDate').value);
+
+        var durationMs = returnDate - rentDate;
+        var durationHours = durationMs / (1000 * 60 * 60);
+        var farePerHour = parseFloat("<?php echo $machineRow['fare_per_hour']; ?>");
+        var subtotal = quantity * durationHours * farePerHour;
+        var securityAmount = parseFloat("<?php echo $securityAmount; ?>");
+        var totalPrice = subtotal + securityAmount;
+
+        document.getElementById('totalPrice').innerText = 'Total Price: ₹' + totalPrice.toFixed(2);
+    }
+
+    // Add event listeners to rental and return date fields
+    document.getElementById('rentDate').addEventListener('input', calculateTotalPrice);
+    document.getElementById('returnDate').addEventListener('input', calculateTotalPrice);
+
+</script> -->
+
+
+
+
+
+
+
+    
     <script>
         function validateForm() {
             // Clear previous error messages

@@ -89,11 +89,11 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/vendor_details/navbar_vendor.php" aria-expanded="false">
+              <a class="sidebar-link" href="./report.php" aria-expanded="false">
                 <span>
                 <i class="fas fa-chart-line"></i>
                 </span>
-                <span class="hide-menu">Monthly order report</span>
+                <span class="hide-menu">Order report</span>
               </a>
             </li>
 

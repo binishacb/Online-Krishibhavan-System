@@ -6,12 +6,9 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'vendor') {
     header('Location: ../index.php');
     exit();
 }
-
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
-
-
 $email = $_SESSION['useremail'];
 $vendor_query = "SELECT vendor.vendor_id FROM vendor JOIN login ON vendor.log_id = login.log_id WHERE login.email = '$email'";
 $vendor_result = mysqli_query($con, $vendor_query);
@@ -61,6 +58,7 @@ if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
                             <th>Total Price</th>
                             <th>Payment Status</th>
                             <th>Order Status</th>
+                            <th>Return/Cancelled orders</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,15 +100,30 @@ if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
                                         
                                     </form>
                                 </td>
-                            <?php
+
+<td>
+    <?php
+    $return_cancel_status = $order_row['cancel_return_status'];
+   
+if($return_cancel_status == 'cancelled'){?>
+    
+    <span class="badge bg-danger">Order Cancelled</span>
+<?php
+}
+elseif($return_cancel_status == 'returned')
+{?>
+    <span class="badge bg-danger">Order Returned</span>
+    <?php
+}
+?>
+</td>
+
+                    <?php
                         } 
                         if (isset($_POST['form_submitted']) && isset($_POST['update_status'])) {
                            
                             $shipping_id = $_POST['shipping_id'];
                             $new_status = $_POST['order_status'];
-
-
-
                             $update_query = "UPDATE shipping_address SET tracking_status = '$new_status' WHERE shipping_id = '$shipping_id'";
                             if ($con->query($update_query) === TRUE) {
                                 echo "<script>alert('Status updated successfully.')</script>";
@@ -119,11 +132,8 @@ if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
                                 echo "<script>alert('Error updating status: . $con->error')</script>";
                             }
                         }
-
-
-
-
                             ?>
+
                             </tr>
                     </tbody>
                 </table>
@@ -131,7 +141,6 @@ if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
             <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.35.1/dist/apexcharts.min.js"></script>
-
 
 
             <script>
