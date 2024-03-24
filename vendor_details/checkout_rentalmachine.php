@@ -1,5 +1,5 @@
 <?php
-// Assuming $con is your database connection
+
 include('../dbconnection.php');
 session_start();
 
@@ -16,31 +16,6 @@ if ($viewMachineResult->num_rows > 0) {
 
     echo '<p class="text-center">Machine not found.</p>';
     exit();
-}
-
-if(isset($_POST['submit']) ) {
-// Assuming $machineRow['fare_per_hour'] contains the fare per hour value
-$fare_per_hour = $machineRow['fare_per_hour'];
-
-// Assuming $security_amount contains the security amount value
-$security_amount = 100; // Example security amount
-
-// Assuming $_POST['quantity'] contains the selected quantity value
-$quantity = isset($_POST['quantity']) ? $_POST['quantity'] : 1;
-
-// Assuming $_POST['rentDate'] and $_POST['returnDate'] contain the selected rent and return date values in datetime format
-$rent_date = new DateTime($_POST['rentDate']);
-$return_date = new DateTime($_POST['returnDate']);
-
-// Calculate the time difference in hours
-$time_difference = $return_date->diff($rent_date);
-$total_hours = $time_difference->h + $time_difference->days * 24;
-
-// Calculate total price
-$total_price = ($total_hours * $fare_per_hour * $quantity) + $security_amount;
-
-// Output the total price
-echo $total_price;
 }
 ?>
 
@@ -60,7 +35,7 @@ echo $total_price;
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
 
     <style>
         .error-message {
@@ -115,8 +90,13 @@ echo $total_price;
                         <span id="addressError" class="error-message"></span>
                     </div>
                     <div class="form-group">
-                    <label>Total Price:</label>
-                    <p id="totalPrice" oninput="calculateTotalPrice()"></p>
+                    <!-- <label>Total Price:</label> -->
+                    <!-- <p id="totalPrice" oninput="calculateTotalPrice()"></p> -->
+
+
+    <p id="totalPrice" data-fare-per-hour="<?php echo $machineRow['fare_per_hour']; ?>" data-security-amount="<?php echo $machineRow['security_amt']; ?>"  oninput="calculateTotalPrice()"></p>
+
+
                 </div>
 
                     <button type="submit" name="submit" class="btn btn-primary">Continue</button>
@@ -127,28 +107,30 @@ echo $total_price;
 
 
 
-
-    <!-- <script>
+    <script>
 function calculateTotalPrice() {
-        var quantity = parseInt(document.getElementById('quantity').value);
-        var rentDate = new Date(document.getElementById('rentDate').value);
-        var returnDate = new Date(document.getElementById('returnDate').value);
+    var quantity = parseInt(document.getElementById('quantity').value);
+    var rentDate = new Date(document.getElementById('rentDate').value);
+    var returnDate = new Date(document.getElementById('returnDate').value);
 
-        var durationMs = returnDate - rentDate;
-        var durationHours = durationMs / (1000 * 60 * 60);
-        var farePerHour = parseFloat("<?php echo $machineRow['fare_per_hour']; ?>");
-        var subtotal = quantity * durationHours * farePerHour;
-        var securityAmount = parseFloat("<?php echo $securityAmount; ?>");
-        var totalPrice = subtotal + securityAmount;
-
-        document.getElementById('totalPrice').innerText = 'Total Price: ₹' + totalPrice.toFixed(2);
-    }
+    var durationMs = returnDate - rentDate;
+    var durationHours = durationMs / (1000 * 60 * 60);
+    console.log("hours",durationHours);
+    var farePerHour = parseFloat(document.getElementById('totalPrice').getAttribute('data-fare-per-hour')); 
+    var securityAmount = parseFloat(document.getElementById('totalPrice').getAttribute('data-security-amount')); 
+    console.log("fare",farePerHour);
+    console.log("security",securityAmount);
+    var subtotal = quantity * durationHours * farePerHour;
+    var totalPrice = subtotal + securityAmount;
+    console.log("total",totalPrice);
+    document.getElementById('totalPrice').innerText = 'Total Price: ₹' + totalPrice.toFixed(2);
+}
 
     // Add event listeners to rental and return date fields
     document.getElementById('rentDate').addEventListener('input', calculateTotalPrice);
     document.getElementById('returnDate').addEventListener('input', calculateTotalPrice);
 
-</script> -->
+</script>
 
 
 
