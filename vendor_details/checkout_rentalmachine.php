@@ -1,7 +1,19 @@
 <?php
-
-include('../dbconnection.php');
 session_start();
+include('../dbconnection.php');
+
+if (isset($_SESSION['useremail'])) {
+    $farmer_email = $_SESSION['useremail'];
+} else {
+    
+    header("Location: ../login.php"); 
+    exit();
+}
+$farmer="SELECT farmer.farmer_id FROM farmer JOIN login ON farmer.log_id = login.log_id WHERE login.email = '$farmer_email'";
+$result=mysqli_query($con,$farmer);
+$row=$result->fetch_assoc();
+$farmer_id=$row['farmer_id'];
+
 
 $machineId = $_GET['id'];
 
@@ -17,8 +29,32 @@ if ($viewMachineResult->num_rows > 0) {
     echo '<p class="text-center">Machine not found.</p>';
     exit();
 }
-?>
 
+
+
+?>
+<?php
+    function generateRandomString($length) {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $numbers = '0123456789';
+        $randomString = '';
+
+        // Add 3 random letters
+        for ($i = 0; $i < 3; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        // Add 6 random numbers
+        for ($i = 0; $i < 6; $i++) {
+            $randomString .= $numbers[rand(0, strlen($numbers) - 1)];
+        }
+
+        return $randomString;
+    }
+
+    $orderId = generateRandomString(9);
+   
+    ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -92,14 +128,16 @@ if ($viewMachineResult->num_rows > 0) {
                     <div class="form-group">
                     <!-- <label>Total Price:</label> -->
                     <!-- <p id="totalPrice" oninput="calculateTotalPrice()"></p> -->
-
-
     <p id="totalPrice" data-fare-per-hour="<?php echo $machineRow['fare_per_hour']; ?>" data-security-amount="<?php echo $machineRow['security_amt']; ?>"  oninput="calculateTotalPrice()"></p>
 
 
                 </div>
 
-                    <button type="submit" name="submit" class="btn btn-primary">Continue</button>
+                <button id="rzp-button1" onclick="pay_now()" data-farmer_id="<?php echo $farmer_id ?>"
+                        data-productid="<?php echo $machineId ?>" data-order_id = "<?php echo $orderId ?>"
+                        class="btn btn-primary buynow"> 
+                        Buy Now
+                    </button>
                 </form>
             </div>
         </div>
@@ -124,6 +162,7 @@ function calculateTotalPrice() {
     var totalPrice = subtotal + securityAmount;
     console.log("total",totalPrice);
     document.getElementById('totalPrice').innerText = 'Total Price: ₹' + totalPrice.toFixed(2);
+    return totalPrice;
 }
 
     // Add event listeners to rental and return date fields
@@ -134,6 +173,79 @@ function calculateTotalPrice() {
 
 
 
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script type="text/javascript">
+function pay_now() {
+    var address = document.getElementById('address').value; // Get address value
+    var rentDate = document.getElementById('rentDate').value; // Get rent date value
+    var returnDate = document.getElementById('returnDate').value;
+
+    var totalPrice = calculateTotalPrice();
+    console.log(totalPrice);
+    var amount = Math.round(totalPrice * 100);
+    var productid = $('#rzp-button1').data('productid');
+    var productname = $('#rzp-button1').data('productname');
+    var farmer_id = $('#rzp-button1').data('farmer_id');
+    //var quantity = $('#rzp-button1').data('quantity');
+    var orderid =  $('#rzp-button1').data('order_id');
+    var name = "Agrocompanion";
+    var quantity = parseInt(document.getElementById('quantity').value);
+   console.log(quantity);
+    var options = {
+        "key": "rzp_test_hMUuzye65m5BJJ",
+        "amount": amount,
+        "currency": "INR",
+        "name": name,
+       
+        "handler": function(response) {
+            console.log(amount);
+            console.log(response);
+            console.log('Sending AJAX request with data:', {
+            'payment_id': response.razorpay_payment_id,
+            'order_id': orderid,
+            'amount': amount,
+            'machineId': productid,
+            'farmer_id': farmer_id,
+            'quantity':quantity,
+            'address': address, // Include address in data
+                'rentDate': rentDate, // Include rent date in data
+                'returnDate': returnDate
+            });
+            $.ajax({
+                url: 'payment.php',
+                type: 'POST',
+                data: {
+                    'payment_id': response.razorpay_payment_id,
+                    'amount': amount,
+                    'name': name,
+                    'product_id': productid,
+                    'farmer_id': farmer_id,
+                    'order_id': orderid,
+                    'quantity':quantity,
+                    'address': address, // Include address in data
+                    'rentDate': rentDate, // Include rent date in data
+                    'returnDate': returnDate 
+                },
+                success: function(data) {
+                    console.log(data);
+                   
+                }
+            });
+        
+        },
+    };
+
+    var rzp1 = new Razorpay(options);
+
+    rzp1.on('payment.failed', function(response) {
+        alert(response.error.code);
+    });
+
+    rzp1.open();
+}
+
+</script>
 
 
 
