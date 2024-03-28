@@ -17,8 +17,7 @@ if ($getFarmerIdResult->num_rows > 0) {
         WHERE cart.farmer_id = '$farmer_id' AND cart.status = '1'";
 
     $getCartItemsResult = $con->query($getCartItemsQuery);
-    $totalPrice = 0;
-    $machineIdQuantityPairs = array();
+   
 
     ?>
 <!DOCTYPE html>
@@ -95,6 +94,9 @@ if ($getFarmerIdResult->num_rows > 0) {
                 }
                 ?>
             </div>
+  
+
+
         <?php
         }
         ?>
@@ -102,11 +104,10 @@ if ($getFarmerIdResult->num_rows > 0) {
 
     <div class="row">
         <div class="col-md-8"></div>
-        <div class="col-md-2">
-            <h5>Total:</h5>
-        </div>
+       
         <div class="col-md-2">
             <div id="overall-total">Overall Total: ₹<?php echo number_format($totalPrice, 2); ?></div>
+          
         </div>
 
         <div class="row mt-2">
@@ -115,20 +116,17 @@ if ($getFarmerIdResult->num_rows > 0) {
    $cartItems = array();
 foreach ($machineIdQuantityPairs as $machineId => $quantity) {
     $cartItems[] = "$machineId:$quantity";
+    
 }
+?>
 
-$cartBuyLink = "cart_buy.php?totalPrice=" . urlencode(number_format($totalPrice, 2)) . "&items=" . implode(',', $cartItems);
 
-               ?>
-               <a href="<?php echo $cartBuyLink; ?>"><button class="btn checkout-btn" id="submitButton"style="background-color:#ffd700;padding: 10px 50px; font-size : 18px;">Proceed to buy</button></a>            </div>
-       
- </div>
+      </div>
     </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script>
-        document.getElementById('submitButton').addEventListener('click', updateTotalPrice);
         function updateTotalPrice(cartItemId, availableQuantity, unitPrice) {
             var quantitySelect = document.getElementById('quantity_' + cartItemId);
             var totalElement = document.querySelector('.total-price_' + cartItemId);
@@ -148,17 +146,21 @@ $cartBuyLink = "cart_buy.php?totalPrice=" . urlencode(number_format($totalPrice,
             });
 
             overallTotalDisplay.textContent = 'Overall Total: ₹' + overallTotal.toFixed(2);
-            return {
-                currentQuantity: currentQuantity,
-                overallTotal: overallTotal
-            };
+            console.log(typeof overallTotal);
+            console.log(overallTotal); 
         }
+        function redirectToCartBuyPage() {
+           
+            var overallTotalDisplay = document.getElementById('overall-total').textContent;
+            var overallTotal = parseFloat(overallTotalDisplay.replace('Overall Total: ₹', ''));
+            window.location.href = 'cart_buy.php?overall_total=' + encodeURIComponent(overallTotal.toString());
+        }
+    </script>
 
+<div class="container mt-5">
+    <button onclick="redirectToCartBuyPage()" class="btn btn-primary">Proceed to Checkout</button>
+</div>
 
-
-
-
-</script>
     </body>
 
     </html>

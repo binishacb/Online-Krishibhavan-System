@@ -130,7 +130,9 @@ $con->close();
     body {
        /* background-color: #4CAF50;*/
         /* Green background color */
-        background: linear-gradient(45deg, #4CAF50, #FFC107);
+        /* background: linear-gradient(45deg, #4CAF50, #FFC107); */
+        background: url("./images/farmer.jpg") no-repeat;
+        background-size: cover;
         /* Gradient from green to orange */
     }
     </style>
@@ -248,6 +250,10 @@ $con->close();
         }
         </script>
         <br><br>  <br>
+        <br>
+        <br><br><br>  <br>
+        <br>
+        <br><br><br>  <br>
         <br>
         <br>
         

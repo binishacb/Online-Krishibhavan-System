@@ -15,8 +15,7 @@ $vendor_result = mysqli_query($con, $vendor_query);
 
 if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
     $vendor_id = $vendor_row['vendor_id'];
-    // SELECT  ROW_NUMBER() OVER (ORDER BY orders.id) AS sl_no,
-    // Assuming you have a table named 'orders' with relevant columns and a column 'machine_id'
+ 
     $order_query = "SELECT shipping_address.*,  machines.machine_name, farmer.firstname,farmer.lastname FROM shipping_address
         JOIN machines ON shipping_address.machine_id = machines.machine_id
         JOIN farmer ON shipping_address.farmer_id = farmer.farmer_id
@@ -34,19 +33,37 @@ if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Your Orders</title>
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.1/css/bootstrap.min.css">
+            <title>Order List</title>
+          
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.19.0/dist/font/bootstrap-icons.css" rel="stylesheet">
+            
+            
         </head>
 
         <body>
             <?php include('./navbar_vendor.php'); ?>
             <div class="container mt-3">
                 <h2 class="text-center p-2 text-primary">Your Orders</h2>
+
                 <div class="mb-3 position-relative" style="width: 300px; margin-left: auto;">
                     <input type="text" class="form-control position-absolute top-0 end-0 border-4" id="searchInput" placeholder="Search by Machine Name">
                 </div>
+
+                <!-- <select class="form-control" id="cancelReasonDropdown" name="selectedReason">
+                            
+                            <option value=""disabled selected>Select an option</option>
+                             <option value="changed_mind">Changed Mind</option>
+                             <option value="product_not_required_anymore">Product Not Required Anymore</option>
+                             <option value="found_better_price">Found Better Price</option>
+                             <option value="ordered_wrong_product">Ordered Wrong Product</option>
+                         </select> -->
+
+
                 <br><br>
+                <?php
+                echo '<div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead class="table-primary">
                         <tr>
@@ -55,33 +72,35 @@ if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
                             <th>Customer Address</th>
                             <th>Machine Name</th>
                             <th>Quantity(in no.s)</th>
-                            <th>Total Price</th>
+                            <th>Total Price(INR)</th>
                             <th>Payment Status</th>
                             <th>Order Status</th>
-                            <th>Return/Cancelled orders</th>
+                            <!-- <th>Return/Cancelled orders</th> -->
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody>';
+                    ?>
                         <?php while ($order_row = mysqli_fetch_assoc($order_result)) {
 
                             $order_id =  $order_row['order_id'];
 
-                        ?>
-                            <tr>
-                                <td><?php echo $order_row['order_id']; ?></td>
-                                <td><?php echo $order_row['order_date']; ?></td>
-                                <td><?php echo $order_row['firstname'] . ' ' . $order_row['lastname'] . "<br>" . $order_row['address'] . "<br>Phone no: " . $order_row['phone_no']; ?></td>
-                                <td><?php echo $order_row['machine_name']; ?></td>
-                                <td><?php echo $order_row['quantity']; ?></td>
-                                <td>Rs <?php echo $order_row['total_price']; ?></td>
-                                <td>
-                                    <?php if ($order_row['status'] == 2) { ?>
-                                        <span class="badge bg-success">Paid</span>
-                                    <?php } else if ($order_row['status'] == 1) { ?>
-                                        <span class="badge bg-warning">Pending</span>
-                                    <?php } ?>
-                                </td>
-                                <td>
+                       
+                            echo '<tr>
+                                <td>' .  $order_row['order_id'] . '</td>
+                                <td>' .  $order_row['order_date']. '</td>
+                                <td>' .  $order_row['firstname'] . ' ' . $order_row['lastname'] . "<br>" . $order_row['address'] . "<br>Phone no: " . $order_row['phone_no']. '</td>
+                                <td>' .  $order_row['machine_name']. '</td>
+                                <td>' .  $order_row['quantity']. '</td>
+                                <td>Rs ' .  $order_row['total_price']. '</td>
+                                <td>';
+
+                                    if ($order_row['status'] == 2) {
+                                        echo '<span class="badge bg-success">Paid</span>';
+                                    } else if ($order_row['status'] == 1) { 
+                                        echo '<span class="badge bg-warning">Pending</span>';
+                                     }
+                               echo  '</td>
+                                <td>';?>
                                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                                         <input type="hidden" name="shipping_id" value="<?php echo $order_row['shipping_id']; ?>">
                                         <input type="hidden" name="form_submitted" value="1">
@@ -99,9 +118,9 @@ if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
                                          </button>
                                         
                                     </form>
-                                </td>
+                               <?php echo '</td>';?>
 
-<td>
+<!-- <td>
     <?php
     $return_cancel_status = $order_row['cancel_return_status'];
    
@@ -115,8 +134,14 @@ elseif($return_cancel_status == 'returned')
     <span class="badge bg-danger">Order Returned</span>
     <?php
 }
+
+elseif($return_cancel_status == 'replaced')
+{?>
+    <span class="badge bg-danger">Order Replaced</span>
+    <?php
+}
 ?>
-</td>
+</td> -->
 
                     <?php
                         } 
@@ -132,15 +157,17 @@ elseif($return_cancel_status == 'returned')
                                 echo "<script>alert('Error updating status: . $con->error')</script>";
                             }
                         }
-                            ?>
+                           
 
-                            </tr>
-                    </tbody>
-                </table>
+                            echo '</tr>';
+                    echo '</tbody>';
+                echo '</table>';
+                ?>
             </div>
             <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.35.1/dist/apexcharts.min.js"></script>
+            
+            <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 
             <script>

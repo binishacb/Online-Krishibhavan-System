@@ -38,7 +38,7 @@ include('navbar_vendor.php');
                  $vendor_id = $vendor_row['vendor_id'];
  
             // Get the monthly order count
-            $monthly_order_count_query = "SELECT DATE_FORMAT(order_date, '%Y-%m') AS month, COUNT(shipping_id) AS order_count
+            $monthly_order_count_query = "SELECT DATE_FORMAT(order_date, '%Y-%m') AS month, COUNT(shipping_id) AS order_count,SUM(total_price) AS total_income
                                           FROM shipping_address JOIN machines ON machines.machine_id = shipping_address.machine_id
                                           WHERE vendor_id = '$vendor_id'
                                           GROUP BY DATE_FORMAT(order_date, '%Y-%m')";
@@ -46,6 +46,7 @@ include('navbar_vendor.php');
             $monthly_order_counts = array();
             while ($row = mysqli_fetch_assoc($monthly_order_count_result)) {
                 $monthly_order_counts[$row['month']] = $row['order_count'];
+                $monthly_incomes[$row['month']] = $row['total_income'];
             }
 ?>
 
@@ -122,36 +123,8 @@ include('navbar_vendor.php');
                 <?php
                     }
 
-                 
-                    echo '<tr>';
-                    echo '<td colspan="5" class="text-end"><strong>Total amount:</strong></td>';
-                    echo '<td><strong>Rs ' . $totalPrice . '</strong></td>';
-                    echo '</tr>';
+        
 
-                    // Display cancelled orders count and total cancelled amount
-                    echo '<tr>';
-                    echo '<td colspan="5" class="text-end"><strong>Cancelled Orders Count:</strong></td>';
-                    echo '<td><strong>' . $cancelledOrdersCount . '</strong></td>';
-                    echo '</tr>';
-                    echo '<tr>';
-                    echo '<td colspan="5" class="text-end"><strong>Total Cancelled Amount:</strong></td>';
-                    echo '<td><strong>Rs ' . $totalCancelledAmount . '</strong></td>';
-                    echo '</tr>';
-
-                    echo '<tr>';
-                    echo '<td colspan="5" class="text-end"><strong>Returned Orders Count:</strong></td>';
-                    echo '<td><strong> ' .  $returnOrdersCount . '</strong></td>';
-                    echo '</tr>';
-
-                    echo '<tr>';
-                    echo '<td colspan="5" class="text-end"><strong>Total returned order amount:</strong></td>';
-                    echo '<td><strong>Rs ' . $totalReturnedAmount . '</strong></td>';
-                    echo '</tr>';
-
-                    echo '<tr>';
-                    echo '<td colspan="5" class="text-end"><strong>Total income:</strong></td>';
-                    echo '<td><strong>Rs ' . $totalProfit . '</strong></td>';
-                    echo '</tr>';
 
                 } else {
                     echo "Error fetching vendor details.";
@@ -159,6 +132,16 @@ include('navbar_vendor.php');
 
                 mysqli_close($con);
                 ?>
+<!-- <?php 
+            foreach ($monthly_incomes as $month => $income) {
+                ?>
+                <tr>
+                    <td><?php echo $month; ?></td>
+                    <td><?php echo "Rs " . $income; ?></td>
+                </tr>
+                <?php
+                    }
+                ?> -->
             </tbody>
         </table>
     </div>
@@ -166,6 +149,10 @@ include('navbar_vendor.php');
 <div class="d-print-none print-btn">
     <a class="btn btn-primary" onclick="window.print()">Print report</a>
 </div>
+
+
+
+
 
 
 <!-- Place this JavaScript code after the table and before the closing </body> tag -->
@@ -186,6 +173,30 @@ include('navbar_vendor.php');
                 row.style.display = 'none';
             }
         });
+
+        // Calculate total income for the selected month
+        var totalIncome = 0;
+        var rowsDisplayed = document.querySelectorAll('#orderTable tbody tr[style=""]'); // Get displayed rows
+        rowsDisplayed.forEach(function(row) {
+            var incomeCell = row.cells[5]; // Total Price cell
+            var incomeText = incomeCell.textContent.trim().replace('Rs ', ''); // Extract numeric value
+            var income = parseFloat(incomeText); // Convert to float
+            totalIncome += income; // Add to total income
+        });
+
+        // Display total income
+        var totalIncomeRow = document.getElementById('totalIncomeRow');
+        if (totalIncomeRow) {
+            totalIncomeRow.remove(); // Remove existing total income row if it exists
+        }
+        var tableBody = document.querySelector('#orderTable tbody');
+        totalIncomeRow = document.createElement('tr');
+        totalIncomeRow.id = 'totalIncomeRow';
+        totalIncomeRow.innerHTML = `
+            <td colspan="5" class="text-end"><strong>Total Income:</strong></td>
+            <td><strong>Rs ${totalIncome.toFixed(2)}</strong></td>
+        `;
+        tableBody.appendChild(totalIncomeRow); // Append total income row to table body
     });
 </script>
 

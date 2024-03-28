@@ -137,20 +137,8 @@ if (isset($_POST['submit'])) {
         content: none;
     }
 
-    body {
-        background-color: #4CAF50;
-        /* Green background color */
-        background: linear-gradient(45deg, #4CAF50, #FFC107);
-        /* Gradient from green to orange */
-    }
 
-    /*
-.registration-container {
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for the form container 
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Drop shadow for the form container 
-}*/
+
     </style>
 </head>
 

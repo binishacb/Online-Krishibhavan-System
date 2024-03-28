@@ -48,7 +48,7 @@
       ?>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">My Profile</a></li>
+          <!-- <li><a class="dropdown-item" href="#">My Profile</a></li> -->
           <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
         </ul>
       </div>
@@ -79,6 +79,7 @@
                 <span class="hide-menu">Product list</span>
               </a>
             </li>
+
             <li class="sidebar-item">
               <a class="sidebar-link" href="./view_orderdetails.php" aria-expanded="false">
                 <span>
@@ -88,6 +89,37 @@
                 <span class="hide-menu">Order list</span>
               </a>
             </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./view_cancelList.php" aria-expanded="false">
+                <span>
+                <i class="fas fa-times-circle"></i>
+
+                </span>
+                <span class="hide-menu">Cancellation list</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./view_returnList.php" aria-expanded="false">
+                <span>
+                <i class="fas fa-exchange-alt"></i>
+
+                </span>
+                <span class="hide-menu">Returned  list</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./view_replacedList.php" aria-expanded="false">
+                <span>
+                <i class="fas fa-sync-alt"></i>
+
+                </span>
+                <span class="hide-menu">Replaced machines list</span>
+              </a>
+            </li>
+
+
+
             <li class="sidebar-item">
               <a class="sidebar-link" href="./report.php" aria-expanded="false">
                 <span>

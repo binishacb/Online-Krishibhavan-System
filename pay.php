@@ -18,7 +18,7 @@ if (
     $product_id = $_POST['product_id'];
     $order_id = $_POST['order_id'];
     $quantity = $_POST['quantity'];
-echo $order_id;
+    echo $order_id;
  
 
     

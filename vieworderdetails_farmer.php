@@ -27,6 +27,16 @@ if ($res) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Order Details</title>
+    <style>
+    /* Background overlay */
+    .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0) !important; 
+    }
+
+    /* Modal content */
+    .modal-content .modal-body {
+    background-color: lightblue; /* Set the background color of the modal body to blue */
+}</style>
 </head>
 
 <body>
@@ -59,8 +69,7 @@ if ($res) {
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <h5 class="card-title"><?php echo $rowOrder['machine_name']; ?></h5>
-                                        <!-- <p class="card-text">Shipping Address: <?php echo $rowOrder['shipping_id']; ?></p>
-                                        <p class="card-text">Shipping Address: <?php echo $rowOrder['machine_id']; ?></p> -->
+                                       
                                         <p class="card-text">Shipping Address: <?php echo $rowOrder['address']; ?></p>
                                         <p class="card-text">Order Date: <?php echo $rowOrder['order_date']; ?></p>
                                         <p class="card-text">Payment Status: <span class="badge <?php echo ($rowOrder['status'] == 2) ? 'bg-success' : 'bg-warning'; ?>"><?php echo ($rowOrder['status'] == 2) ? 'Paid' : 'Pending'; ?></span></p>
@@ -98,9 +107,9 @@ if ($res) {
                         <input type="hidden" name="machine_id" value="<?php echo htmlspecialchars($rowOrder['machine_id'], ENT_QUOTES, 'UTF-8'); ?>">
                     </form>
 
-                    <!-- Use unique button ID for each iteration -->
+                   
                     <button id="<?php echo $buttonId; ?>" class="btn btn-primary" onclick="submitReceiptForm('<?php echo $formId; ?>')">View Receipt</button>
-<!-- <button class="btn btn-primary" onclick="submitReceiptForm()">View Receipt</button> -->
+
 
 <script>
 function submitReceiptForm(formId) {
@@ -124,7 +133,14 @@ if ($trackingStatus == 3) {
      if ($cancel_return_status == 'returned') {
         // If the order is already returned, display "Order Returned" text
         echo '<button class="btn btn-secondary" disabled>Order Returned</button>';
-    } else {
+    } 
+    elseif ($cancel_return_status == 'replaced') {
+        // If the order is already returned, display "Order Returned" text
+        echo '<button class="btn btn-secondary" disabled>Order Replaced</button>';
+    }
+
+    
+    else {
         // If the order is in status 3 and not yet cancelled or returned, display "Return Order" button
         $returnModalId = 'returnOrderModal_' . uniqid(); // Generate unique ID
         echo '<button class="btn btn-warning" data-toggle="modal" data-target="#' . $returnModalId . '" onClick="showReturnModal(' . $trackingStatus . ')">Return Order</button>';
@@ -133,7 +149,18 @@ if ($trackingStatus == 3) {
     if ($cancel_return_status == 'cancelled') {
         // If the order is already cancelled, display "Order Cancelled" text
         echo '<button class="btn btn-secondary" disabled>Order Cancelled</button>';
-    }else{
+    }
+    elseif ($cancel_return_status == 'returned') {
+        // If the order is already returned, display "Order Returned" text
+        echo '<button class="btn btn-secondary" disabled>Order Returned</button>';
+    }
+    elseif ($cancel_return_status == 'replaced') {
+        // If the order is already returned, display "Order Returned" text
+        echo '<button class="btn btn-secondary" disabled>Order Replaced</button>';
+    }
+
+
+    else{
     // For other cases, display "Cancel Order" button
     $cancelModalId = 'cancelOrderModal_' . uniqid(); // Generate unique ID
     echo '<button class="btn btn-danger" data-toggle="modal" data-target="#' . $cancelModalId . '" onClick="showCancelModal(' . $trackingStatus . ')">Cancel Order</button>';
@@ -147,7 +174,7 @@ if ($trackingStatus == 3) {
 
 
 
-<div class="modal fade" id="<?php echo $returnModalId; ?>" tabindex="-1" role="dialog" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
+<div class="modal" id="<?php echo $returnModalId; ?>" tabindex="-1" role="dialog" aria-labelledby="returnOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -165,19 +192,29 @@ if ($trackingStatus == 3) {
                     <input type="hidden" name="order_id" value="<?php echo $rowOrder['shipping_id']; ?>">
 
                     <div class="form-group">
-        <label for="returnReason">Select Reason for Return:</label>
-        <select class="form-control" id="returnReason" name="return_reason">
-            <option value="" disabled selected>Select reason</option>
-            <option value="damaged_product">Damaged Product</option>
-            <option value="quality_issues">Quality Issues</option>
-            <option value="received_wrong_product">Received Wrong Product</option>
-        </select>
-    </div>
+                        <label for="returnReason">Select Reason for Return:</label>
+                        <select class="form-control" id="returnReason" name="return_reason">
+                            <option value="" disabled selected>Select reason</option>
+                            <option value="damaged_product">Damaged Product</option>
+                            <option value="quality_issues">Quality Issues</option>
+                            <option value="received_wrong_product">Received Wrong Product</option>
+                        </select>
+                    </div>
+
+                    <p>Do you want a replacement or return ?</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="returnType" id="returnRadio" value="returned">
+                        <label class="form-check-label" for="returnRadio">Return</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="returnType" id="replacementRadio" value="replaced">
+                        <label class="form-check-label" for="replacementRadio">Replacement</label>
+                    </div>
 
                     <div class="form-check">
-                            <label for="cancelOtherReason">Other Reason (if any):</label>
-                            <textarea class="form-control" name = "other_reasons" id="returnOtherReason" rows="3" placeholder="Enter other reason"></textarea>
-                        </div>
+                        <label for="cancelOtherReason">Other Reason (if any):</label>
+                        <textarea class="form-control" name="other_reasons" id="returnOtherReason" rows="3" placeholder="Enter other reason"></textarea>
+                    </div>
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" onclick="submitReturnOrder()">Submit</button>
@@ -194,77 +231,48 @@ if ($trackingStatus == 3) {
 
 
 
-
-    <div class="modal fade" id="<?php echo $cancelModalId; ?>" tabindex="-1" role="dialog" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
- 
-    
-    <!-- <div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog" aria-labelledby="cancelOrderModalLabel" aria-hidden="true"> -->
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="cancelOrderModalLabel">Reasons for Cancellation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to cancel this order? Please provide the reason below:</p>
-                      <!-- <p>farmer_id<?php echo  $rowOrder['farmer_id']; ?></p>
-                      <p>machine_id<?php echo  $rowOrder['machine_id']; ?></p>
-                      <p>order_id<?php echo  $rowOrder['shipping_id']; ?></p> -->
-
+<div class="modal" id="<?php echo $cancelModalId; ?>" tabindex="-1" role="dialog" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelOrderModalLabel">Reasons for Cancellation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel this order? Please provide the reason below:</p>
                 <form id="cancelOrderForm" action="handle_cancel_order.php" method="post">
                     <input type="hidden" name="farmer_id" value="<?php echo $rowOrder['farmer_id']; ?>">
                     <input type="hidden" name="machine_id" value="<?php echo $rowOrder['machine_id']; ?>">
                     <input type="hidden" name="order_id" value="<?php echo $rowOrder['shipping_id']; ?>">
-                    <input type="hidden" name="selectedReasons" id="selectedReasons">
-                    <input type="hidden" name="otherReasons" id="cancelOtherReason">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="changed_mind" id="changedMindCheckbox" name="selectedReasons[]">
-                            <label class="form-check-label" for="changedMindCheckbox">
-                                Changed Mind
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="not_required_anymore" id="notRequiredAnymoreCheckbox" name="selectedReasons[]">
-                            <label class="form-check-label" for="notRequiredAnymoreCheckbox">
-                                Product Not Required Anymore
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="found_better_price" id="foundBetterPriceCheckbox" name="selectedReasons[]">
-                            <label class="form-check-label" for="foundBetterPriceCheckbox">
-                                Found Better Price
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="ordered_wrong_product" id="orderedWrongProductCheckbox" name="selectedReasons[]">
-                            <label class="form-check-label" for="orderedWrongProductCheckbox">
-                                Ordered Wrong Product
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label for="cancelOtherReason">Other Reason (if any):</label>
-                            <textarea class="form-control" id="cancelOtherReason" rows="3" placeholder="Enter other reason"></textarea>
-                        </div>
-                        <div class="modal-footer">
+       
+                    <div class="form-group">
+                        <label for="cancelReasonDropdown">Select reason for cancellation:</label>
+                        <select class="form-control" id="cancelReasonDropdown" name="selectedReason">
+                            
+                           <option value=""disabled selected>Select an option</option>
+                            <option value="changed_mind">Changed Mind</option>
+                            <option value="product_not_required_anymore">Product Not Required Anymore</option>
+                            <option value="found_better_price">Found Better Price</option>
+                            <option value="ordered_wrong_product">Ordered Wrong Product</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cancelOtherReason">Other Reason (if any):</label>
+                        <textarea class="form-control" name = "cancelOtherReason"  id="cancelOtherReason" rows="3" placeholder="Enter other reason"></textarea>
+                    </div>
+                    <div class="modal-footer">
                         <button class="btn btn-danger cancelOrderBtn" data-toggle="modal" data-target="#cancelOrderModal" 
-    data-orderid="<?php echo $rowOrder['shipping_id']; ?>"
-    data-machineid="<?php echo $rowOrder['machine_id']; ?>">Cancel Order</button>
-
-
-
+                            data-orderid="<?php echo $rowOrder['shipping_id']; ?>"
+                            data-machineid="<?php echo $rowOrder['machine_id']; ?>">Cancel Order</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+                    </div>
                 </form>
-                </div>
             </div>
         </div>
     </div>
-
-
-
-
+</div>
 
                                     </div>
                                 </div>
@@ -321,18 +329,13 @@ if ($trackingStatus == 3) {
         }
 
         function submitCancelOrder() {
-            // Handle the submission of the cancel order form here
-            // You can use JavaScript to get the selected checkboxes and process them
-            // For example:
+  
             var changedMindChecked = $('#changedMindCheckbox').prop('checked');
             var notRequiredAnymoreChecked = $('#notRequiredAnymoreCheckbox').prop('checked');
             var foundBetterPriceChecked = $('#foundBetterPriceCheckbox').prop('checked');
             var orderedWrongProductChecked = $('#orderedWrongProductCheckbox').prop('checked');
 
-            // Perform actions based on selected checkboxes
-            // ...
-
-            // Close the modal
+          
             $('#cancelOrderModal').modal('hide');
         }
     </script>

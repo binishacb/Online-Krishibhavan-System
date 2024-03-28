@@ -6,9 +6,9 @@
         <li class="nav-item">
             <a class="nav-link text-white" href="index.php">Home</a>
         </li>
-        <!-- <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link text-white" href="registration.php">Register</a>
-        </li> -->
+        </li>
         <li class="nav-item">
             <a class="nav-link text-white" href="login.php">Login</a>
         </li>

@@ -325,7 +325,7 @@ include('dbconnection.php');
                             <div class="info">
                                 <div class="head">Email</div>
                                 <div class="sub-title">info@agrocompanion.co.ke</div>
-                                <div class="sub-title">admin@agrocompanion.co.ke</div>
+                               
                             </div>
                         </div>
                     </div>
@@ -361,7 +361,7 @@ include('dbconnection.php');
 
 
     <?php
-include('footer/footer.php')
+// include('footer/footer.php')
 ?>
 
 </body>

@@ -110,7 +110,7 @@ if ($viewMachineResult->num_rows > 0) {
                     </div>
                     <div class="form-group">
                         <label for="rentDate">Rent Date:</label>
-                        <input type="datetime-local" class="form-control" id="rentDate" name="rentDate" placeholder="Select Rent Date" oninput="validateRentDate()">
+                        <input type="datetime-local" class="form-control" id="rentDate" name="rentDate" placeholder="Select Rent Date" oninput="validateRentDate()" onchange="checkAvailability()">
                         <span id="rentDateError" class="error-message"></span>
                     </div>
                     <div class="form-group">
@@ -132,6 +132,7 @@ if ($viewMachineResult->num_rows > 0) {
 
 
                 </div>
+                <input type="hidden" id="machineId" value="<?php echo $machineId; ?>">
 
                 <button id="rzp-button1" onclick="pay_now()" data-farmer_id="<?php echo $farmer_id ?>"
                         data-productid="<?php echo $machineId ?>" data-order_id = "<?php echo $orderId ?>"
@@ -248,7 +249,29 @@ function pay_now() {
 </script>
 
 
+<script>
+        function checkAvailability() {
+            var rentDate = document.getElementById('rentDate').value; // Get selected rent date
+            var machineId = document.getElementById('machineId').value;
 
+            
+            $.ajax({
+                url: 'check_availability.php', // PHP script to check availability
+                type: 'POST',
+                data: {
+                    rentDate: rentDate,
+                    machineId: machineId
+                },
+                success: function(response) {
+                    // Display the closest available date to the user
+                    $('#closestDate').html(response);
+                }
+            });
+        }
+
+        // Call checkAvailability function when rent date changes
+        document.getElementById('rentDate').addEventListener('change', checkAvailability);
+    </script>
 
     
     <script>

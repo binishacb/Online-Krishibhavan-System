@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +12,7 @@
 <body>
     <div style="text-align: center; margin-top: 50px;">
         <img src="images/sad_emoji.png" alt="Sad Smiley" style="max-width: 100px;">
-        <h2>Oops! No machine ID found.</h2>
+        <h2>No return orders..</h2>
     </div>
 </body>
 </html>

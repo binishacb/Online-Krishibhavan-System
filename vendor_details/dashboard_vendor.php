@@ -207,12 +207,10 @@ if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
     }
   });
 
-  // Update chart when month changes
+  
   monthSelect.addEventListener('change', function() {
     selectedMonth = this.value;
-    // Fetch data for the selected month from PHP
-    // Update labels and data arrays
-    // Call chart.update() to update the chart with new data
+    
   });
 </script>
 

@@ -85,7 +85,7 @@ include('navbar/navbar_machines.php');
                 <thead>
                     <tr>
                         <th>Product</th>
-                        <th>Amount</th>
+                        <th>Amount(INR)</th>
                     </tr>
                 </thead>
                 <tbody>
