@@ -113,7 +113,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'admin') {
                     <div class="card-body">
                         <h5 class="card-title">Government Schemes</h5>
                         
-                        <a href="view_machines.php" class="btn btn-info">View Machines</a>
+                        <a href="view_machines.php" class="btn btn-info">View Schemes</a>
                     </div>
                 </div>
             </div>

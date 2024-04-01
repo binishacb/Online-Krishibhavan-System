@@ -74,40 +74,45 @@ if (!isset($_SESSION['useremail'])) {
             // Check if crop and acres exist in the farmers_crops table
             $cropExistsQuery = "SELECT * FROM farmers_crops WHERE farmer_email = '$farmer_email' AND acres >= $acres AND crop = '$crop'";
             $cropExistsResult = $con->query($cropExistsQuery);
+
+            $schemeAppliedQuery = "SELECT * FROM scheme_application WHERE scheme_id = $schemeID AND farmer_id = $farmer_id";
+            $schemeAppliedResult = $con->query($schemeAppliedQuery);
+            $schemeApplied = ($schemeAppliedResult->num_rows > 0);
             
             echo '<div class="col-md-4">';
             echo '<div class="card scheme-box">';
             echo '<div class="card-body">';
             echo '<h5 class="card-title">' . $schemeName . '</h5>';
+            if ($daysUntilEndDate <= 5 && $row['end_date'] >= date('Y-m-d')) {
+                echo '<span class="badge badge-danger">Expires Soon</span>';
+            }
             echo '<p class="card-text" ' . $endDateColor . '>End Date: ' . date('Y-m-d', $endDate) . '</p>';
-            echo '<a href="scheme_details.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-secondary btn-more-details">More Details</a>';
             // Check if the scheme is still active
             if ($row['end_date'] >= date('Y-m-d')) {
-                if ($cropExistsResult->num_rows > 0) {
-                    
+                echo '<div class="d-flex justify-content-between align-items-center">';
+                if ($schemeApplied) {
+                    echo '<button class="btn btn-danger" disabled>Applied</button>';
+                } elseif ($cropExistsResult->num_rows > 0) {
                     // Crop and acres exist, display the "Apply" button
                     echo '<a href="apply_scheme.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-primary">Apply</a>';
-                    
                 } else {
                     // Crop and acres do not exist, display a disabled button
                     echo '<button class="btn btn-secondary" disabled>Not Eligible</button>';
-                    //echo '<a href="scheme_details.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-secondary btn-more-details">More Details</a>';
                 }
-
-                if ($daysUntilEndDate <= 5) {
-                    echo '<span class="badge badge-danger">Expires Soon</span>';
-                }
-      
-
-
-            } 
-            else {
+               
+                echo '</div>';
+            } else {
+                echo '<div class="d-flex justify-content-between align-items-center">';
                 echo '<button class="btn btn-secondary" disabled>Expired</button>';
+                echo '</div>';
             }
-
+            echo '<a href="scheme_details.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-secondary btn-more-details" style="margin-left: 20px;">More Details</a>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
+            
+            
+            
         }
         echo '</div></div>'; // Close the row and container
     } 

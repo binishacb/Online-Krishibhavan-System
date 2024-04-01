@@ -98,9 +98,9 @@ include('navbar/navbar_officer.php');
                             </div>
 
                             <div class="form-group">
-                                <label for="acres">Land area(acres):</label>
+                                <label for="acres">Land area(cent):</label>
                                 <input type="number" class="form-control" id="acres" name="acres"
-                                    placeholder="Enter number of acres" required>
+                                    placeholder="Enter land area in cents" required>
                                 <!-- You can add additional validation feedback elements if needed -->
                             </div>
 
@@ -111,6 +111,7 @@ include('navbar/navbar_officer.php');
                                     <option value="wheat">Wheat</option>
                                     <option value="coconut">Coconut</option>
                                     <option value="rice">Rice</option>
+                                    <option value="rice">Pepper</option>
                                    
                                 </select>
                             </div>
@@ -327,18 +328,18 @@ if (isset($_POST['submit'])) {
         const today = new Date();
 
         if (startDateInput.value.trim() === '') {
-            errorMessages.push('Error: Start Date cannot be empty.');
+            errorMessages.push('Error: Start date cannot be empty.');
         }
 
         if (startDateValue < today) {
-            errorMessages.push('Error: Start Date cannot be in the past.');
+            errorMessages.push('Error: Start date should be after the current date.');
         }
 
         const maxStartDate = new Date(today);
         maxStartDate.setMonth(maxStartDate.getMonth() + 3);
 
         if (startDateValue > maxStartDate) {
-            errorMessages.push('Error: Start Date should not exceed 3 months from the current date.');
+            errorMessages.push('Error: Start date should not exceed 3 months from the current date.');
         }
 
         if (errorMessages.length > 0) {
@@ -365,28 +366,28 @@ if (isset($_POST['submit'])) {
         const today = new Date();
 
         if (endDateInput.value.trim() === '') {
-            errorMessages.push('Error: End Date cannot be empty.');
+            errorMessages.push('Error: End date cannot be empty.');
         }
 
         const startDateInput = document.getElementById('start_date');
         const startDateValue = new Date(startDateInput.value);
 
         if (endDateValue <= today) {
-            errorMessages.push('Error: End Date should be in the future.');
+            errorMessages.push('Error: End date should be after the current date.');
         }
 
         const minEndDate = new Date(startDateValue);
         minEndDate.setDate(minEndDate.getDate() + 7); // At least one week after the start date.
 
         if (endDateValue < minEndDate) {
-            errorMessages.push('Error: End Date should be at least one week after the Start Date.');
+            errorMessages.push('Error: End date should be at least one week after the Start Date.');
         }
 
         const maxEndDate = new Date(startDateValue);
         maxEndDate.setMonth(maxEndDate.getMonth() + 6); // Not exceeding 6 months from the start date.
 
         if (endDateValue > maxEndDate) {
-            errorMessages.push('Error: End Date should not exceed 6 months from the Start Date.');
+            errorMessages.push('Error: End date should not exceed 6 months from the Start Date.');
         }
 
         if (errorMessages.length > 0) {

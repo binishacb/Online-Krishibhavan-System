@@ -11,9 +11,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'officer') {
 
 <head>
     <title>Officer Dashboard</title>
-    <!-- Add your CSS and Bootstrap link here -->
 
-    <!-- Link to Bootstrap CSS (you may have already linked it in your project) -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
    
@@ -30,16 +28,12 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'officer') {
     <br>
     <div class="container">
         <div class="card">
-            <h5 class="card-header">Welcome <?php
-                if (isset($_SESSION['useremail'])) {
-                    echo '' . $_SESSION['useremail'];
-                }
+            <h5 class="card-header">Welcome Officer<?php
+                // if (isset($_SESSION['useremail'])) {
+                //     echo '' . $_SESSION['useremail'];
+                // }
                 ?></h5>
-            <!-- <div class="card-body">
-                <h5 class="card-title">Find More</h5>
-                <p class="card-text">Explore the Website</p>
-                <a href="#" class="btn btn-primary">Explore</a>
-            </div> -->
+      
         </div>
 
         <!-- Additional Bootstrap elements for the officer's dashboard -->
@@ -47,7 +41,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'officer') {
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Tasks</h5>
+                        
                         <p class="card-text">Details of the schemes </p>
                         <a href="scheme_verification.php" id = "addScheme" class="btn btn-success">View schemes details</a>
                     </div>

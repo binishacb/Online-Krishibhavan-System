@@ -9,7 +9,7 @@ if (!isset($_SESSION['useremail'])) {
 ?>
 <?php
 if (isset($_POST['submit'])){
-    echo "hello";
+    
     // If there are any error messages, display them and stop further processing
     
     $kname = $_POST["kname"];
@@ -245,12 +245,14 @@ include('footer/footer.php');
         knameWarning.textContent = '';
         knameError.textContent = 'Error: Krishibhavan name should contain at least 3 letters.';
         return false;
-    } else if (!/^[a-zA-Z]+$/.test(kname)) {
-        knameInput.classList.add('is-invalid');
-        knameWarning.textContent = '';
-        knameError.textContent = 'Error: Krishibhavan Name should not contain numbers or special characters.';
-        return false;
-    } else if (kname.length > 30) {
+    } 
+    // else if (!/^[a-zA-Z]+$/.test(kname)) {
+    //     knameInput.classList.add('is-invalid');
+    //     knameWarning.textContent = '';
+    //     knameError.textContent = 'Error: Krishibhavan Name should not contain numbers or special characters.';
+    //     return false;
+    // }
+     else if (kname.length > 30) {
         knameInput.classList.add('is-invalid');
         knameWarning.textContent = '';
         knameError.textContent = 'Error: Krishibhavan name exceeds the maximum character limit of 30.';

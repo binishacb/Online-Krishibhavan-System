@@ -95,7 +95,7 @@
         </button>
         <a href="dashboard_admin.php"><i class="fas fa-home"></i> Home</a>
         <a href="viewfarmer.php"><i class="fas fa-user"></i> Farmers</a>
-        <a href="admin_add_officer.php"><i class="fas fa-user-plus"></i> Add Officers</a>
+        <a href="check_officer.php"><i class="fas fa-user-plus"></i> Add Officers</a>
         <a href="viewofficers.php"><i class="fas fa-users"></i> Officers</a>
         <a href="#"><i class="fas fa-newspaper"></i> News</a>
         <a href="#"><i class="fas fa-leaf"></i> Crops</a>

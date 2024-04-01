@@ -11,6 +11,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 require './vendor/autoload.php';
+$k_id = $_GET['k_id'];
 
 function sendemail_verify($email,$rpassword)
 {
@@ -78,10 +79,7 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
 
-    $krishibhavan_name = $_POST['krishibhavan_name'];
-   echo $firstname;
-
-    // Generate a random password
+   
     $rpassword = generateRandomPassword();
     $hashed_password = hashPassword($rpassword);
     
@@ -95,12 +93,6 @@ if (isset($_POST['submit'])) {
     if ($designation_row = mysqli_fetch_assoc($designation_result)) {
         $designation_id = $designation_row['designation_id'];
 
-        // Query the 'krishibhavan' table to get the ID for the selected krishibhavan
-        $krishibhavan_query = "SELECT krishibhavan_id FROM krishi_bhavan WHERE krishibhavan_name = '$krishibhavan_name'";
-        $krishibhavan_result = mysqli_query($con, $krishibhavan_query);
-
-        if ($krishibhavan_row = mysqli_fetch_assoc($krishibhavan_result)) {
-            $krishibhavan_id = $krishibhavan_row['krishibhavan_id'];
 
             // Insert data into the 'login' table
             $insert_login_query = "INSERT INTO login(email, password, role_id) VALUES ('$email', '$hashed_password', 3)";
@@ -112,12 +104,13 @@ if (isset($_POST['submit'])) {
 
                 // Now, insert the officer data with the obtained 'log_id'
                 $query_officer = "INSERT INTO officer(firstname, lastname, phone_no, log_id, designation_id, krishibhavan_id) 
-                VALUES ('$firstname', '$lastname', '$phone', '$log_id', '$designation_id', '$krishibhavan_id')";
+                VALUES ('$firstname', '$lastname', '$phone', '$log_id', '$designation_id', '$k_id')";
                 $query_officer_run = mysqli_query($con, $query_officer);
 
                 if ($query_officer_run) {
                     if (sendemail_verify($email, $rpassword)) {
-                        echo "<script>alert('Officer registered successfuly and email is sent'); window.location = 'admin_add_officer.php';</script>";
+                        echo "<script>alert('Officer registered successfully and email is sent'); window.location = 'admin_add_officer.php?krishibhavan_id=" . base64_encode($k_id) . "';</script>";
+
                     }
                 } else {
                     echo "<script>alert('Email cannot be sent'); window.location = 'admin_add_officer.php';</script>";
@@ -125,9 +118,7 @@ if (isset($_POST['submit'])) {
             } else {
                 echo "<script>alert('Registration failed'); window.location = 'admin_add_officer.php';</script>";
             }
-        } else {
-            echo "<script>alert('Krishibhavan not found'); window.location = 'admin_add_officer.php';</script>";
-        }
+         
     } else {
         echo "<script>alert('Designation not found'); window.location = 'admin_add_officer.php';</script>";
     }
@@ -215,14 +206,7 @@ if (isset($_POST['submit'])) {
                                 <div id="phone-error"></div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="krishibhavan">Krishibhavan:</label>
-                                <select class="form-control" id="krishibhavan_name" name="krishibhavan_name" required>
-                                    <option value="" disabled selected>Select Krishibhavan</option>
-                                    <option value="KB chazhur">KB Chazhur</option>
-                                    <!-- Add options for Krishibhavans here -->
-                                </select>
-                            </div>
+                         
                            
                            
                               </div>
@@ -319,7 +303,7 @@ if (isset($_POST['submit'])) {
         } else if (lastName.length < 1) {
             lastNameInput.classList.add('is-invalid');
             lastNameWarning.textContent = '';
-            lastNameError.textContent = 'Error: Last Name should contain at least two alphabets.';
+            lastNameError.textContent = 'Error: Last Name should contain at least one alphabets.';
             return false; // Return false to prevent form submission
         } else if (/(.)\1{2,}/i.test(lastName)) {
             lastNameInput.classList.add('is-invalid');
@@ -338,11 +322,11 @@ if (isset($_POST['submit'])) {
         //     lastNameError.textContent = 'Error: Last Name should contain exactly two alphabets or alphabets with spaces.';
         //     return false;
         // } 
-        else if (lastName.length > 2 && !/^[a-zA-Z]+$/.test(lastName)) {
+        else if (!/^[a-zA-Z]+$/.test(lastName)) {
             lastNameInput.classList.add('is-invalid');
             lastNameWarning.textContent = '';
             lastNameError.textContent =
-                'Error: Last Name should contain only alphabets.No numbers and special characters are allowed';
+                'Error: No numbers and special characters are allowed';
             return false;
         } else {
             // Clear any previous validation messages

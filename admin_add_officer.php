@@ -11,18 +11,19 @@ include('dbconnection.php');
 <body>
     <?php
     include('navbar/navbar_admin.php');
-    // Function to check if officers exist for a specific designation
-    function checkOfficerExists($con, $designation_id)
+   
+  $k_id = base64_decode($_GET['krishibhavan_id']);
+    function checkOfficerExists($con, $designation_id,$k_id)
     {
-        $sql = "SELECT * FROM officer WHERE designation_id = $designation_id and status=0 ";
+        $sql = "SELECT * FROM officer WHERE designation_id = $designation_id and status=0 and krishibhavan_id =$k_id";
         $result = $con->query($sql);
         return $result->num_rows;
     }
     // Function to get the first names and IDs of officers with a specific designation
-    function getOfficerData($con, $designation_id)
+    function getOfficerData($con, $designation_id,$k_id)
     {
         $officerData = array();
-        $sql = "SELECT officer_id, firstname FROM officer WHERE designation_id = $designation_id and status=0";
+        $sql = "SELECT officer_id, firstname,lastname FROM officer WHERE designation_id = $designation_id and status=0 and krishibhavan_id =$k_id";
         $result = $con->query($sql);
         while ($row = $result->fetch_assoc()) {
             $officerData[] = $row;
@@ -31,14 +32,14 @@ include('dbconnection.php');
     }
 
     // Get the counts and officer data for each designation
-    $agricultureOfficerCount = checkOfficerExists($con, 1);
-    $assistantOfficerCount = checkOfficerExists($con, 2);
-    $marketingOfficerCount = checkOfficerExists($con, 3);
-    $staffCount = checkOfficerExists($con,4);
-    $agricultureOfficerData = getOfficerData($con, 1);
-    $assistantOfficerData = getOfficerData($con, 2);
-    $marketingOfficerData = getOfficerData($con, 3);
-    $staffData = getOfficerData($con, 4);
+    $agricultureOfficerCount = checkOfficerExists($con, 1,$k_id);
+    $assistantOfficerCount = checkOfficerExists($con, 2,$k_id);
+    $marketingOfficerCount = checkOfficerExists($con, 3,$k_id);
+    $staffCount = checkOfficerExists($con,4,$k_id);
+    $agricultureOfficerData = getOfficerData($con, 1,$k_id);
+    $assistantOfficerData = getOfficerData($con, 2,$k_id);
+    $marketingOfficerData = getOfficerData($con, 3,$k_id);
+    $staffData = getOfficerData($con, 4,$k_id);
     ?>
     <div class="container mt-5">
         <h1>Officers Management</h1>
@@ -53,14 +54,15 @@ include('dbconnection.php');
                         for ($i = 0; $i < $agricultureOfficerCount; $i++) {
                             $officer_id = $agricultureOfficerData[$i]['officer_id'];
                             $firstname = $agricultureOfficerData[$i]['firstname'];
+                            $lastname = $agricultureOfficerData[$i]['lastname'];
                             echo "<div class='d-flex justify-content-between'>
-                                <div>$firstname</div>
+                                <div>$firstname $lastname</div>
                                 <a href='delete_officer.php?officer_id=$officer_id' class='btn btn-danger btn-sm  my-1'>Delete</a>
                             </div>";
                         }
                         if ($availableAgricultureButtons > 0) {
                             for ($i = 0; $i < $availableAgricultureButtons; $i++) {
-                                echo "<a href='officer_registration.php?designation_name=Agriculture%20Officer' class='btn btn-primary btn-sm  my-1'>Add Officer</a><br>";
+                                echo "<a href='officer_registration.php?designation_name=Agriculture%20Officer&k_id=$k_id' class='btn btn-primary btn-sm  my-1'>Add Officer</a><br>";
                             }
                         }
                         ?>
@@ -77,14 +79,15 @@ include('dbconnection.php');
                         for ($i = 0; $i < $assistantOfficerCount; $i++) {
                             $officer_id = $assistantOfficerData[$i]['officer_id'];
                             $firstname = $assistantOfficerData[$i]['firstname'];
+                            $lastname = $agricultureOfficerData[$i]['lastname'];
                             echo "<div class='d-flex justify-content-between'>
-                                <div>$firstname</div>
+                                <div>$firstname $lastname</div>
                                 <a href='delete_officer.php?officer_id=$officer_id' class='btn btn-danger btn-sm  my-1'>Delete</a>
                             </div>";
                         }
                         if ($availableAssistantButtons > 0) {
                             for ($i = 0; $i < $availableAssistantButtons; $i++) {
-                                echo "<a href='officer_registration.php?designation_name=Assistant%20Officer' class='btn btn-primary btn-sm  my-1'>Add Officer</a><br>";
+                                echo "<a href='officer_registration.php?designation_name=Assistant%20Officer&k_id=$k_id' class='btn btn-primary btn-sm  my-1'>Add Officer</a><br>";
                             }
                         }
                         ?>
@@ -101,14 +104,15 @@ include('dbconnection.php');
                         for ($i = 0; $i < $marketingOfficerCount; $i++) {
                             $officer_id = $marketingOfficerData[$i]['officer_id'];
                             $firstname = $marketingOfficerData[$i]['firstname'];
+                            $lastname = $agricultureOfficerData[$i]['lastname'];
                             echo "<div class='d-flex justify-content-between'>
-                                <div>$firstname</div>
+                                <div>$firstname $lastname</div>
                                 <a href='delete_officer.php?officer_id=$officer_id' class='btn btn-danger btn-sm  my-1' >Delete</a>
                             </div>";
                         }
                         if ($availableMarketingButtons > 0) {
                             for ($i = 0; $i < $availableMarketingButtons; $i++) {
-                                echo "<a href='officer_registration.php?designation_name=Marketing%20Officer' class='btn btn-primary btn-sm  my-1'>Add Officer</a><br>";
+                                echo "<a href='officer_registration.php?designation_name=Marketing%20Officer&k_id=$k_id' class='btn btn-primary btn-sm  my-1'>Add Officer</a><br>";
                             }
                         }
                         ?>
@@ -128,14 +132,15 @@ include('dbconnection.php');
                         for ($i = 0; $i < $staffCount; $i++) {
                             $officer_id = $staffData[$i]['officer_id'];
                             $firstname = $staffData[$i]['firstname'];
+                            $lastname = $agricultureOfficerData[$i]['lastname'];
                             echo "<div class='d-flex justify-content-between'>
-                                <div>$firstname</div>
+                                <div>$firstname $lastname</div>
                                 <a href='delete_officer.php?officer_id=$officer_id' class='btn btn-danger btn-sm my-1'>Delete</a>
                             </div>";
                         }
                         if ($availableStaffButtons > 0) {
                             for ($i = 0; $i < $availableStaffButtons; $i++) {
-                                echo "<a href='officer_registration.php?designation_name=Staffs' class='btn btn-primary btn-sm  my-1'>Add Officer</a><br>";
+                                echo "<a href='officer_registration.php?designation_name=Staffs&k_id=$k_id' class='btn btn-primary btn-sm  my-1'>Add Officer</a><br>";
                             }
                         }
                         ?>

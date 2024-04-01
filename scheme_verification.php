@@ -65,12 +65,25 @@ button:hover {
     </head>
     <body>
        <?php include('navbar/navbar_officer.php');
-
-       // Fetch the list of schemes applied by farmers
-$query = "SELECT sa.*, s.scheme_name, f.firstname as farmer_name FROM scheme_application sa
-          JOIN schemes s ON sa.scheme_id = s.scheme_id
-          JOIN farmer f ON sa.farmer_id = f.farmer_id";
+$email = $_SESSION['useremail'];
+$officer_query = "SELECT officer.officer_id,officer.krishibhavan_id FROM officer JOIN login ON officer.log_id = login.log_id WHERE login.email = '$email' and officer.designation_id=1";
+$officer_result = mysqli_query($con, $officer_query);
+if ($officer_result && $officer_row = mysqli_fetch_assoc($officer_result)) {
+    $officer_id = $officer_row['officer_id'];
+    $k_id = $officer_row['krishibhavan_id'];
+   
+ 
+$query = "SELECT sa.*, s.scheme_name  FROM scheme_application sa  
+          JOIN schemes s ON sa.scheme_id = s.scheme_id where krishibhavan_id='$k_id'";
+          
 $result = $con->query($query);
+// echo "<pre>";
+// print_r($result->fetch_all(MYSQLI_ASSOC));
+// echo "</pre>";
+
+
+
+
 
 if ($result) {
     echo '<table border="1">
@@ -80,8 +93,9 @@ if ($result) {
                 <th>Address</th>
                 <th>Gender</th>
                 <th>Phone Number</th>
-                <th>Krishibhavan</th>
-                <th>Land Area</th>
+                <th>Land tax receipt no.</th>
+                <th>Land Area(in cents)</th>
+                <th>Tax receipt</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>';
@@ -89,12 +103,16 @@ if ($result) {
     while ($row = $result->fetch_assoc()) {
         echo '<tr>
                 <td>' . $row['scheme_name'] . '</td>
-                <td>' . $row['farmer_name'] . '</td>
+                <td>' . $row['name'] . '</td>
                 <td>' . $row['address'] . '</td>
                 <td>' . $row['gender'] . '</td>
                 <td>' . $row['phone_number'] . '</td>
-                <td>' . $row['krishibhavan'] . '</td>
+                <td>' . $row['land_tax'] . '</td>
+
                 <td>' . $row['land_area'] . '</td>
+               
+                <td><a href="uploads/' . $row['tax_image'] . '" class="btn btn-primary" target="_blank" download>View land tax</a></td>
+
                 <td>' . ($row['application_status'] == 1 ? 'Processing' : 'Verified') . '</td>
                 <td>';
                 
@@ -115,6 +133,7 @@ if ($result) {
     echo 'Error executing query: ' . $con->error;
 }
 
+}
 // Close the database connection when done
 $con->close();
 ?>
