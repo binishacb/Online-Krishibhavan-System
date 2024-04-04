@@ -1,92 +1,88 @@
 <?php
 session_start();
 include('dbconnection.php');
-
-// Assuming you have a valid database connection in $con
-
-// Check if the user is an officer (you can customize this based on your user roles)
 if (!isset($_SESSION['useremail'])) {
-    header("Location: login.php"); // Redirect to login page
+    header("Location: login.php"); 
     exit();
 }
 ?>
 <html>
-    <head>
-        <style>
-            body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
 
-.container {
-    max-width: 800px;
-    margin: 50px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-th, td {
-    padding: 12px;
-    text-align: left;
-}
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
 
-th {
-    background-color: #f2f2f2;
-}
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
 
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        th {
+            background-color: #f2f2f2;
+        }
 
-button:hover {
-    background-color: #45a049;
-}
-</style>
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-    </head>
-    <body>
-       <?php include('navbar/navbar_officer.php');
-$email = $_SESSION['useremail'];
-$officer_query = "SELECT officer.officer_id,officer.krishibhavan_id FROM officer JOIN login ON officer.log_id = login.log_id WHERE login.email = '$email' and officer.designation_id=1";
-$officer_result = mysqli_query($con, $officer_query);
-if ($officer_result && $officer_row = mysqli_fetch_assoc($officer_result)) {
-    $officer_id = $officer_row['officer_id'];
-    $k_id = $officer_row['krishibhavan_id'];
-   
- 
-$query = "SELECT sa.*, s.scheme_name  FROM scheme_application sa  
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <?php include('navbar/navbar_officer.php');
+    $email = $_SESSION['useremail'];
+    $officer_query = "SELECT officer.officer_id,officer.krishibhavan_id FROM officer JOIN login ON officer.log_id = login.log_id WHERE login.email = '$email' and officer.designation_id=1";
+    $officer_result = mysqli_query($con, $officer_query);
+    if ($officer_result && $officer_row = mysqli_fetch_assoc($officer_result)) {
+        $officer_id = $officer_row['officer_id'];
+        $k_id = $officer_row['krishibhavan_id'];
+
+
+        $query = "SELECT sa.*, s.scheme_name  FROM scheme_application sa  
           JOIN schemes s ON sa.scheme_id = s.scheme_id where krishibhavan_id='$k_id'";
-          
-$result = $con->query($query);
-// echo "<pre>";
-// print_r($result->fetch_all(MYSQLI_ASSOC));
-// echo "</pre>";
 
+        $result = $con->query($query);
+        // echo "<pre>";
+        // print_r($result->fetch_all(MYSQLI_ASSOC));
+        // echo "</pre>";
 
-
-
-
-if ($result) {
-    echo '<table border="1">
+        if ($result) {
+            echo '<table border="1">
             <tr>
                 <th>Scheme Name</th>
                 <th>Applicant Name</th>
@@ -100,8 +96,8 @@ if ($result) {
                 <th>Action</th>
             </tr>';
 
-    while ($row = $result->fetch_assoc()) {
-        echo '<tr>
+            while ($row = $result->fetch_assoc()) {
+                echo '<tr>
                 <td>' . $row['scheme_name'] . '</td>
                 <td>' . $row['name'] . '</td>
                 <td>' . $row['address'] . '</td>
@@ -115,27 +111,27 @@ if ($result) {
 
                 <td>' . ($row['application_status'] == 1 ? 'Processing' : 'Verified') . '</td>
                 <td>';
-                
+
                 if ($row['application_status'] == 1) {
-                    echo '<form action="" method="post">
+                    echo '<form action="verify_scheme.php" method="post">
                             <input type="hidden" name="application_id" value="' . $row['application_id'] . '">
                             <button type="submit" name="verify">Verify</button>
                           </form>';
-                   }   else {
-            echo 'Already verified';
+                } else {?>
+                    <button type="submit" name="verify">Verified</button>
+               <?php }
+
+                echo '</td></tr>';
+            }
+
+            echo '</table>';
+        } else {
+            echo 'Error executing query: ' . $con->error;
         }
-
-        echo '</td></tr>';
     }
+    
+    $con->close();
+    ?>
+</body>
 
-    echo '</table>';
-} else {
-    echo 'Error executing query: ' . $con->error;
-}
-
-}
-// Close the database connection when done
-$con->close();
-?>
-    </body>
 </html>
