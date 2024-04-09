@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 include('dbconnection.php');
@@ -9,6 +10,8 @@ if (!isset($_SESSION['useremail'])) {
 <html>
 
 <head>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" ></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -66,16 +69,14 @@ if (!isset($_SESSION['useremail'])) {
 <body>
     <?php include('navbar/navbar_officer.php');
     $email = $_SESSION['useremail'];
-    $officer_query = "SELECT officer.officer_id,officer.krishibhavan_id FROM officer JOIN login ON officer.log_id = login.log_id WHERE login.email = '$email' and officer.designation_id=2";
+    $officer_query = "SELECT officer.officer_id,officer.krishibhavan_id FROM officer JOIN login ON officer.log_id = login.log_id WHERE login.email = '$email' and officer.designation_id=1";
     $officer_result = mysqli_query($con, $officer_query);
     if ($officer_result && $officer_row = mysqli_fetch_assoc($officer_result)) {
         $officer_id = $officer_row['officer_id'];
         $k_id = $officer_row['krishibhavan_id'];
 
 
-        $query = "SELECT sa.*, s.scheme_name  FROM scheme_application sa  
-          JOIN schemes s ON sa.scheme_id = s.scheme_id where krishibhavan_id='$k_id'";
-
+        $query = "SELECT sa.*, s.scheme_name  FROM scheme_application sa  JOIN schemes s ON sa.scheme_id = s.scheme_id WHERE sa.krishibhavan_id='$k_id' AND sa.application_status <> 1";
         $result = $con->query($query);
         // echo "<pre>";
         // print_r($result->fetch_all(MYSQLI_ASSOC));
@@ -109,23 +110,39 @@ if (!isset($_SESSION['useremail'])) {
                
                 <td><a href="uploads/' . $row['tax_image'] . '" class="btn btn-primary" target="_blank" download>View land tax</a></td>
 
-                <td>' . ($row['application_status'] == 1 ? 'Processing' : 'Verified') . '</td>
                 <td>';
                 
+                    if ($row['application_status'] == 2) {
+                        echo 'Verified by Assistant Officer';
+                    } elseif ($row['application_status'] == 3) {
+                        echo 'Rejected by Assistant Officer';
+                    } elseif ($row['application_status'] == 4) {
+                        echo 'Application Approved';
+                    } elseif ($row['application_status'] == 5) {
+                        echo 'Application Rejected';
+                    }
+                
+        echo '</td>';
+            
 
-                if ($row['application_status'] == 1) {
-                   
-                    echo '<form action="verify_scheme.php" method="post">
-                            <input type="hidden" name="application_id" value="' . $row['application_id'] . '">
-                            <input type="hidden" name="land_tax" value="' . $row['land_tax'] . '">
-                            <button type="submit" name="verify">Verify</button>
-                          </form>';
-                }   else {
-                    if($row['application_status'] == 2){?>
-                    <button type="submit" name="verify">Verified</button>
+
+                
+            echo '<td>';
+               
+
+                if ($row['application_status'] == 2) {?>
+                   <form action="scheme_approval_ao.php" method="POST">
+                        <input type="hidden" name="application_id" value="<?php echo $row['application_id'] ?>">
+                        <button type="submit" class="btn btn-success" name="approve">Approve</button><br>
+                        <button type="submit" class="btn btn-danger" name="reject">Reject</button>
+                    </form>
+                    <?php
+                } else {
+                    if($row['application_status'] == 4){?>
+                    <button type="submit" name="verify">Approved</button>
                <?php }
                elseif($row['application_status'] == 3){?>
- <button type="submit" name="verify">Rejected</button>
+ <button type="submit" name="rejected">Rejected</button>
  <?php
                }
                 }
@@ -138,8 +155,10 @@ if (!isset($_SESSION['useremail'])) {
         }
     }
     
-    $con->close();
+    
     ?>
+
+
 </body>
 
 </html>
