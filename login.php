@@ -43,9 +43,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Officer login
             $_SESSION['useremail'] = $email;
             $_SESSION['usertype'] = 'officer';
-            echo "<script>alert('Officer login successful.')</script>";
-            header('Location: dashboard_officer.php');
-            exit();
+
+
+
+            $officerquery ="SELECT officer.designation_id FROM officer JOIN login ON officer.log_id = login.log_id WHERE login.email = '$email'";
+            $result = mysqli_query($con, $officerquery);
+            $row = mysqli_fetch_assoc($result);
+            $desig_id = $row['designation_id'];
+            if($desig_id == 1)
+            {
+                header('Location:dashboard_ao.php');
+                exit();
+            }
+            elseif($desig_id == 2)
+            {
+                header('Location:dashboard_officer.php');
+                exit();
+            }
+
+
+        
+           
         } elseif ($role_id == 4) {
             // Vendor login
             $sql_vendor = "SELECT v.status, l.* FROM vendor AS v INNER JOIN login AS l ON l.log_id = v.log_id WHERE l.email = '$email' AND l.password = '$hashed_password'";

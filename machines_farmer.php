@@ -42,7 +42,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
                         </div>
                         <br>
                         <p class='card-text'  style='text-decoration: line-through;'>M.R.P.: ₹{$row['product_price']}</p>
-                        <a href='machinedetails_farmer.php?machine_id={$row['machine_id']}' class='btn btn-primary'>View Details</a>
+                        <a href='machinedetails_farmer.php?machine_id={$row['machine_id']}' class='btn btn-primary' id='view_details'>View Details</a>
                     </div>
                 </div>
             </div>";

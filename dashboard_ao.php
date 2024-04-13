@@ -43,13 +43,13 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'officer') {
                     <div class="card-body">
                         
                         <p class="card-text">Details of the schemes </p>
-                        <a href="scheme_verification.php" id = "addScheme" class="btn btn-success">View schemes details</a>
+                        <a href="scheme_verification_ao.php" id = "addScheme" class="btn btn-success">View schemes details</a>
                     </div>
-                    <!-- <div class="card-body">
+                    <div class="card-body">
                         <h5 class="card-title">Tasks</h5>
                         <p class="card-text">Details of the schemes </p>
                         <a href="addschemes.php" class="btn btn-success">Add schemes </a>
-                    </div> -->
+                    </div>
                 </div>
             </div>
 

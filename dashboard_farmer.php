@@ -71,7 +71,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
             <div class="card-body">
                 <h5 class="card-title">Latest Machines</h5>
                 <p class="card-text">Explore the newest agricultural machines for enhanced efficiency in farming.</p>
-                <a href="machines_farmer.php" class="btn btn-primary">View Machines</a>
+                <a href="machines_farmer.php" name ="view_machines" id = "view_machines" class="btn btn-primary">View Machines</a>
             </div>
         </div>
     </div>

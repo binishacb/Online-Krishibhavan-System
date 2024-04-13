@@ -131,7 +131,7 @@ include('../navbar/navbaradmin_vendors.php');
                     <th>Licence no</th>
                     <th>Licence</th>
                     <th>Action</th>
-                    <!-- Add more columns based on your vendor table structure -->
+                    
                 </tr>
             </thead>
             <tbody>

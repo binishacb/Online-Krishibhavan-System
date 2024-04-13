@@ -79,7 +79,7 @@ include('dbconnection.php');
                         for ($i = 0; $i < $assistantOfficerCount; $i++) {
                             $officer_id = $assistantOfficerData[$i]['officer_id'];
                             $firstname = $assistantOfficerData[$i]['firstname'];
-                            $lastname = $agricultureOfficerData[$i]['lastname'];
+                            $lastname = $assistantOfficerData[$i]['lastname'];
                             echo "<div class='d-flex justify-content-between'>
                                 <div>$firstname $lastname</div>
                                 <a href='delete_officer.php?officer_id=$officer_id' class='btn btn-danger btn-sm  my-1'>Delete</a>
@@ -104,7 +104,7 @@ include('dbconnection.php');
                         for ($i = 0; $i < $marketingOfficerCount; $i++) {
                             $officer_id = $marketingOfficerData[$i]['officer_id'];
                             $firstname = $marketingOfficerData[$i]['firstname'];
-                            $lastname = $agricultureOfficerData[$i]['lastname'];
+                            $lastname = $marketingOfficerData[$i]['lastname'];
                             echo "<div class='d-flex justify-content-between'>
                                 <div>$firstname $lastname</div>
                                 <a href='delete_officer.php?officer_id=$officer_id' class='btn btn-danger btn-sm  my-1' >Delete</a>
@@ -132,7 +132,7 @@ include('dbconnection.php');
                         for ($i = 0; $i < $staffCount; $i++) {
                             $officer_id = $staffData[$i]['officer_id'];
                             $firstname = $staffData[$i]['firstname'];
-                            $lastname = $agricultureOfficerData[$i]['lastname'];
+                            $lastname = $staffData[$i]['lastname'];
                             echo "<div class='d-flex justify-content-between'>
                                 <div>$firstname $lastname</div>
                                 <a href='delete_officer.php?officer_id=$officer_id' class='btn btn-danger btn-sm my-1'>Delete</a>

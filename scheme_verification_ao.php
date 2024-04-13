@@ -12,6 +12,7 @@ if (!isset($_SESSION['useremail'])) {
 <head>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" ></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -131,18 +132,22 @@ if (!isset($_SESSION['useremail'])) {
                
 
                 if ($row['application_status'] == 2) {?>
-                   <form action="scheme_approval_ao.php" method="POST">
-                        <input type="hidden" name="application_id" value="<?php echo $row['application_id'] ?>">
-                        <button type="submit" class="btn btn-success" name="approve">Approve</button><br>
-                        <button type="submit" class="btn btn-danger" name="reject">Reject</button>
-                    </form>
+               <form id="rejectForm<?php echo $row['application_id']; ?>" action="scheme_approval_ao.php" method="POST">
+    <input type="hidden" name="application_id" value="<?php echo $row['application_id'] ?>">
+    <input type="hidden" name="rejection_reason" id="rejection_reason_<?php echo $row['application_id']; ?>">
+    <button type="submit" class="btn btn-success" name="approve">Approve</button><br>
+    <button type="submit" class="btn btn-danger rejectBtn" name="reject" data-applicationid="<?php echo $row['application_id']; ?>" data-bs-toggle="modal" data-bs-target="#rejectModal">Reject</button>
+
+</form>
+
+
                     <?php
                 } else {
                     if($row['application_status'] == 4){?>
                     <button type="submit" name="verify">Approved</button>
                <?php }
-               elseif($row['application_status'] == 3){?>
- <button type="submit" name="rejected">Rejected</button>
+               elseif($row['application_status'] == 5){?>
+ <button type="submit" class = "btn btn-danger" name="rejected">Rejected</button>
  <?php
                }
                 }
@@ -157,6 +162,58 @@ if (!isset($_SESSION['useremail'])) {
     
     
     ?>
+
+<!-- Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectModalLabel">Reject Application</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to reject this application?</p>
+                <textarea class="form-control" id="rejectionReason" rows="3" placeholder="Enter reason for rejection"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="confirmReject">Reject</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Event listener for Reject button click
+            $('.rejectBtn').click(function() {
+                var applicationId = $(this).data('applicationid');
+                $('#rejection_reason_application_id').val(applicationId); // Set application ID in modal input
+                $('#rejectModal').modal('show'); // Show modal
+            });
+
+            // Event listener for Confirm Reject button click
+            $('#confirmReject').click(function() {
+                var applicationId = $('#rejection_reason_application_id').val();
+                var rejectionReason = $('#rejectionReason').val().trim();
+                if (rejectionReason !== '') {
+                    $('#rejection_reason_' + applicationId).val(rejectionReason); // Set rejection reason in form input
+                    $('#rejectForm' + applicationId).submit(); // Submit form
+                } else {
+                    alert('Please enter a reason for rejection.');
+                }
+            });
+        });
+    </script>
+
+  
+
+
 
 
 </body>

@@ -40,21 +40,47 @@ session_start();
         <div class="card-columns">
             <?php
             // Fetch available machines
-            $viewMachinesQuery = "SELECT rent_product.*, vendor.shopName FROM rent_product 
-            LEFT JOIN vendor ON rent_product.vendor_id = vendor.vendor_id
-            WHERE rent_product.availability_status = 'available' AND rent_product.rp_quantity > 0";
+            $viewMachinesQuery = "
+    SELECT rent_product.*, vendor.shopName,rent_product.rp_quantity as rp_qnt,
+           CASE 
+               WHEN rent_product.availability_status = 'available' THEN NULL
+               ELSE (SELECT MIN(return_date) FROM rental_orders WHERE rental_orders.rp_id = rent_product.rp_id)
+           END AS closest_return_date
+    FROM rent_product 
+    LEFT JOIN vendor ON rent_product.vendor_id = vendor.vendor_id
+    WHERE (rent_product.availability_status = 'available' AND rent_product.rp_quantity > 0)
+          OR ( rent_product.rp_quantity = 0)";
+
             $viewMachinesResult = $con->query($viewMachinesQuery);
 
             if ($viewMachinesResult->num_rows > 0) {
                 while ($machineRow = $viewMachinesResult->fetch_assoc()) {
+                   
+                    $rp_qnt = $machineRow['rp_qnt'];
+echo $rp_qnt;
                     ?>
                     
                     <div class="card">
                         <img src="../uploads/<?php echo $machineRow['rp_image']; ?>" class="card-img-top" alt="<?php echo $machineRow['rp_name']; ?>" style="height: 300px; width: 100%;" >
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $machineRow['rp_name']; ?></h5>
-                           
+                          
                             <p class="card-text">Fare per hour: INR <?php echo $machineRow['fare_per_hour']; ?></p>
+
+                            <?php
+                           if($rp_qnt == 0)
+                           {
+                            ?>
+                            <p >return_date: <?php echo $machineRow['closest_return_date'];?></p>
+                            <?php
+                           }
+
+                           ?>
+                           
+
+
+
+
                             <a href="checkout_rentalmachine.php?id=<?php echo $machineRow['rp_id']; ?>&fare_per_hour=<?php echo $machineRow['fare_per_hour']; ?>" class="btn btn-primary">Rent Now</a>
 
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#machineDetailsModal<?php echo $machineRow['rp_id']; ?>">

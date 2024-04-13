@@ -87,7 +87,7 @@
 
         <a href="#"><i class="fas fa-newspaper"></i> News</a>
         <a href="farmer_add_crop.php"><i class="fas fa-leaf"></i> Crops</a>
-        <a href="#"><i class="fas fa-landmark"></i> Govt. Schemes</a>
+        <a href="scheme_applied.php"><i class="fas fa-landmark"></i> Applied Schemes</a>
     </nav>
     <nav class="navbar navbar-expand-lg navbar-lg bg-#104911 horizontal-navbar">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
