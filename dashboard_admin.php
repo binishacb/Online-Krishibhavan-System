@@ -107,16 +107,16 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'admin') {
                 </div>
             </div>
 
-            <div class="col-md-6">
+             <div class="col-md-6">
                 <div class="card">
-                    <img src="images/b2.jpg" class="card-img-top" alt="Government Schemes">
+                    <img src="images/officer.jpg" class="card-img-top" alt="Government Schemes">
                     <div class="card-body">
-                        <h5 class="card-title">Government Schemes</h5>
                         
-                        <a href="view_machines.php" class="btn btn-info">View Schemes</a>
+                        
+                        <a href="viewofficers.php" class="btn btn-info" name="view_officer">View Officers</a>
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
 
     

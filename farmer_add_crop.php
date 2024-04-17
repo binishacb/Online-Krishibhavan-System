@@ -9,7 +9,7 @@ function displayCropsAndAcres($con, $farmer_email) {
 
     if ($result) {
         echo "<table class='table table-bordered table-striped'>";
-        echo "<thead><tr><th>Crop</th><th>Acres</th><th>Delete</th></tr></thead><tbody>";
+        echo "<thead><tr><th>Crop</th><th>Area(in cents)</th><th>Delete</th></tr></thead><tbody>";
         
         while ($row = mysqli_fetch_assoc($result)) 
         {
@@ -88,7 +88,7 @@ if (isset($_POST['delete'])) {
         <h2>Add Land Information</h2>
         <form method="post" action="">
             <div class="form-group">
-                <label for="acres">Number of Acres:</label>
+                <label for="acres">Cultivating area(in cents):</label>
                 <input type="number" class="form-control" id="acres" name="acres" placeholder="Enter number of acres"
                     required>
                 <!-- You can add additional validation feedback elements if needed -->
@@ -101,20 +101,15 @@ if (isset($_POST['delete'])) {
                     <option value="wheat">Wheat</option>
                     <option value="coconut">Coconut</option>
                     <option value="rice">Rice</option>
-                    <option value="corn">Corn</option>
-                    <option value="potato">Potato</option>
-                    <option value="tomato">Tomato</option>
-                    <option value="cotton">Cotton</option>
-                    <option value="soybean">Soybean</option>
-                    <option value="barley">Barley</option>
-                    <option value="sugarcane">Sugarcane</option>
+                    <option value="pepper">Pepper</option>
+                    <option value="cardamom">Cardamom</option>
                 </select>
             </div>
 
-            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" name="submit" id="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <h2>Crops and Acres Table</h2>
+        <h2>Crop Details</h2>
         <?php
         displayCropsAndAcres($con, $_SESSION['useremail']);
         ?>

@@ -91,7 +91,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'vendor') {
                         <td><img src="../uploads/' . $row['machine_image'] . '" alt="Machine Image" style="max-width: 100px;"></td>
                         <td>' .$row['m_quantity'] . '</td>
                         <td>
-                            <a href="edit_machine.php?id=' . $row['machine_id'] . '" class="btn btn-primary">Edit</a>
+                            <a href="edit_machine.php?id=' . $row['machine_id'] . '" class="btn btn-primary" name="edit">Edit</a>
                             <br><br><br>';
                            
                           

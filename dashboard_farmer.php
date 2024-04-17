@@ -42,8 +42,8 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
             <img src="images/b6.jpg" class="card-img-top" alt="Crops">
             <div class="card-body">
                 <h5 class="card-title">Crop Information</h5>
-                <p class="card-text">Learn about different crops, their cultivation, and best practices.</p>
-                <a href="farmer_add_crop.php" class="btn btn-success">Explore Crops</a>
+                <!-- <p class="card-text">Learn about different crops, their cultivation, and best practices.</p> -->
+                <a href="farmer_add_crop.php" class="btn btn-success" name="add_crops" id="add_crops">Add Crop details</a>
             </div>
         </div>
     </div>

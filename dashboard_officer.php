@@ -2,7 +2,7 @@
 <?php
 session_start();
 include('dbconnection.php');
-if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'officer') {
+if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] != 'assistant_officer') {
     header('Location: index.php'); 
     exit();
 }

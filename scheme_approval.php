@@ -52,6 +52,8 @@ if (isset($_POST['application_id'], $_POST['land_tax'], $_POST['action'])) {
             $mail->Subject = "Application Rejected";
             $mail->Body = "Your application has been rejected due to the following reason: <br> $rejectionReason";
             $mail->send();
+            header("Location: scheme_verification.php");
+            exit();
             // echo "<script>alert('Email sent successfully.');</script>";
         } catch (Exception $e) {
             echo 'Error sending email: ' . $mail->ErrorInfo;
@@ -61,35 +63,3 @@ if (isset($_POST['application_id'], $_POST['land_tax'], $_POST['action'])) {
     echo "Invalid request.";
 }
 ?>
-<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="rejectModalLabel">Reject Application</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form action="" method="post">
-                <div class="form-group">
-                    <label for="rejectionReason">Reason for Rejection:</label>
-                    <textarea class="form-control" id="rejectionReason" name="rejection_reason" rows="3"></textarea>
-                    <!-- Hidden fields to pass application details -->
-                    <input type="hidden" name="application_id" value="<?php echo $appln_id; ?>">
-                    <input type="hidden" name="land_tax" value="<?php echo $land_tax; ?>">
-                    <input type="hidden" name="action" value="reject">
-                </div>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger">Reject</button>
-            </form>
-        </div>
-    </div>
-</div>
-</div>
-<script>
-        // Function to open the reject modal
-        function openRejectModal() {
-            $('#rejectModal').modal('show');
-        }
-    </script>

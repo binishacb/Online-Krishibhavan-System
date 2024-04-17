@@ -22,7 +22,7 @@ if (isset($_GET['machine_id'])) {
     
 if(isset($_POST['wishlist'])){
     // Check if the machine is already in the wishlist
-    $wishlistCheckSql = "SELECT * FROM wishlist WHERE machine_id = '$machine_id' AND farmer_id = '$farmer_id'";
+    $wishlistCheckSql = "SELECT * FROM wishlist WHERE machine_id = '$machine_id' AND farmer_id = '$farmer_id' AND status=1";
     $wishlistCheckResult = $con->query($wishlistCheckSql);
 
     if ($wishlistCheckResult->num_rows > 0) {
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="col-md-6">
                         <form action="" method="post">
                             <input type="hidden" name="machine_id" value="<?php echo $row['machine_id']; ?>">
-                            <button type="submit" name="wishlist" class="btn btn-danger px-4">
+                            <button type="submit" name="wishlist" id="wishlist" class="btn btn-danger px-4">
                                 <i class="fa fa-heart me-2"></i>Add to wishlist
                             </button>
                         </form>

@@ -41,8 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } elseif ($role_id == 3) {
             // Officer login
-            $_SESSION['useremail'] = $email;
-            $_SESSION['usertype'] = 'officer';
+           
 
 
 
@@ -52,11 +51,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $desig_id = $row['designation_id'];
             if($desig_id == 1)
             {
+                $_SESSION['useremail'] = $email;
+                $_SESSION['usertype'] = 'agricultural_officer';
                 header('Location:dashboard_ao.php');
                 exit();
             }
             elseif($desig_id == 2)
             {
+                $_SESSION['useremail'] = $email;
+                $_SESSION['usertype'] = 'assistant_officer';
                 header('Location:dashboard_officer.php');
                 exit();
             }

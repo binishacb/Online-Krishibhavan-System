@@ -125,7 +125,7 @@ if (!isset($_SESSION['useremail'])) {
                     <button type="submit" name="verify">Verified</button>
                <?php }
                elseif($row['application_status'] == 3){?>
- <button type="submit" name="verify">Rejected</button>
+ <button type="submit" class = "btn btn-danger" name="verify">Rejected</button>
  <?php
                }
                 }

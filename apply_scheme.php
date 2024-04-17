@@ -20,7 +20,7 @@ function generateSchemeForm($schemeID) {
         <input type="text" id="applicant_name" name="applicant_name" required>
 
         <label for="applicant_address">Address:</label>
-        <textarea id="applicant_address" name="applicant_address" rows="4" required></textarea>
+        <textarea id="applicant_address" name="applicant_address" rows="2" required></textarea>
 
         <label>Gender:</label>
         <div class="radio-group">
@@ -31,15 +31,16 @@ function generateSchemeForm($schemeID) {
         <label for="phone_number">Phone Number:</label>
         <input type="number" id="phone_number" name="phone_number" required><br>
 
-
-        <label for="krishibhavan_name">Name of the Krishibhavan:</label>
-        <select id="krishibhavan_name" name="krishibhavan_name" required>
-            <option value="">Select Krishibhavan</option>
-            <option value="KB chazhur">KB chazhur</option>
-            <option value="KB anthikkad">KB anthikkad</option>
-            <option value="KB pala">KB pala</option>
-            <option value="KB kalpetta">KB kalpetta</option>
-        </select>
+        <div style="display: inline-block;">
+            <label for="krishibhavan_name" style="display: inline;">Name of the Krishibhavan:</label>
+            <select id="krishibhavan_name" name="krishibhavan_name" required>
+                <option value="">Select Krishibhavan</option>
+                <option value="KB chazhur">KB chazhur</option>
+                <option value="KB anthikkad">KB anthikkad</option>
+                <option value="KB pala">KB pala</option>
+                <option value="KB kalpetta">KB kalpetta</option>
+            </select>
+        </div>
 
     HTML;
 
@@ -47,6 +48,7 @@ function generateSchemeForm($schemeID) {
         case 15:
             // Rice Development Scheme Form
             $extraFields = <<<HTML
+            <br>
                 <label for="land_area">Land area having rice cultivation(in cent):</label>
                 <input type="decimal" id="land_area" name="land_area" required><br><br>
                 <label for="land_tax_receipt_no">Land Tax Receipt Number:</label>
@@ -58,6 +60,7 @@ function generateSchemeForm($schemeID) {
         case 16:
             // Coconut Cultivation Scheme Form
             $extraFields = <<<HTML
+            <br>
                 <label for="land_area">Land area having coconut cultivation(in cent):</label>
                 <input type="decimal" id="land_area" name="land_area" required><br>
                 <label for="land_tax_receipt_no">Land Tax Receipt Number:</label>
@@ -69,8 +72,9 @@ function generateSchemeForm($schemeID) {
         case 17:
             // Paddy Cultivation Scheme Form
             $extraFields = <<<HTML
+            <br>
                 <label for="land_area">Land area having paddy cultivation(in cent):</label>
-                <input type="decimal" id="land_area" name="land_area" required>
+                <input type="decimal" id="land_area" name="land_area" required><br>
                 <label for="land_tax_receipt_no">Land Tax Receipt Number:</label>
                 <input type="text" id="land_tax_receipt_no" name="land_tax_receipt_no" required><br><br>
                 <label for="land_tax_receipt">Land Tax Receipt (PDF):</label>
@@ -253,7 +257,7 @@ label input[type="radio"] {
         $krishibhavanId = $row['krishibhavan_id'];
   
   if ($fileType != "pdf" ) {
-      echo "<script>alert('error.');</script>";
+      echo "<script>alert('Upload as pdf file');</script>";
   } else {
       // Move the uploaded file to the target directory
       if (move_uploaded_file($_FILES["pdfFile"]["tmp_name"], $targetFile)) {
@@ -283,9 +287,10 @@ function validateForm() {
     var phoneNumber = document.getElementById("phone_number").value.trim();
     var krishibhavanName = document.getElementById("krishibhavan_name").value.trim();
     var landArea = document.getElementById("land_area").value.trim();
+    var landTaxReceiptNo = document.getElementById("land_tax_receipt_no").value.trim();
 
     // Check if any field is empty
-    if (applicantName === "" || applicantAddress === "" || gender === null || phoneNumber === "" || krishibhavanName === "" || landArea === "") {
+    if (applicantName === "" || applicantAddress === "" || gender === null || phoneNumber === "" || krishibhavanName === "" || landArea === "" || landTaxReceiptNo === "") {
         alert("All fields are required");
         return false;
     }
@@ -301,6 +306,13 @@ function validateForm() {
     var phoneRegex = /^\d{10}$/; // 10 digits without any other characters
     if (!phoneRegex.test(phoneNumber)) {
         alert("Please enter a valid 10-digit phone number");
+        return false;
+    }
+
+    // Validate land tax receipt number format
+    var taxReceiptRegex = /^[a-zA-Z]{3}\d{4}$/; // 3 letters followed by 4 digits
+    if (!taxReceiptRegex.test(landTaxReceiptNo)) {
+        alert("Land tax receipt number must start with 3 letters followed by 4 digits");
         return false;
     }
 
