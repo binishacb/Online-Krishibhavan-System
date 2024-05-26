@@ -39,9 +39,15 @@ if (isset($_POST['verify'])) {
     <?php include('navbar/navbar_officer.php'); ?>
     <br><br><br><br><br>
     <div class="container">
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped text-center">
-                <thead class="thead-light">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Verification Results</h5>
+        </div>
+        <div class="card-body">
+            <!-- Table of land tax information -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="thead-light">
                     <tr>
                         <th>Land Tax Number</th>
                         <th>Property Name</th>
@@ -90,12 +96,14 @@ if (isset($_POST['verify'])) {
         
                     }
     ?>
+    <div class="text-center">
     <form action="scheme_approval.php" method="post">
         <input type="hidden" name="application_id" value="<?php echo $appln_id; ?>">
         <input type="hidden" name="land_tax" value="<?php echo $land_tax; ?>">
         <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal">Reject</button>
     </form>
+                </div>
 
     <!-- Reject Modal -->
     <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">

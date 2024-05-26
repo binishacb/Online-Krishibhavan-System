@@ -48,7 +48,7 @@
       ?>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-          <!-- <li><a class="dropdown-item" href="#">My Profile</a></li> -->
+          <li><a class="dropdown-item" href="profile_vendor.php">My Profile</a></li> 
           <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
         </ul>
       </div>

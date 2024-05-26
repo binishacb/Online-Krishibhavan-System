@@ -11,7 +11,19 @@ include('dbconnection.php');
     <title>Agrocompanion : Home</title>
     <link rel="stylesheet" href="css/landingpage.css">
     <style>
-      
+       .container {
+            display: flex;
+            justify-content: center;
+            padding-left: 450px;
+        }
+
+       
+
+
+
+
+
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -61,8 +73,8 @@ include('dbconnection.php');
             <ul class="menu">
                 <li><a href="#home" class="menu-btn">Home</a></li>
                 <li><a href="#about" class="menu-btn">About</a></li>
-                <li><a href="#services" class="menu-btn">Services</a></li>
-                <li><a href="#market" class="menu-btn">Market</a></li>
+               
+                
                 <li><a href="#contact" class="menu-btn">Contact</a></li>
                 <!-- <li><a href="registration.php" class="menu-btn">Register</a></li>  -->
                 <li class="dropdown">
@@ -160,7 +172,7 @@ include('dbconnection.php');
     ?></div>
 </section>
     <!-- services section start -->
-    <section class="services" id="services">
+    <!-- <section class="services" id="services">
         <div class="max-width">
             <h2 class="title">Our Services</h2>
             <div class="serv-content">
@@ -183,7 +195,7 @@ include('dbconnection.php');
                     <div class="box">
                         <section class="4u$ 12u$(small)" id="circle"><i class="fas fa-clock"></i><br><br>
                             <p style="font-family: 'Balsamiq Sans', cursive;">Register with us</p>
-                        </section>
+                        </section> -->
 
                     </div>
                 </div>
@@ -193,124 +205,17 @@ include('dbconnection.php');
     </section>
 
 
-    <!-- skills section start -->
-    <!-- <section class="skills" id="skills">
-        <div class="max-width">
-            <h2 class="title">Our Products</h2>
-            <div class="skills-content">
-                <div class="column left">
-                    <div class="text">Products.</div>
-                    <p> We offer different categories of products. On a weekly basis, the illustration displayed on the
-                        side shows the average statistics of the products
-                        sold.</p>
-                    <a href="productMenu.php">Read more</a>
-                </div>
-                <div class="column right">
-                    <div class="bars">
-                        <div class="info">
-                            <span>Vegetables</span>
-                            <span>90%</span>
-                        </div>
-                        <div class="line html"></div>
-                    </div>
-                    <div class="bars">
-                        <div class="info">
-                            <span>Grains</span>
-                            <span>65%</span>
-                        </div>
-                        <div class="line css"></div>
-                    </div>
-                    <div class="bars">
-                        <div class="info">
-                            <span>Fruits</span>
-                            <span>80%</span>
-                        </div>
-                        <div class="line js"></div>
-                    </div>
-                    <div class="bars">
-                        <div class="info">
-                            <span>Tools</span>
-                            <span>50%</span>
-                        </div>
-                        <div class="line php"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
 
-    <!-- teams section start 
-    <section class="teams" id="teams">
-        <div class="max-width">
-            <h2 class="title">Gallery</h2>
-            <div class="carousel owl-carousel">
-                <div class="card">
-                    <div class="box">
-                        <img src="images/tea.jpg" alt="">
-                        <div class="text">Tea Farmers</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box">
-                        <img src="images/capsicum.jpg" alt="">
-                        <div class="text">Capsicum</div>
-   
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box">
-                        <img src="images/onionsTypes.jpg" alt="">
-                        <div class="text">Onions</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box">
-                        <img src="images/crop-beans.jpg" alt="">
-                        <div class="text">Beans</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="box">
-                        <img src="images/digitalFarming.jpg" alt="">
-                        <div class="text">Digital Farming</div>
-                    </div>
-                </div>
-				<div class="card">
-                    <div class="box">
-                        <img src="images/partnership.jpg" alt="">
-                        <div class="text">Partnership</div>
-                    </div>
-                </div>
-				<div class="card">
-                    <div class="box">
-                        <img src="images/food.jpg" alt="">
-                        <div class="text">Vegetables</div>
-                    </div>
-                </div>
-				<div class="card">
-                    <div class="box">
-                        <img src="images/maize.jpg" alt="">
-                        <div class="text">Fresh Corn</div>
-                    </div>
-                </div>
-				<div class="card">
-                    <div class="box">
-                        <img src="images/foodSecurity.jpg" alt="">
-                        <div class="text">Food Security</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-     contact section start -->
+     <!--contact section start -->
     <section class="contact" id="contact">
         <div class="max-width">
             <h2 class="title">Contact us</h2>
             <div class="contact-content">
-                <div class="column left">
-                    <div class="text">Reach Us</div>
-                    <div class="icons">
+               <div class = "container"> 
+                <div class="column">
+                   
+                      <div class="icons">
                         <div class="row">
                             <i class="fas fa-phone"></i>
                             <div class="info">
@@ -319,44 +224,23 @@ include('dbconnection.php');
                             </div>
                         </div>
 
-
                         <div class="row">
                             <i class="fas fa-envelope"></i>
                             <div class="info">
                                 <div class="head">Email</div>
-                                <div class="sub-title">info@agrocompanion.co.ke</div>
+                                <div class="sub-title">agrocompanion2023@gmail.com</div>
                                
                             </div>
                         </div>
-                    </div>
+                
                 </div>
-                <div class="column right">
-                    <div class="text">Send us a message</div>
-                    <form class="contact-form" action="#" method="POST">
-                        <div class="fields">
-                            <div class="field name">
-                                <input type="text" class="fullname" placeholder="Name">
-                            </div>
-                            <div class="field email">
-                                <input type="text" class="email-input" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <input type="text" class="subject" placeholder="Subject">
-                        </div>
-                        <div class="field textarea">
-                            <textarea class="message" cols="30" rows="10" placeholder="Message.."></textarea>
-                        </div>
-                        <div class="button-area">
-                            <button class="send-msg" type="submit" name="send">Send message</button>
-                        </div>
-                    </form>
-                </div>
+            </div>
+           
             </div>
         </div>
     </section>
 
-    <!-- footer section start -->
+
 
 
 

@@ -94,7 +94,7 @@ if (!isset($_SESSION['useremail'])) {
                     echo '<button class="btn btn-danger" disabled>Applied</button>';
                 } elseif ($cropExistsResult->num_rows > 0) {
                     // Crop and acres exist, display the "Apply" button
-                    echo '<a href="apply_scheme.php?scheme_id=' . urlencode($schemeID) . '" class="btn btn-primary">Apply</a>';
+                    echo '<a href="apply_scheme.php?scheme_id=' . urlencode($schemeID) . '" name="apply" class="btn btn-primary">Apply</a>';
                 } else {
                     // Crop and acres do not exist, display a disabled button
                     echo '<button class="btn btn-secondary" disabled>Not Eligible</button>';

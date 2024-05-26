@@ -15,14 +15,13 @@ session_start();
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-
         .card {
-            height: 100%; 
+            height: 100%;
             display: flex;
             flex-direction: column;
         }
 
-       
+
         .card-img-top {
             flex-grow: 1;
             object-fit: cover;
@@ -31,67 +30,62 @@ session_start();
 </head>
 
 <body>
-    <?php include('../navbar/navbar_farmer_market.php'); ?>
+    <?php include('../navbar/navbar_rental.php'); ?>
     <br>
     <h2 class="text-center mt-3 mb-3">Rental machines</h2>
     <br>
     <div class="container">
-    
+
         <div class="card-columns">
             <?php
             // Fetch available machines
-            $viewMachinesQuery = "
-    SELECT rent_product.*, vendor.shopName,rent_product.rp_quantity as rp_qnt,
-           CASE 
-               WHEN rent_product.availability_status = 'available' THEN NULL
-               ELSE (SELECT MIN(return_date) FROM rental_orders WHERE rental_orders.rp_id = rent_product.rp_id)
-           END AS closest_return_date
-    FROM rent_product 
-    LEFT JOIN vendor ON rent_product.vendor_id = vendor.vendor_id
-    WHERE (rent_product.availability_status = 'available' AND rent_product.rp_quantity > 0)
-          OR ( rent_product.rp_quantity = 0)";
+            $viewMachinesQuery = "SELECT rp.*, vendor.shopName
+                                  FROM rent_product rp 
+                                  LEFT JOIN vendor ON rp.vendor_id = vendor.vendor_id";
 
             $viewMachinesResult = $con->query($viewMachinesQuery);
 
             if ($viewMachinesResult->num_rows > 0) {
                 while ($machineRow = $viewMachinesResult->fetch_assoc()) {
-                   
-                    $rp_qnt = $machineRow['rp_qnt'];
-echo $rp_qnt;
-                    ?>
-                    
+                    $rp_qnt = $machineRow['rp_quantity'];
+            ?>
                     <div class="card">
-                        <img src="../uploads/<?php echo $machineRow['rp_image']; ?>" class="card-img-top" alt="<?php echo $machineRow['rp_name']; ?>" style="height: 300px; width: 100%;" >
+                        <img src="../uploads/<?php echo $machineRow['rp_image']; ?>" class="card-img-top" alt="<?php echo $machineRow['rp_name']; ?>" style="height: 300px; width: 100%;">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $machineRow['rp_name']; ?></h5>
-                          
+                            <p> Seller : <?php echo $machineRow['shopName']; ?></p>
+
                             <p class="card-text">Fare per hour: INR <?php echo $machineRow['fare_per_hour']; ?></p>
-
-                            <?php
-                           if($rp_qnt == 0)
-                           {
-                            ?>
-                            <p >return_date: <?php echo $machineRow['closest_return_date'];?></p>
-                            <?php
-                           }
-
-                           ?>
-                           
+                            <?php if ($machineRow['availability_status'] == 'not available') { ?>
+                                <p class="card-text">Available from: <?php echo getNextAvailableDate($con, $machineRow['rp_id']); ?></p>
+                            <?php } else { ?>
+                                <p class="card-text">Available now</p>
+                            <?php } ?>
 
 
+
+                            <?php if ($machineRow['availability_status'] == 'available') { ?>
 
 
                             <a href="checkout_rentalmachine.php?id=<?php echo $machineRow['rp_id']; ?>&fare_per_hour=<?php echo $machineRow['fare_per_hour']; ?>" class="btn btn-primary">Rent Now</a>
+                            <?php } else { ?>
+
+                                <a href="checkout_rentalmachine.php?id=<?php echo $machineRow['rp_id']; ?>&fare_per_hour=<?php echo $machineRow['fare_per_hour']; ?>" class="btn btn-danger" disabled>Machine not available</a>
+
+                                <?php } ?>
+
+
+
+
 
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#machineDetailsModal<?php echo $machineRow['rp_id']; ?>">
-                                
+
                                 More Details
                             </button>
                         </div>
                     </div>
 
-                    <div class="modal fade" id="machineDetailsModal<?php echo $machineRow['rp_id']; ?>" tabindex="-1"
-                        role="dialog" aria-labelledby="machineDetailsModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="machineDetailsModal<?php echo $machineRow['rp_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="machineDetailsModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -104,7 +98,7 @@ echo $rp_qnt;
                                     <p><strong>Description:</strong> <?php echo $machineRow['rp_description']; ?></p>
                                     <p><strong>Security Amount:</strong> INR <?php echo $machineRow['security_amt']; ?></p>
                                     <p><strong>Vendor:</strong> <?php echo $machineRow['shopName']; ?></p>
-                              
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -116,6 +110,22 @@ echo $rp_qnt;
                 }
             } else {
                 echo '<p class="text-center">No available machines.</p>';
+            }
+
+            // Function to get the next available date for a machine
+            function getNextAvailableDate($con, $rp_id)
+            {
+                $currentDate = date('Y-m-d');
+                $getAvailableDateQuery = "SELECT MIN(return_date) AS next_available_date
+                                          FROM rental_orders
+                                          WHERE rp_id = $rp_id AND return_date > '$currentDate'";
+                $availableDateResult = $con->query($getAvailableDateQuery);
+                if ($availableDateResult && $availableDateRow = $availableDateResult->fetch_assoc()) {
+
+                    return $availableDateRow['next_available_date'];
+                } else {
+                    return 'N/A';
+                }
             }
             ?>
         </div>

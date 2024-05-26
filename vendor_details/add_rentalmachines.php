@@ -186,7 +186,7 @@ include('./navbar_vendor.php');
                     <span id="imageError" class="error"></span>
                 </div>
                 <div class="text-center mt-3">
-    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+    <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
     <button type="reset" class="btn btn-secondary" >Clear</button>
 </div>
 

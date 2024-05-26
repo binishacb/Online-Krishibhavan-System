@@ -120,14 +120,23 @@ if (!isset($_SESSION['useremail'])) {
                             <input type="hidden" name="land_tax" value="' . $row['land_tax'] . '">
                             <button type="submit" name="verify">Verify</button>
                           </form>';
-                }   else {
+                }   
+                else {
                     if($row['application_status'] == 2){?>
-                    <button type="submit" name="verify">Verified</button>
+                    <button type="submit" name="verified">Verified</button>
                <?php }
                elseif($row['application_status'] == 3){?>
- <button type="submit" class = "btn btn-danger" name="verify">Rejected</button>
- <?php
-               }
+                <button type="submit" class = "btn btn-danger" name="rejected">Rejected</button>
+                <?php
+                }
+                elseif($row['application_status'] == 4){?>
+                        <button type="submit" class = "btn btn-danger" name="rejected">Approved by agricultural officer</button>
+                        <?php
+                }
+                elseif($row['application_status'] == 5){?>
+                    <button type="submit" class = "btn btn-danger" name="rejected">Rejected by agricultural officer</button>
+                    <?php
+                   }
                 }
                 echo '</td></tr>';
             }

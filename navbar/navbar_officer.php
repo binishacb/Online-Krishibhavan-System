@@ -83,11 +83,7 @@
         </button>
         <a href="dashboard_officer.php"><i class="fas fa-home"></i> Home</a>
         <a href="profile_officer.php"><i class="fas fa-user"></i> Profile</a>
-     
-
-       
-        <!-- <a href="addschemes.php"><i class="fas fa-landmark"></i>Add Govt. Schemes</a> -->
-        <a href=""><i class="fas fa-landmark"></i>View Schemes</a>
+    
     </nav>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-dark horizontal-navbar">

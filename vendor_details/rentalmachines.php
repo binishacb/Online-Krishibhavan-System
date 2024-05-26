@@ -97,7 +97,7 @@ if (isset($_POST['toggle_status'])) {
                                 <td><img src='../uploads/{$row['rp_image']}' alt='Machine Image' style='max-width: 100px;'></td>
                                 <td>{$row['rp_quantity']}</td>
                                 <td  <div class='d-flex align-items-center'>
-                                <a href='?id={$machineId}' class='btn btn-primary mr-2'>Edit</a>";
+                                <a href='edit_rentalmachine.php?id={$machineId}' class='btn btn-primary mr-2'>Edit</a>";
                 
                 if (isset($status)) {
                     echo "<form method='POST' action=''>

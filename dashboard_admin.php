@@ -98,11 +98,11 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'admin') {
   <div class="row mt-4">
             <div class="col-md-6">
                 <div class="card">
-                    <img src="images/b1.jpg" class="card-img-top" alt="Crops">
+                    <img src="images/krishibhavan image.jpeg" class="card-img-top" alt="krishibhavan">
                     <div class="card-body">
                         <h5 class="card-title">Crop Information</h5>
                        <!--<p class="card-text">Add different crops, their cultivation, and best practices.</p>-->
-                        <a href="#" class="btn btn-success">Add Crops</a>
+                        <a href="view_krishibhavan.php" class="btn btn-success">Krishi Bhavan</a>
                     </div>
                 </div>
             </div>

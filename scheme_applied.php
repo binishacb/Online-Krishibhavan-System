@@ -40,7 +40,9 @@ $schemeApplicationsResult = $con->query($getSchemeApplicationsQuery);
 </head>
 
 <body>
-
+<?php
+include('navbar/navbar_farmer.php');
+?>
     <div class="container">
         <h1 class="mt-4 mb-4">Schemes Applied by Farmer</h1>
         <div class="row">
@@ -57,7 +59,7 @@ $schemeApplicationsResult = $con->query($getSchemeApplicationsQuery);
                                 if ($row['application_status'] == 1) {
                                     echo "Approval Pending";
                                 } elseif ($row['application_status'] == 3) {
-                                    echo "<span class='text-danger'>Application Rejected</span>";
+                                    echo "<span class='text-danger'>Application Rejected by assistant officer</span>";
                                 } elseif ($row['application_status'] == 4) {
                                     echo "Application Approved";
                                 } elseif ($row['application_status'] == 5) {
@@ -68,7 +70,7 @@ $schemeApplicationsResult = $con->query($getSchemeApplicationsQuery);
                             <p class="card-text">Applied Date: <?php echo $row['applied_date']; ?></p>
                             <p class="card-text">End Date: <?php echo $row['end_date']; ?></p>
                             <?php if ($isActive) : ?>
-                                <a href="#" class="btn btn-primary">Edit</a>
+                                <a href="edit_application.php?application_id=<?php echo $row['application_id']; ?>" class="btn btn-primary mt-2">Edit</a>
                             <?php else : ?>
                                 <button class="btn btn-secondary inactive-btn" disabled>Edit</button>
                                 <?php endif; ?>

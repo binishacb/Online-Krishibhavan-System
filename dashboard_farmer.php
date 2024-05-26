@@ -22,11 +22,11 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
     <br>
     <div class="container">
         <div class="card">
-            <h5 class="card-header">Welcome <?php
+            <h5 class="card-header">Welcome  Farmer  '<?php
                 if (isset($_SESSION['useremail'])) {
                     echo '' . $_SESSION['useremail'];
                 }
-                ?></h5>
+                ?>'</h5>
             <div class="card-body">
                 <h5 class="card-title">Explore Agriculture</h5>
                 <p class="card-text">Dear Farmer, your hard work and dedication are the foundation of our agriculture.
@@ -54,7 +54,7 @@ if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'farmer') {
             <div class="card-body">
                 <h5 class="card-title">Government Schemes</h5>
                 <p class="card-text">Find out about government schemes and benefits for farmers.</p>
-                <a href="view_schemes.php" class="btn btn-info">View Schemes</a>
+                <a href="view_schemes.php" name="view_schemes" class="btn btn-info">View Schemes</a>
             </div>
         </div>
     </div>

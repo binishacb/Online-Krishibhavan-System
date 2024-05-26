@@ -111,7 +111,11 @@
             echo "<script>alert('Profile updated successfully');</script>";
             // $_SESSION['useremail'] = $newEmail; 
           // Update the session email
-            header('Location:profile_farmer.php'); 
+            // header('Location:profile_farmer.php'); 
+            ?>
+            <script>
+    window.location.href = 'profile_farmer.php';
+</script><?php
             exit;
         } else {
             echo "Error updating profile: " . $con->error;

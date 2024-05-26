@@ -74,13 +74,11 @@ if(isset($_POST['approve']) && isset($_POST['application_id'])) {
 
 
 elseif(isset($_POST['reject']) && isset($_POST['application_id']) && isset($_POST['rejection_reason'])) {
-    echo "ll";
+    
     // Handle rejection
     $application_id = $_POST['application_id'];
     $rejection_reason = $_POST['rejection_reason'];
-    echo $application_id;
-    echo $rejection_reason;
-
+ 
     // Update application status to Rejected (status code: 5)
     $update_query = "UPDATE scheme_application SET application_status = 5 WHERE application_id = '$application_id'";
     if($con->query($update_query)) {

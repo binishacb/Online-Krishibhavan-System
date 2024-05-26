@@ -13,23 +13,14 @@ $farmer="SELECT farmer.farmer_id FROM farmer JOIN login ON farmer.log_id = login
 $result=mysqli_query($con,$farmer);
 $row=$result->fetch_assoc();
 $farmer_id=$row['farmer_id'];
-
-
 $machineId = $_GET['id'];
 
-$viewMachineQuery = "SELECT * FROM rent_product WHERE rp_id = '$machineId'";
+$viewMachineQuery = "SELECT * FROM rent_product JOIN rental_orders ON rent_product.rp_id = rental_orders.rp_id WHERE rent_product.rp_id = '$machineId'";
 $viewMachineResult = $con->query($viewMachineQuery);
 
 if ($viewMachineResult->num_rows > 0) {
     $machineRow = $viewMachineResult->fetch_assoc();
     $maxQuantity = $machineRow['rp_quantity'];
-
-} else {
-
-    echo '<p class="text-center">Machine not found.</p>';
-    exit();
-}
-
 
 
 ?>
@@ -82,7 +73,7 @@ if ($viewMachineResult->num_rows > 0) {
 
 <body>
     <?php
-    include('../navbar/navbar_farmer.php');
+    include('../navbar/navbar_rental.php');
     ?>
     <div class="container">
         <h2 class="text-center mt-3 mb-3">Rental Checkout</h2>
@@ -143,9 +134,14 @@ if ($viewMachineResult->num_rows > 0) {
             </div>
         </div>
     </div>
+<?php
+} else {
 
+echo '<p class="text-center">Machine not found.</p>';
+exit();
+}
 
-
+?>
     <script>
 function calculateTotalPrice() {
     var quantity = parseInt(document.getElementById('quantity').value);
@@ -230,6 +226,7 @@ function pay_now() {
                 },
                 success: function(data) {
                     console.log(data);
+                    window.location.href = 'rental_orderDetails.php';
                    
                 }
             });
@@ -334,7 +331,7 @@ function pay_now() {
             
             // Calculate the minimum allowed date (3 days from the current date)
             var minDate = new Date(currentDate);
-            minDate.setDate(currentDate.getDate() + 3);
+            minDate.setDate(currentDate.getDate() + 2);
 
             // Calculate the maximum allowed date (2 months from the current date)
             var maxDate = new Date(currentDate);

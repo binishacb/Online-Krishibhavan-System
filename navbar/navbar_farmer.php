@@ -85,7 +85,7 @@
         <a href="profile_farmer.php"><i class="fas fa-user"></i> Profile</a>
         <!-- <a href="editprofile_farmer.php" id="edit_profile"><i class="fas fa-user-plus"></i>Edit profile</a> -->
 
-        <a href="#"><i class="fas fa-newspaper"></i> News</a>
+        <a href="http://localhost:8501/"><i class="fas fa-newspaper"></i>Rice disease prediction</a>
         <a href="farmer_add_crop.php"><i class="fas fa-leaf"></i> Crops</a>
         <a href="scheme_applied.php"><i class="fas fa-landmark"></i> Applied Schemes</a>
     </nav>

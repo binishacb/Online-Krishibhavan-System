@@ -1,11 +1,10 @@
 <?php
 session_start();
 include('../dbconnection.php');
-
-// if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'vendor') {
-//     header('Location: ../index.php');
-//     exit();
-// }
+if (!isset($_SESSION['usertype']) || $_SESSION['usertype'] !== 'vendor') {
+    header('Location: ../index.php');
+    exit();
+}
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
@@ -15,7 +14,7 @@ $vendor_result = mysqli_query($con, $vendor_query);
 
 if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
     $vendor_id = $vendor_row['vendor_id'];
-  
+
     $order_query = "SELECT shipping_address.*,  machines.machine_name, farmer.firstname,farmer.lastname,return_order.* FROM shipping_address
         JOIN machines ON shipping_address.machine_id = machines.machine_id
         JOIN farmer ON shipping_address.farmer_id = farmer.farmer_id
@@ -58,11 +57,11 @@ if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
                             <th>Total Price(in INR)</th>
                             <th>Reason for return</th>
                             <!-- <th>Refund Status</th> -->
-                           
+
                         </tr>
                     </thead>
                     <tbody>
-                        <?php 
+                        <?php
                         while ($order_row = mysqli_fetch_assoc($order_result)) {
 
                             $order_id =  $order_row['order_id'];
@@ -84,22 +83,22 @@ if ($vendor_result && $vendor_row = mysqli_fetch_assoc($vendor_result)) {
                                     <?php } ?>
                                 </td>
                     -->
-                    <?php
+                                <?php
 
 
-$replaceReasonQuery = "SELECT return_reason  FROM return_orders_reasons  JOIN return_order ON return_orders_reasons.return_type_id = return_order.return_type_id  WHERE return_order.return_type_id = $returnId";
+                                $replaceReasonQuery = "SELECT return_reason  FROM return_orders_reasons  JOIN return_order ON return_orders_reasons.return_type_id = return_order.return_type_id  WHERE return_order.return_type_id = $returnId";
 
-$replaceReasonResult = mysqli_query($con,$replaceReasonQuery);
-$reason = mysqli_fetch_assoc($replaceReasonResult);
-?>
-
-<td>
-<?php echo $reason['return_reason']; ?> 
-</td>          
-                            </tr>
-                                    <?php
-                                }
+                                $replaceReasonResult = mysqli_query($con, $replaceReasonQuery);
+                                $reason = mysqli_fetch_assoc($replaceReasonResult);
                                 ?>
+
+                                <td>
+                                    <?php echo $reason['return_reason']; ?>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -111,10 +110,10 @@ $reason = mysqli_fetch_assoc($replaceReasonResult);
 
         </html>
 <?php
-                        
-    
-}else {
-        
+
+
+    } else {
+
         header('location:../error_page.php');
     }
 } else {
@@ -122,4 +121,4 @@ $reason = mysqli_fetch_assoc($replaceReasonResult);
 }
 
 mysqli_close($con);
-?> 
+?>

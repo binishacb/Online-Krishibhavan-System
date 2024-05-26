@@ -97,8 +97,8 @@
         <a href="viewfarmer.php"><i class="fas fa-user"></i> Farmers</a>
         <a href="check_officer.php"><i class="fas fa-user-plus"></i> Add Officers</a>
         <a href="viewofficers.php"><i class="fas fa-users"></i> Officers</a>
-        <a href="#"><i class="fas fa-newspaper"></i> News</a>
-        <a href="#"><i class="fas fa-leaf"></i> Crops</a>
+        <!-- <a href="#"><i class="fas fa-newspaper"></i> News</a> -->
+        <!-- <a href="#"><i class="fas fa-leaf"></i> Crops</a> -->
         <!-- <a href="add_machines.php"><i class="fas fa-cogs"></i>Add Equipments</a> -->
         <a href="add_krishibhavan.php"><i class="fas fa-landmark"></i>Add Krishibhavan</a>
     </nav>
